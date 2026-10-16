@@ -5,6 +5,7 @@ export interface AuthUser {
   id: number;
   name: string;
   email: string;
+  is_admin?: boolean;
   user_meta?: { phone?: string | number; role?: string };
 }
 
@@ -49,7 +50,13 @@ interface AuthContextValue {
 
 const TOKEN_KEY = 'contentaihub_token';
 const USER_KEY = 'contentaihub_user';
+const ASSET_AUTH_COOKIE = 'bgp_auth_token';
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+const setAssetAuthCookie = (value: string, maxAge = 0) => {
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${ASSET_AUTH_COOKIE}=${encodeURIComponent(value)}; Path=/; SameSite=Lax${secure}${maxAge ? `; Max-Age=${maxAge}` : ''}`;
+};
 
 const readStoredUser = (): AuthUser | null => {
   try {
@@ -68,6 +75,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const authenticate = useCallback((nextToken: string, nextUser: AuthUser) => {
     localStorage.setItem(TOKEN_KEY, nextToken);
     localStorage.setItem(USER_KEY, JSON.stringify(nextUser));
+    // <img> and <video> requests cannot send an Authorization header. The
+    // backend accepts this same JWT from a first-party cookie for /v/:token.
+    setAssetAuthCookie(nextToken, 7 * 24 * 60 * 60);
     setToken(nextToken);
     setUser(nextUser);
     setHasActivePlan(null);
@@ -76,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    setAssetAuthCookie('', -1);
     setToken(null);
     setUser(null);
     setHasActivePlan(null);
@@ -84,6 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const handleExpiredSession = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    setAssetAuthCookie('', -1);
     setToken(null);
     setUser(null);
     setHasActivePlan(null);
@@ -143,6 +155,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (!token) return;
+    setAssetAuthCookie(token, 7 * 24 * 60 * 60);
     getDashboard().catch(() => setHasActivePlan(false));
   }, [token, getDashboard]);
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { Home, BookOpen, Sparkles } from 'lucide-react';
-import { courses } from '../data/coursesData';
 
 export const NotFoundPage: React.FC = () => {
   return (
@@ -45,30 +44,6 @@ export const NotFoundPage: React.FC = () => {
               <BookOpen className="w-4 h-4 text-[#00B67A]" />
               <span>Explore Course Library</span>
             </Link>
-          </div>
-
-          {/* Quick Links to Featured Video Courses */}
-          <div className="pt-10 border-t border-slate-200 text-left">
-            <h3 className="text-xs uppercase font-extrabold tracking-wider text-slate-400 mb-4 text-center">
-              Popular Video Upgrades &amp; Masterclasses
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {courses.slice(0, 3).map((course) => (
-                <Link
-                  key={course.id}
-                  to={`/library`}
-                  className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all group block"
-                >
-                  <span className="text-xs font-bold text-slate-900 group-hover:text-[#0B57A2] transition-colors line-clamp-1">
-                    {course.title}
-                  </span>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
-                    <span>{course.duration}</span>
-                    <span className="text-emerald-600 font-bold">{course.price || '€49.00'}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
           </div>
 
         </div>

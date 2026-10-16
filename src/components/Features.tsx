@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, TrendingUp, Cpu, CheckCircle, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, TrendingUp, Video, CheckCircle, Zap } from 'lucide-react';
 
 interface FeatureCardData {
   icon: React.ReactNode;
@@ -11,33 +11,33 @@ interface FeatureCardData {
 
 const featureCards: FeatureCardData[] = [
   {
-    icon: <Cpu className="w-7 h-7 text-white" />,
-    title: 'AI for Productivity',
-    description: 'Discover ways to use AI tools for task management, video scripting, content creation, and everyday automated workflows.',
+    icon: <Video className="w-7 h-7 text-white" />,
+    title: 'YouTube & Video Marketing',
+    description: 'Learn practical ways to grow a YouTube channel, create stronger videos, and reach the right audience.',
     features: [
-      'AI prompt & video scripting toolchains',
-      'Automated caption & clip workflows',
-      'Faceless evergreen content pipelines'
+      'Create a branded YouTube channel',
+      'Grow subscribers and channel traffic',
+      'Improve search rankings and reach'
     ],
   },
   {
     icon: <TrendingUp className="w-7 h-7 text-white" />,
-    title: 'Personal Productivity',
-    description: 'Build better routines, manage your time, reduce distractions, and accomplish more with a focused creator approach.',
+    title: 'Faceless Marketing',
+    description: 'Build a strong digital presence and create content without showing your face.',
     features: [
-      'High-retention video frameworks',
-      'Disciplined creative batching systems',
-      'Cross-platform repurposing loops'
+      'Build anonymous brand identities',
+      'Create content without personal exposure',
+      'Monetize your faceless brand'
     ],
   },
   {
     icon: <Sparkles className="w-7 h-7 text-white" />,
-    title: 'Work From Home',
-    description: 'Learn strategies for creating a productive home office, maintaining motivation, and managing remote creator businesses effectively.',
+    title: 'Creator Economy',
+    description: 'Develop the skills to create consistently, build partnerships, and earn as a content creator.',
     features: [
-      'TikTok Shop & YouTube commerce flywheels',
-      '5-Figure brand sponsorships & digital sales',
-      'Scalable remote creator income models'
+      'Build branded partnerships',
+      'Choose content that serves your audience',
+      'Explore creator income opportunities'
     ],
   },
 ];
@@ -61,23 +61,23 @@ export const Features: React.FC = () => {
             </span>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              Skills That Make Your <br className="hidden sm:inline" />
+              Learn Skills for Your <br className="hidden sm:inline" />
               <span className="text-[#00B67A]">
-                Workday Better
+                Creator Journey
               </span>
             </h2>
 
             <p className="text-slate-600 text-base leading-relaxed">
-              Explore practical learning resources designed around everyday productivity, modern AI tools, and scalable video creator business development.
+              Explore practical video lessons for YouTube growth, faceless marketing, social commerce, and the creator economy.
             </p>
 
             <div className="pt-2">
               <Link
-                to="/#courses"
+                to="/library"
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-sm shadow-[0_12px_24px_-4px_rgba(0,182,122,0.4)] active:scale-95 transition-all duration-200 group"
               >
                 <Zap className="w-4 h-4 text-emerald-100 fill-emerald-100" />
-                <span>Explore Capabilities</span>
+                <span>Explore Library</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -111,13 +111,7 @@ export const Features: React.FC = () => {
                       {/* Top Icon Badge */}
                       <div className="flex items-center justify-between mb-6">
                         <div
-                          className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-black/5 ${
-                            idx === 0 
-                              ? 'bg-gradient-to-tr from-emerald-600 to-teal-500' 
-                              : idx === 1 
-                                ? 'bg-gradient-to-tr from-[#00B67A] to-teal-400' 
-                                : 'bg-gradient-to-tr from-teal-600 to-cyan-500'
-                          }`}
+                          className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-black/5 bg-gradient-to-tr from-[#00B67A] to-teal-400"
                         >
                           {card.icon}
                         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 import { useAuth } from '../auth/AuthContext';
 import { PublicLayout } from '../components/layout/PublicLayout';
@@ -40,7 +40,8 @@ export const LoginPage: React.FC = () => {
       if (!response.ok || !payload.success) throw new Error(payload.message || 'Unable to sign in.');
       authenticate(payload.data.token, payload.data.user);
       const nextPath = new URLSearchParams(location.search).get('next');
-      navigate(nextPath?.startsWith('/') && !nextPath.startsWith('//') ? nextPath : '/library', { replace: true });
+      const defaultPath = payload.data.user?.is_admin ? '/my-account' : '/library';
+      navigate(nextPath?.startsWith('/') && !nextPath.startsWith('//') ? nextPath : defaultPath, { replace: true });
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Unable to sign in.');
     } finally {
@@ -91,16 +92,10 @@ export const LoginPage: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-2">
+                <div className="mb-2">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Password
                   </label>
-                  <Link
-                    to="/unsubscribe"
-                    className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition"
-                  >
-                    Need Help?
-                  </Link>
                 </div>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -149,11 +144,6 @@ export const LoginPage: React.FC = () => {
               </Link>
             </div>
 
-          </div>
-
-          <div className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500">
-            <ShieldCheck className="w-4 h-4 text-[#00B67A]" />
-            <span>256-Bit Encrypted &amp; Secure Authentication</span>
           </div>
 
         </div>

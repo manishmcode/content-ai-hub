@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { COMPANY } from '../config/company';
-import { VisaIcon, MastercardIcon, SepaIcon, PaypalIcon } from './common/PaymentIcons';
+import { VisaIcon, MastercardIcon, SepaIcon } from './common/PaymentIcons';
 
 export const Footer: React.FC = () => {
   const { pathname } = useLocation();
@@ -30,27 +30,27 @@ export const Footer: React.FC = () => {
               <div className="lg:col-span-8 text-center lg:text-left space-y-4">
                 <span className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-[#00D084]">
                   <Sparkles className="w-3.5 h-3.5 text-[#00D084]" />
-                  <span>AI Marketing &amp; Content Growth</span>
+                  <span>ContentAIHub Library</span>
                 </span>
 
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.12]">
-                  Start Mastering Real-World <br className="hidden sm:inline" />
-                  Skills Today
+                  Learn Skills for Your <br className="hidden sm:inline" />
+                  Creator Business
                 </h2>
 
                 <p className="text-white/90 text-sm sm:text-base max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                  Join 15,000+ ambitious creators, digital marketers, and e-commerce entrepreneurs scaling across YouTube, TikTok Shop, Instagram, and anonymous AI channels.
+                  Explore practical lessons in YouTube and video marketing, faceless marketing, TikTok Shop, the creator economy, and niche strategy.
                 </p>
 
                 {/* Trust Badges */}
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-1 text-xs text-white/90 font-medium">
                   <div className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-[#00D084]" />
-                    <span>Instant Access to 6 HD Courses</span>
+                    <span>Practical video lessons</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-[#00D084]" />
-                    <span>Action Playbooks &amp; Prompt Vaults</span>
+                    <span>Live classes for members</span>
                   </div>
                 </div>
               </div>
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
                   to="/library"
                   className="inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full bg-white text-slate-950 font-black text-sm hover:bg-emerald-50 hover:text-emerald-950 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl group"
                 >
-                  <span>Get All 6 Courses</span>
+                  <span>Explore Library</span>
                   <ArrowRight className="w-4 h-4 text-emerald-700 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -110,9 +110,7 @@ export const Footer: React.FC = () => {
                 <div className="h-7 px-2 bg-white rounded-md flex items-center justify-center shadow-sm transition-transform hover:scale-105" title="SEPA Direct Debit">
                   <SepaIcon className="h-3.5 w-auto" />
                 </div>
-                <div className="h-7 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm transition-transform hover:scale-105" title="PayPal">
-                  <PaypalIcon className="h-3 w-auto" />
-                </div>
+         
               </div>
             </div>
           </div>

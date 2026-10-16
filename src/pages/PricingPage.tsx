@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowRight, Minus } from 'lucide-react';
+import { Check, ArrowRight, Minus, LoaderCircle } from 'lucide-react';
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { API_ENDPOINTS } from '../config/api';
 
@@ -15,16 +15,16 @@ interface Plan {
   price: string;
   currency: string;
   is_active: boolean;
-  description: string;
-  includedFeatures: string[];
-  excludedFeatures: string[];
-  ctaText: string;
+  description?: string | null;
+  features?: PlanFeature[];
+  cta_text?: string;
+  is_featured?: boolean;
 }
 
 interface PlansResponse {
   success: boolean;
   message?: string;
-  data?: any[];
+  data?: Plan[];
 }
 
 const formatPrice = (price: string, currency: string) => {
@@ -36,71 +36,10 @@ const formatPrice = (price: string, currency: string) => {
   return `${symbol}${price}`;
 };
 
-const DEFAULT_PLANS: Plan[] = [
-  {
-    id: 1,
-    name: 'Basic',
-    price: '18',
-    currency: 'EUR',
-    is_active: true,
-    description: 'Essential access for individual learners starting their AI journey.',
-    includedFeatures: [
-      'Cancel anytime',
-      'Access lifestyle courses',
-    ],
-    excludedFeatures: [
-      'Access to business courses',
-      'Unlimited access',
-      'Live classes not included',
-    ],
-    ctaText: 'Get Started',
-  },
-  {
-    id: 2,
-    name: 'Classic',
-    price: '48',
-    currency: 'EUR',
-    is_active: true,
-    description: 'Our recommended membership for active digital creators & entrepreneurs.',
-    includedFeatures: [
-      'Cancel anytime',
-      'Access lifestyle courses',
-      'Access business courses',
-    ],
-    excludedFeatures: [
-      'Unlimited access',
-      'Live classes not included',
-    ],
-    ctaText: 'Go Classic',
-  },
-  {
-    id: 3,
-    name: 'Premium',
-    price: '98',
-    currency: 'EUR',
-    is_active: true,
-    description: 'Full unlimited access with scheduled instructor-led live classes & direct mentoring.',
-    includedFeatures: [
-      'Cancel anytime',
-      'Access lifestyle courses',
-      'Access business courses',
-      'Unlimited access',
-      'Access to scheduled instructor-led live classes',
-      'Direct interaction with instructors',
-      'Practical live demonstrations',
-      'Q&A sessions during live sessions',
-      'View upcoming and past classes through account',
-      'Join eligible classes at scheduled times',
-    ],
-    excludedFeatures: [],
-    ctaText: 'Go Premium',
-  },
-];
-
 export const PricingPage: React.FC = () => {
   const navigate = useNavigate();
-  const [plans, setPlans] = useState<Plan[]>(DEFAULT_PLANS);
-  const [loading, setLoading] = useState(false);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -111,25 +50,18 @@ export const PricingPage: React.FC = () => {
         setError('');
         const response = await fetch(API_ENDPOINTS.plans, { signal: controller.signal });
         const payload: PlansResponse = await response.json();
-        if (response.ok && payload.success && Array.isArray(payload.data) && payload.data.length > 0) {
-          const merged = payload.data.filter((plan) => plan.is_active).map((p, idx) => {
-            const fallback = DEFAULT_PLANS.find((dp) => dp.id === p.id) || DEFAULT_PLANS[idx] || DEFAULT_PLANS[0];
-            return {
-              ...fallback,
-              ...p,
-              includedFeatures: fallback.includedFeatures,
-              excludedFeatures: fallback.excludedFeatures,
-              ctaText: fallback.ctaText,
-              description: fallback.description,
-            };
-          });
-          setPlans(merged);
+        if (response.ok && payload.success && Array.isArray(payload.data)) {
+          const activePlans = payload.data.filter((plan) => plan.is_active !== false);
+          setPlans(activePlans);
+          if (activePlans.length === 0) {
+            setError('No membership plans are currently available.');
+          }
         } else {
-          setPlans(DEFAULT_PLANS);
+          setError(payload.message || 'Membership plans are currently unavailable.');
         }
       } catch (requestError) {
         if (requestError instanceof DOMException && requestError.name === 'AbortError') return;
-        setPlans(DEFAULT_PLANS);
+        setError('Membership plans are currently unavailable. Please try again shortly.');
       } finally {
         if (!controller.signal.aborted) setLoading(false);
       }
@@ -138,16 +70,19 @@ export const PricingPage: React.FC = () => {
     return () => controller.abort();
   }, []);
 
-  const featuredPlanId = plans.find((p) => p.name?.toLowerCase().includes('classic') || p.id === 2)?.id ?? 2;
-  const featuredPlan = plans.find((p) => p.id === featuredPlanId) || plans[1] || plans[0];
-  const otherPlans = plans.filter((p) => p.id !== featuredPlan?.id).sort((a, b) => Number(a.price) - Number(b.price));
-
-  // Explicitly position the Most Popular card in the middle: [Left, Middle (Featured), Right]
-  const orderedPlans = [
-    otherPlans[0],
-    featuredPlan,
-    otherPlans[1],
-  ].filter(Boolean) as Plan[];
+  const plansByPrice = [...plans].sort((a, b) => Number(a.price) - Number(b.price));
+  const featuredPlan = plansByPrice.find((plan) => plan.name.trim().toLowerCase() === 'premium')
+    ?? plansByPrice.find((plan) => plan.is_featured)
+    ?? plansByPrice[Math.floor(plansByPrice.length / 2)];
+  const featuredPlanId = featuredPlan?.id;
+  const otherPlans = plansByPrice.filter((plan) => plan.id !== featuredPlanId);
+  const orderedPlans = featuredPlan
+    ? [
+        ...otherPlans.slice(0, 1),
+        featuredPlan,
+        ...otherPlans.slice(1),
+      ]
+    : [];
 
   const handleSelectPlan = (planId: number) => {
     sessionStorage.setItem('contentaihub_checkout_plan_id', String(planId));
@@ -180,8 +115,8 @@ export const PricingPage: React.FC = () => {
           </div>
 
           {loading && (
-            <div className="rounded-2xl bg-white border border-slate-200 p-8 text-center text-xs font-medium text-slate-500 shadow-sm">
-              Updating membership plans…
+            <div className="rounded-2xl bg-white border border-slate-200 p-8 flex items-center justify-center shadow-sm" role="status" aria-label="Loading membership plans">
+              <LoaderCircle className="w-7 h-7 text-[#00B67A] animate-spin" />
             </div>
           )}
 
@@ -195,6 +130,8 @@ export const PricingPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch pt-6">
             {orderedPlans.map((plan) => {
               const isFeatured = plan.id === featuredPlanId;
+              const includedFeatures = plan.features?.filter((feature) => feature.is_included) ?? [];
+              const excludedFeatures = plan.features?.filter((feature) => !feature.is_included) ?? [];
 
               return (
                 <div key={plan.id} className="relative flex flex-col h-full">
@@ -223,9 +160,11 @@ export const PricingPage: React.FC = () => {
                         <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                           {plan.name}
                         </h3>
-                        <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
-                          {plan.description}
-                        </p>
+                        {plan.description && (
+                          <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
+                            {plan.description}
+                          </p>
+                        )}
                       </div>
 
                       {/* Price Section */}
@@ -244,37 +183,39 @@ export const PricingPage: React.FC = () => {
                       </div>
 
                       {/* Included Features Section */}
+                      {includedFeatures.length > 0 && (
                       <div className="space-y-3 pt-1">
                         <div className="text-[11px] font-bold tracking-wider uppercase text-slate-400">
                           INCLUDED FEATURES
                         </div>
 
                         <ul className="space-y-2.5">
-                          {plan.includedFeatures.map((feat, fIndex) => (
+                          {includedFeatures.map((feature, fIndex) => (
                             <li key={`${plan.id}-inc-${fIndex}`} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
                               <div className="w-4 h-4 rounded-full bg-[#00B67A] text-white flex items-center justify-center shrink-0">
                                 <Check className="w-2.5 h-2.5 stroke-[3.5]" />
                               </div>
-                              <span className="leading-snug">{feat}</span>
+                              <span className="leading-snug">{feature.name}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
+                      )}
 
                       {/* Excluded Features Section (if any) */}
-                      {plan.excludedFeatures.length > 0 && (
+                      {excludedFeatures.length > 0 && (
                         <div className="space-y-3 pt-4 border-t border-slate-100">
                           <div className="text-[11px] font-bold tracking-wider uppercase text-slate-400">
                             NOT INCLUDED
                           </div>
 
                           <ul className="space-y-2.5">
-                            {plan.excludedFeatures.map((exFeat, eIndex) => (
+                            {excludedFeatures.map((feature, eIndex) => (
                               <li key={`${plan.id}-exc-${eIndex}`} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-400 font-normal">
                                 <div className="w-4 h-4 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center shrink-0">
                                   <Minus className="w-2.5 h-2.5 stroke-[3]" />
                                 </div>
-                                <span className="leading-snug line-through decoration-slate-300">{exFeat}</span>
+                                <span className="leading-snug line-through decoration-slate-300">{feature.name}</span>
                               </li>
                             ))}
                           </ul>
@@ -294,7 +235,7 @@ export const PricingPage: React.FC = () => {
                             : 'bg-slate-900 hover:bg-slate-800 text-white shadow-sm'
                         }`}
                       >
-                        <span>{plan.ctaText}</span>
+                        <span>{plan.cta_text || 'Choose plan'}</span>
                         {isFeatured && <ArrowRight className="w-4 h-4 stroke-[2.5]" />}
                       </button>
                     </div>
@@ -306,7 +247,7 @@ export const PricingPage: React.FC = () => {
           </div>
 
           {/* Clean Trust Reassurance Line */}
-          <div className="pt-6 text-center border-t border-slate-200">
+          <div className="hidden" aria-hidden="true">
             <div className="inline-flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs text-slate-600 font-medium">
               <span className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-[#00B67A]" /> 30-Day Money-Back Guarantee

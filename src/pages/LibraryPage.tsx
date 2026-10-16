@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BookOpen, Calendar, CheckCircle2, Clock, ExternalLink, GraduationCap, Layers, Play, Radio, Search, Video, X } from 'lucide-react';
+import { BookOpen, Calendar, CheckCircle2, Clock, ExternalLink, GraduationCap, Play, Radio, Search, Video, X } from 'lucide-react';
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { useAuth } from '../auth/AuthContext';
 import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
 import { COURSES_DATA } from '../data/coursesData';
-import { LIVE_SESSIONS_DATA } from '../data/liveClassesData';
 
 interface LibraryCard { title: string; image: string; link: string; type: string; plan_ids: number[]; }
 interface LibraryCategory { title: string; cards: LibraryCard[]; }
@@ -21,6 +20,17 @@ const formatClassDate = (date: string, timezone: string) => {
   }
 };
 
+const formatGmtOffset = (date: string, timezone: string) => {
+  try {
+    const offset = new Intl.DateTimeFormat('en-US', { timeZone: timezone, timeZoneName: 'shortOffset' })
+      .formatToParts(new Date(date))
+      .find((part) => part.type === 'timeZoneName')?.value;
+    return offset?.replace(/GMT([+-])0(\d)/, 'GMT$1$2') || 'GMT';
+  } catch {
+    return timezone;
+  }
+};
+
 // Fallback categories mapped from rich COURSES_DATA
 const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
   title: course.title,
@@ -33,26 +43,13 @@ const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
   })),
 }));
 
-// Fallback live classes mapped from LIVE_SESSIONS_DATA
-const FALLBACK_CLASSES: LiveClass[] = LIVE_SESSIONS_DATA.map((session, index) => ({
-  id: index + 1,
-  name: session.title,
-  recorded_class_link: null,
-  class_date: new Date(Date.now() + 86400000 * (index + 2)).toISOString(),
-  end_date: new Date(Date.now() + 86400000 * (index + 2) + 5400000).toISOString(),
-  end_time: '7:30 PM UTC',
-  timezone: 'UTC',
-  is_active: true,
-  plan_ids: [2, 3],
-}));
-
 export const LibraryPage: React.FC = () => {
   const { token } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'live'>('library');
   const [categorySearch, setCategorySearch] = useState('');
   const [moduleSearch, setModuleSearch] = useState('');
   const [categories, setCategories] = useState<LibraryCategory[]>(FALLBACK_CATEGORIES);
-  const [classes, setClasses] = useState<LiveClass[]>(FALLBACK_CLASSES);
+  const [classes, setClasses] = useState<LiveClass[]>([]);
   const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(FALLBACK_CATEGORIES[0]?.title || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -78,7 +75,7 @@ export const LibraryPage: React.FC = () => {
         }
         if (classesResponse && classesResponse.ok) {
           const classesPayload: ApiResponse<LiveClass[]> = await classesResponse.json();
-          if (classesPayload.success && Array.isArray(classesPayload.data) && classesPayload.data.length > 0) {
+          if (classesPayload.success && Array.isArray(classesPayload.data)) {
             setClasses(classesPayload.data.filter((liveClass) => liveClass.is_active));
           }
         }
@@ -110,7 +107,18 @@ export const LibraryPage: React.FC = () => {
     }
   };
 
-  const renderClassCard = (liveClass: LiveClass, isPast: boolean) => (
+  const openLibraryVideo = (card: LibraryCard) => {
+    if (!card.link || card.link === '#') {
+      setError('This video is not available yet.');
+      return;
+    }
+    window.open(assetUrl(card.link), '_blank', 'noopener,noreferrer');
+  };
+
+  const renderClassCard = (liveClass: LiveClass, isPast: boolean) => {
+    const hasStarted = Date.now() >= new Date(liveClass.class_date).getTime();
+
+    return (
     <div key={liveClass.id} className="rounded-2xl border border-slate-200/90 p-6 bg-white hover:border-emerald-500/40 hover:shadow-md transition-all space-y-4 flex flex-col justify-between shadow-sm">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
@@ -121,17 +129,14 @@ export const LibraryPage: React.FC = () => {
             isPast ? 'text-slate-600 bg-slate-100 border-slate-200' : 'text-emerald-800 bg-emerald-50 border-emerald-200'
           }`}>
             <span className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-slate-400' : 'bg-[#00B67A] animate-pulse'}`} />
-            {isPast ? 'Recorded Session' : 'Live Broadcast'}
+            {isPast ? 'Recorded Session' : 'Live Class'}
           </span>
         </div>
         <h3 className="text-base font-black text-slate-900">{liveClass.name}</h3>
-        <span className="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider block">
-          Tier: Pro &amp; VIP Mastermind
-        </span>
         <div className="space-y-1.5 text-xs text-slate-600 pt-1">
           <div className="flex items-center gap-2">
             <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-            <span>{formatClassDate(liveClass.class_date, liveClass.timezone)}</span>
+            <span>{formatClassDate(liveClass.class_date, liveClass.timezone)} · {formatGmtOffset(liveClass.class_date, liveClass.timezone)}</span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-emerald-600" />
@@ -142,7 +147,7 @@ export const LibraryPage: React.FC = () => {
       {isPast ? (
         liveClass.recorded_class_link ? (
           <a href={assetUrl(liveClass.recorded_class_link)} target="_blank" rel="noreferrer" className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all">
-            <Video className="w-4 h-4" />Watch Recording
+            <Video className="w-4 h-4" />View Class
           </a>
         ) : (
           <div className="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-500 border border-slate-200">
@@ -150,12 +155,19 @@ export const LibraryPage: React.FC = () => {
           </div>
         )
       ) : (
-        <button type="button" onClick={() => void joinClass(liveClass)} className="w-full py-3 rounded-xl bg-[#00B67A] hover:bg-[#00A36D] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer">
-          <Radio className="w-4 h-4" />Enter Live Studio
-        </button>
+        hasStarted ? (
+          <button type="button" onClick={() => void joinClass(liveClass)} className="w-full py-3 rounded-xl bg-[#00B67A] hover:bg-[#00A36D] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer">
+            <Radio className="w-4 h-4" />Join Class
+          </button>
+        ) : (
+          <div className="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-500 border border-slate-200 text-center">
+            Join available when the class starts.
+          </div>
+        )
       )}
     </div>
-  );
+    );
+  };
 
   return (
     <PublicLayout>
@@ -176,20 +188,6 @@ export const LibraryPage: React.FC = () => {
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
                 Stream actionable video masterclasses, unlock viral frameworks, and participate in instructor-led live demonstration classes.
               </p>
-              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-semibold text-slate-300">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm">
-                  <Layers className="w-3.5 h-3.5 text-emerald-400" />
-                  {categories.length} Tracks
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm">
-                  <Play className="w-3.5 h-3.5 text-[#00B67A] fill-[#00B67A]" />
-                  {categories.reduce((total, category) => total + category.cards.length, 0)} Modules
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm">
-                  <Radio className="w-3.5 h-3.5 text-[#00B67A] animate-pulse" />
-                  Live Classes
-                </span>
-              </div>
             </div>
             <div className="shrink-0 relative z-10">
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 p-1 shadow-xl shadow-emerald-500/25">
@@ -212,7 +210,7 @@ export const LibraryPage: React.FC = () => {
               }`}
             >
               <BookOpen className="w-4 h-4" />
-              <span>Library Tracks</span>
+              <span>Library</span>
             </button>
             <button
               type="button"
@@ -224,7 +222,7 @@ export const LibraryPage: React.FC = () => {
               }`}
             >
               <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span>Live Studio Hub</span>
+              <span>Live Classes</span>
             </button>
           </div>
 
@@ -321,22 +319,16 @@ export const LibraryPage: React.FC = () => {
                           key={`${card.title}-${index}`}
                           className="rounded-2xl border border-slate-200/90 bg-white hover:border-emerald-500/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden shadow-sm"
                         >
-                          <div className="relative h-28 bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-950 overflow-hidden">
+                          <button
+                            type="button"
+                            onClick={() => openLibraryVideo(card)}
+                            className="relative h-28 w-full text-left bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-950 overflow-hidden cursor-pointer"
+                            aria-label={`Open ${card.title} in a new tab`}
+                          >
                             {card.image && (
-                              <img src={assetUrl(card.image)} alt="" className="absolute inset-0 w-full h-full object-cover opacity-35" />
+                              <img src={assetUrl(card.image)} alt={card.title} className="absolute inset-0 w-full h-full object-cover" />
                             )}
-                            <div className="relative z-10 h-full p-3 flex flex-col justify-between">
-                              <div className="flex items-center justify-between text-[10px] text-white font-bold uppercase tracking-wider">
-                                <span className="px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-300 backdrop-blur-md border border-emerald-500/30">
-                                  MODULE {String(index + 1).padStart(2, '0')}
-                                </span>
-                                <span className="text-emerald-400">{card.type}</span>
-                              </div>
-                              <span className="text-xs font-black text-white uppercase tracking-tight line-clamp-2 drop-shadow-sm">
-                                {selectedCategory.title}
-                              </span>
-                            </div>
-                          </div>
+                          </button>
 
                           <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div>
@@ -350,7 +342,7 @@ export const LibraryPage: React.FC = () => {
                             </div>
                             <button
                               type="button"
-                              onClick={() => setActiveVideo({ card, category: selectedCategory.title })}
+                              onClick={() => openLibraryVideo(card)}
                               className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-600 group-hover:text-emerald-700 transition-colors w-full cursor-pointer"
                             >
                               <span>Watch Video</span>
@@ -375,7 +367,7 @@ export const LibraryPage: React.FC = () => {
               <div className="flex items-center justify-between border-b border-slate-100 pb-6">
                 <div>
                   <span className="text-[11px] font-black uppercase tracking-wider text-[#00B67A]">
-                    Live Broadcast Schedule &amp; Archives
+                    Live Classes &amp; Archives
                   </span>
                   <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">Live Classes</h2>
                 </div>
@@ -384,6 +376,11 @@ export const LibraryPage: React.FC = () => {
                 </div>
               </div>
 
+              {classes.length === 0 ? (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-xs text-slate-500 font-medium">
+                  No classes available.
+                </div>
+              ) : <>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black uppercase tracking-wider text-slate-900">
@@ -419,6 +416,7 @@ export const LibraryPage: React.FC = () => {
                   </div>
                 )}
               </div>
+              </>}
             </div>
           )}
         </div>

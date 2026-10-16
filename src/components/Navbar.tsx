@@ -13,7 +13,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   const [languageCode, setLanguageCode] = useState('EN');
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, hasActivePlan } = useAuth();
+  const { isAuthenticated, hasActivePlan, user } = useAuth();
+  const isAdmin = user?.is_admin === true;
 
   const isHome = location.pathname === '/';
   const languages = [
@@ -23,12 +24,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
     { label: 'Svenska', shortCode: 'SV', gtCode: 'sv' },
   ];
 
-  const navLinks = [
-    { name: 'Home', path: '/', isHash: false },
-    { name: 'Library', path: '/library', isHash: false },
-    ...(!hasActivePlan ? [{ name: 'Pricing', path: '/pricing', isHash: false }] : []),
-    { name: 'Unsubscribe', path: '/unsubscribe', isHash: false },
-  ];
+  const navLinks = isAdmin
+    ? [
+        { name: 'Profile', path: '/my-account', isHash: false },
+        { name: 'Live Classes', path: '/my-account?tab=classes', isHash: false },
+      ]
+    : [
+        { name: 'Home', path: '/', isHash: false },
+        { name: 'Library', path: '/library', isHash: false },
+        ...(!hasActivePlan ? [{ name: 'Pricing', path: '/pricing', isHash: false }] : []),
+        { name: 'Unsubscribe', path: '/unsubscribe', isHash: false },
+      ];
 
   const handleNavClick = (link: { name: string; path: string; isHash?: boolean }) => {
     setIsOpen(false);
@@ -44,6 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
+    if (isAdmin && path === '/my-account') return location.pathname === '/my-account' && new URLSearchParams(location.search).get('tab') !== 'classes';
+    if (path.includes('?')) return `${location.pathname}${location.search}` === path;
     return location.pathname.startsWith(path);
   };
 
@@ -132,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 to="/my-account"
                 className="text-xs font-bold px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 transition-colors"
               >
-                My Account
+                {isAdmin ? 'Profile' : 'My Account'}
               </Link>
             ) : (
               <Link
@@ -142,13 +150,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 Log In
               </Link>
             )}
-            <Link
-              to="/pricing"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white text-xs font-bold shadow-[0_4px_15px_rgba(0,182,122,0.35)] active:scale-95 transition-all"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Get Access</span>
-            </Link>
+            {!isAdmin && !hasActivePlan && (
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white text-xs font-bold shadow-[0_4px_15px_rgba(0,182,122,0.35)] active:scale-95 transition-all"
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Get Access</span>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -214,7 +224,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 onClick={() => setIsOpen(false)}
                 className="w-full text-center py-2.5 text-sm font-medium rounded-lg border text-slate-200 hover:text-white hover:bg-white/5 border-white/10"
               >
-                My Account
+                {isAdmin ? 'Profile' : 'My Account'}
               </Link>
             ) : (
               <Link

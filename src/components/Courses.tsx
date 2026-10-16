@@ -7,8 +7,7 @@ import {
   X,
   BookOpen, 
   ExternalLink, 
-  ChevronDown, 
-  ChevronUp,
+  Play,
 } from 'lucide-react';
 import { COURSES_DATA, Course } from '../data/coursesData';
 
@@ -17,22 +16,9 @@ interface CoursesProps {
 }
 
 export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
-  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [activeModalCourse, setActiveModalCourse] = useState<Course | null>(null);
 
   const filteredCourses = COURSES_DATA;
-
-  const toggleExpand = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpandedCardId(expandedCardId === id ? null : id);
-  };
-
-  const openModal = (course: Course) => {
-    setActiveModalCourse(course);
-    if (onSelectCourse) {
-      onSelectCourse(course);
-    }
-  };
 
   return (
     <section id="courses" className="py-24 md:py-32 bg-white relative overflow-hidden border-b border-slate-100">
@@ -66,28 +52,44 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
         {/* Course Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
             {filteredCourses.map((course) => {
-              const isExpanded = expandedCardId === course.id;
-
               return (
                 <div
                   key={course.id}
-                  onClick={() => openModal(course)}
-                  className="rounded-3xl transition-all duration-300 cursor-pointer flex flex-col justify-between bg-white border border-slate-200/90 shadow-[0_10px_35px_rgba(15,23,42,0.04)] hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(139,92,246,0.16)] hover:border-violet-400/50 group overflow-hidden"
+                  className="rounded-[1.8rem] transition-all duration-300 flex flex-col justify-between bg-white border border-slate-200 shadow-[0_12px_30px_rgba(15,23,42,0.07)] group overflow-hidden"
                 >
-                  <div>
-                    {/* Content Section */}
-                    <div className="p-6">
-                      <div className="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
-                        <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>{course.category}</span>
+                  {/* Gradient video-card header */}
+                  <div className={`h-[183px] p-5 bg-gradient-to-br ${course.gradientBadge} text-white relative overflow-hidden`}>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/5" />
+                    <div className="relative h-full flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <span className="max-w-[42%] px-3 py-1 rounded-full bg-white/20 border border-white/35 text-[10px] font-black uppercase tracking-wide backdrop-blur-sm truncate">
+                          {course.category}
+                        </span>
                       </div>
 
-                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#00B67A] transition-colors mb-4">
-                        {course.title}
-                      </h3>
+                      <div className="flex items-center gap-3 mt-5">
+                        <div className="w-12 h-12 rounded-2xl bg-white/95 text-slate-900 flex items-center justify-center shrink-0 shadow-sm">
+                          <Play className="w-5 h-5 fill-current ml-0.5" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xs font-black line-clamp-2">{course.title}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col flex-1">
+                    {/* Content Section */}
+                    <div className="p-6 pb-4">
+                      <div className="text-xs font-bold text-emerald-600 mb-2.5 flex items-center gap-1.5">
+                        <span className="size-1.5 rounded-full bg-emerald-500" />
+                        <span className="line-clamp-1">{course.tagline}</span>
+                      </div>
+
+                      <p className="text-sm font-medium text-slate-600 leading-relaxed mb-4">{course.shortDescription}</p>
 
                       {/* Key Outcomes */}
-                      <div className="space-y-2 mb-4">
+                      <div className="space-y-2.5 mb-4">
                         {course.keyOutcomes.slice(0, 3).map((outcome, idx) => (
                           <div key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
@@ -96,48 +98,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                         ))}
                       </div>
 
-                      {/* Interactive In-Card Module Toggle */}
-                      <div className="pt-3 border-t border-slate-100">
-                        <button
-                          type="button"
-                          onClick={(e) => toggleExpand(course.id, e)}
-                          className="w-full flex items-center justify-between text-xs font-bold text-slate-600 hover:text-[#00B67A] py-1.5 transition-colors"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
-                            <span>Curriculum Quick-Look ({course.modules.length} Modules)</span>
-                          </span>
-                          {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                        </button>
-
-                        {isExpanded && (
-                          <div className="mt-2.5 space-y-1.5 bg-slate-50 p-3 rounded-2xl border border-slate-100 animate-fadeIn">
-                            {course.modules.map((m) => (
-                              <div key={m.number} className="text-[11px] text-slate-700 flex items-start gap-1.5">
-                                <span className="font-bold text-emerald-600 shrink-0">{m.number}.</span>
-                                <span className="font-medium line-clamp-1">{m.title}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
                     </div>
-                  </div>
-
-                  {/* Card Bottom CTA Bar */}
-                  <div className="px-6 pb-6 pt-3 border-t border-slate-100 flex justify-end">
-                    <Link
-                      to="/pricing"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-2"
-                    >
-                      <span className="text-xs font-bold text-[#00B67A] group-hover:translate-x-0.5 transition-transform">
-                        Explore Courses
-                      </span>
-                      <div className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#00B67A] text-slate-700 group-hover:text-white flex items-center justify-center transition-all shadow-xs">
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
-                    </Link>
                   </div>
 
                 </div>

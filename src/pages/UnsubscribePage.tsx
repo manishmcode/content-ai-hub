@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
-import { ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, ShieldCheck, Mail, User, CreditCard, Clock } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Mail, User, CreditCard } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
-
-const REASONS = [
-  'Achieved my content & revenue scaling goals',
-  'Temporarily too busy to complete masterclasses',
-  'Financial / budget considerations',
-  'Looking for different platform modules',
-  'Technical or account inquiry',
-  'Other personal reasons',
-];
 
 export const UnsubscribePage: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [ibanDigits, setIbanDigits] = useState('');
-  const [reason, setReason] = useState(REASONS[0]);
   const [confirmed, setConfirmed] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [error, setError] = useState('');
@@ -37,7 +27,6 @@ export const UnsubscribePage: React.FC = () => {
           last_name: lastName,
           email,
           iban_last_5: ibanDigits,
-          reason,
           is_unsubscribe: true,
         }),
       });
@@ -82,14 +71,6 @@ export const UnsubscribePage: React.FC = () => {
             {/* Form Body */}
             <div className="p-7 sm:p-9 space-y-6">
               
-              {/* Reassurance Info Banner */}
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-3 text-xs text-slate-600">
-                <Clock className="w-4 h-4 text-[#00B67A] shrink-0 mt-0.5" />
-                <span className="leading-relaxed">
-                  <strong className="text-slate-900 font-bold">Zero Waiting Period:</strong> Cancellation is instantaneous. You will retain full access to all materials until the end of your current paid billing period.
-                </span>
-              </div>
-
               {status === 'success' ? (
                 <div className="text-center py-6 space-y-5">
                   <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-[#00B67A] flex items-center justify-center mx-auto shadow-sm">
@@ -188,25 +169,7 @@ export const UnsubscribePage: React.FC = () => {
                     />
                   </div>
 
-                  {/* Row 4: Reason for Cancellation */}
-                  <div className="space-y-1.5 text-left">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                      Reason for Cancellation (Optional)
-                    </label>
-                    <select
-                      value={reason}
-                      onChange={(e) => setReason(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-[#00B67A] focus:ring-2 focus:ring-[#00B67A]/20 transition-all font-medium cursor-pointer"
-                    >
-                      {REASONS.map((r) => (
-                        <option key={r} value={r}>
-                          {r}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Row 5: Confirmation Checkbox */}
+                  {/* Confirmation Checkbox */}
                   <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
                     <input
                       type="checkbox"
@@ -244,11 +207,6 @@ export const UnsubscribePage: React.FC = () => {
 
                   {/* Support notice */}
                   <div className="pt-3 text-center text-xs text-slate-500 space-y-2">
-                    <div className="flex items-center justify-center gap-1.5 text-slate-400 text-[11px]">
-                      <ShieldCheck className="w-3.5 h-3.5 text-[#00B67A]" />
-                      <span>Encrypted &amp; secure self-service portal</span>
-                    </div>
-
                     <p>
                       Need assistance or have billing questions? Contact{' '}
                       <a href="mailto:support@contentaihub.net" className="font-bold text-[#00B67A] hover:underline">

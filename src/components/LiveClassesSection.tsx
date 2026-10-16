@@ -6,9 +6,6 @@ import {
   Laptop, 
   ArrowRight, 
   Radio,
-  BookOpen,
-  MessageSquare,
-  Video,
   UserCheck,
   GraduationCap,
   CheckCircle2
@@ -21,11 +18,9 @@ export const LiveClassesSection: React.FC = () => {
       badge: 'SCHEDULED SESSIONS',
       badgeIcon: <Calendar className="w-3.5 h-3.5 text-emerald-600" />,
       mainIcon: <Calendar className="w-7 h-7 text-white stroke-[2.2]" />,
-      gradient: 'from-emerald-600 to-teal-500 shadow-emerald-600/30',
+      gradient: 'from-[#00B67A] to-teal-400 shadow-emerald-500/35',
       title: 'Scheduled Online Teaching',
       description: 'Join structured online classes scheduled directly through your account. Follow practical demonstrations and guided workflows led by experienced instructors.',
-      featureTag: 'Structured Curriculum',
-      featureIcon: <BookOpen className="w-3.5 h-3.5 text-emerald-600" />,
     },
     {
       id: 2,
@@ -35,19 +30,15 @@ export const LiveClassesSection: React.FC = () => {
       gradient: 'from-[#00B67A] to-teal-400 shadow-emerald-500/35',
       title: 'Direct Instructor Interaction',
       description: 'Engage directly with your instructor during every session. Ask questions in real time, receive tailored guidance, and apply AI tools with clarity and confidence.',
-      featureTag: 'Interactive Q&A',
-      featureIcon: <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />,
     },
     {
       id: 3,
       badge: 'ACCOUNT ACCESS',
       badgeIcon: <UserCheck className="w-3.5 h-3.5 text-emerald-600" />,
       mainIcon: <Laptop className="w-7 h-7 text-white stroke-[2.2]" />,
-      gradient: 'from-teal-600 to-cyan-500 shadow-teal-500/30',
+      gradient: 'from-[#00B67A] to-teal-400 shadow-emerald-500/35',
       title: 'Available Through Your Account',
       description: 'All upcoming classes and scheduled sessions appear inside your private member area with instant 1-click access and complete on-demand video replays.',
-      featureTag: 'Dashboard & Replays',
-      featureIcon: <Video className="w-3.5 h-3.5 text-emerald-600" />,
     },
   ];
 
@@ -112,10 +103,6 @@ export const LiveClassesSection: React.FC = () => {
 
               {/* Bottom Feature Tag & Indicator */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                  {pillar.featureIcon}
-                  <span>{pillar.featureTag}</span>
-                </div>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#00B67A]">
                   <span>Live Module</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -133,7 +120,7 @@ export const LiveClassesSection: React.FC = () => {
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
             
-            {/* Live Broadcast Metadata Badge */}
+            {/* Member learning access */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 text-left w-full lg:w-auto">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 shadow-lg shadow-emerald-500/30 flex items-center justify-center shrink-0 text-white">
                 <Radio className="w-7 h-7 animate-pulse" />
@@ -142,19 +129,15 @@ export const LiveClassesSection: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#00D084]" />
-                  <span className="text-xs font-black uppercase tracking-widest text-[#00D084]">
-                    Weekly Live Sessions
-                  </span>
-                  <span className="text-slate-600">•</span>
                   <span className="text-xs text-slate-400 font-semibold">
-                    Available in Member Portal
+                    Courses &amp; Live Classes
                   </span>
                 </div>
                 <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight">
-                  Follow practical demonstrations and ask questions live
+                  Learn through courses and scheduled live classes
                 </h4>
                 <p className="text-xs text-slate-400 mt-1">
-                  Available classes shown through your account with instant 1-click access and full recordings.
+                  Access practical video lessons, upcoming classes, and available class recordings from your member portal.
                 </p>
               </div>
             </div>
@@ -162,10 +145,10 @@ export const LiveClassesSection: React.FC = () => {
             {/* CTA Action */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto justify-end">
               <Link
-                to="/pricing"
+                to="/library"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-black text-xs sm:text-sm tracking-wider uppercase shadow-lg shadow-emerald-500/30 active:scale-95 transition-all duration-200 group whitespace-nowrap"
               >
-                <span>View Learning Plans</span>
+                <span>Explore Library</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

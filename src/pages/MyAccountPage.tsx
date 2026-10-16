@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { 
   CreditCard, 
@@ -9,15 +9,42 @@ import {
   LogOut, 
   Mail, 
   CheckCircle2,
-  Copy
+  Copy,
+  LoaderCircle,
+  Radio,
+  Plus,
+  Pencil,
+  Trash2,
 } from 'lucide-react';
 import { DashboardData, useAuth } from '../auth/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
+
+interface AdminLiveClass {
+  id: number;
+  name: string;
+  url: string;
+  recorded_class_link: string | null;
+  class_date: string;
+  end_date: string;
+  end_time: string;
+  timezone: string;
+  is_active: boolean;
+  plan_ids: number[];
+}
+
+type ClassForm = Omit<AdminLiveClass, 'id'>;
+
+const emptyClassForm = (): ClassForm => ({
+  name: '', url: '', recorded_class_link: '', class_date: '', end_date: '', end_time: '',
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC', is_active: true, plan_ids: [],
+});
 
 export const MyAccountPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout, getDashboard, updateProfile, changePassword } = useAuth();
   const [activeTab, setActiveTab] = useState<'payments' | 'subscriptions' | 'details' | 'password'>('payments');
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
 
   // Account details state
   const [firstName, setFirstName] = useState(user?.name.split(' ')[0] || '');
@@ -36,6 +63,10 @@ export const MyAccountPage: React.FC = () => {
   const [copiedRef, setCopiedRef] = useState(false);
 
   useEffect(() => {
+    if (user?.is_admin) {
+      setIsDashboardLoading(false);
+      return;
+    }
     let active = true;
     getDashboard()
       .then((data) => {
@@ -48,9 +79,12 @@ export const MyAccountPage: React.FC = () => {
       })
       .catch(() => {
         // The page remains usable with the account details stored at sign-in.
+      })
+      .finally(() => {
+        if (active) setIsDashboardLoading(false);
       });
     return () => { active = false; };
-  }, [getDashboard]);
+  }, [getDashboard, user?.is_admin]);
 
   const profileName = displayName || `${firstName} ${lastName}`.trim() || user?.name || 'Member';
   const primarySubscription = dashboard?.subscriptions[0];
@@ -101,6 +135,20 @@ export const MyAccountPage: React.FC = () => {
       setPasswordError(requestError instanceof Error ? requestError.message : 'Unable to update your password.');
     }
   };
+
+  if (user?.is_admin) return <AdminAccountPage />;
+
+  if (isDashboardLoading) {
+    return (
+      <PublicLayout>
+        <div className="min-h-screen bg-transparent pt-36 sm:pt-40 md:pt-44 pb-32 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+          <div className="w-full max-w-6xl rounded-[32px] bg-white border border-slate-200/90 shadow-sm py-20 flex items-center justify-center" role="status" aria-label="Loading account dashboard">
+            <LoaderCircle className="w-9 h-9 text-[#00B67A] animate-spin" />
+          </div>
+        </div>
+      </PublicLayout>
+    );
+  }
 
   return (
     <PublicLayout>
@@ -546,4 +594,120 @@ export const MyAccountPage: React.FC = () => {
       </div>
     </PublicLayout>
   );
+};
+
+const AdminAccountPage: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, token, logout, changePassword } = useAuth();
+  const [tab, setTab] = useState<'profile' | 'classes'>(() => new URLSearchParams(location.search).get('tab') === 'classes' ? 'classes' : 'profile');
+  const [classes, setClasses] = useState<AdminLiveClass[]>([]);
+  const [loadingClasses, setLoadingClasses] = useState(false);
+  const [form, setForm] = useState<ClassForm>(emptyClassForm);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [classError, setClassError] = useState('');
+  const [classMessage, setClassMessage] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
+
+  const request = async (url: string, options: RequestInit = {}) => {
+    const response = await fetch(url, {
+      ...options,
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', ...options.headers },
+    });
+    const payload = await response.json();
+    if (!response.ok || !payload.success) throw new Error(payload.message || 'Request could not be completed.');
+    return payload.data;
+  };
+
+  useEffect(() => {
+    setTab(new URLSearchParams(location.search).get('tab') === 'classes' ? 'classes' : 'profile');
+  }, [location.search]);
+
+  const loadClasses = async () => {
+    setLoadingClasses(true);
+    setClassError('');
+    try { setClasses(await request(API_ENDPOINTS.classes)); }
+    catch (error) { setClassError(error instanceof Error ? error.message : 'Unable to load live classes.'); }
+    finally { setLoadingClasses(false); }
+  };
+
+  useEffect(() => { if (tab === 'classes') void loadClasses(); }, [tab]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const updateForm = <K extends keyof ClassForm>(key: K, value: ClassForm[K]) => setForm((current) => ({ ...current, [key]: value }));
+  const togglePlan = (planId: number) => updateForm(
+    'plan_ids',
+    form.plan_ids.includes(planId) ? form.plan_ids.filter((id) => id !== planId) : [...form.plan_ids, planId],
+  );
+  const resetForm = () => { setForm(emptyClassForm()); setEditingId(null); setClassError(''); };
+
+  const saveClass = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setClassError(''); setClassMessage('');
+    if (!form.plan_ids.length) { setClassError('Enter at least one eligible plan ID.'); return; }
+    try {
+      const { recorded_class_link, ...fields } = form;
+      const payload = { ...fields, class_date: new Date(form.class_date).toISOString(), end_date: new Date(form.end_date).toISOString(), ...(recorded_class_link ? { recorded_class_link } : {}) };
+      await request(editingId ? `${API_ENDPOINTS.classes}/${editingId}` : API_ENDPOINTS.classes, {
+        method: editingId ? 'PUT' : 'POST', body: JSON.stringify(payload),
+      });
+      setClassMessage(editingId ? 'Live class updated.' : 'Live class created.');
+      resetForm();
+      await loadClasses();
+    } catch (error) { setClassError(error instanceof Error ? error.message : 'Unable to save the live class.'); }
+  };
+
+  const editClass = (item: AdminLiveClass) => {
+    setEditingId(item.id);
+    setForm({ ...item, class_date: item.class_date.slice(0, 16), end_date: item.end_date.slice(0, 10), recorded_class_link: item.recorded_class_link || '' });
+    setClassMessage(''); setClassError('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const deleteClass = async (id: number) => {
+    if (!window.confirm('Delete this live class? This cannot be undone.')) return;
+    setClassError('');
+    try { await request(`${API_ENDPOINTS.classes}/${id}`, { method: 'DELETE' }); setClassMessage('Live class deleted.'); await loadClasses(); }
+    catch (error) { setClassError(error instanceof Error ? error.message : 'Unable to delete the live class.'); }
+  };
+
+  const submitPassword = async (event: React.FormEvent) => {
+    event.preventDefault(); setPasswordError(''); setPasswordMessage('');
+    if (!newPassword || newPassword !== confirmPassword) { setPasswordError('Your new passwords do not match.'); return; }
+    try { await changePassword(currentPassword, newPassword); setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); setPasswordMessage('Password updated successfully.'); }
+    catch (error) { setPasswordError(error instanceof Error ? error.message : 'Unable to update password.'); }
+  };
+
+  return <PublicLayout><div className="min-h-screen pt-36 sm:pt-40 pb-24 px-4 sm:px-6 text-slate-900"><div className="max-w-6xl mx-auto space-y-6">
+    <div className="rounded-[32px] bg-gradient-to-br from-slate-950 to-emerald-950 p-7 sm:p-8 text-white flex flex-col sm:flex-row gap-5 justify-between sm:items-center">
+      <div><p className="text-emerald-300 text-xs font-black uppercase tracking-wider">Administrator</p><h1 className="text-2xl font-black mt-1">{user?.name}</h1><p className="text-sm text-slate-300 mt-1">Manage your profile and live classes.</p></div>
+      <button onClick={() => { logout(); navigate('/login'); }} className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold">Log Out</button>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+      <aside className="md:col-span-3 rounded-3xl bg-white border border-slate-200 p-3 space-y-1">
+        <button onClick={() => setTab('profile')} className={`w-full flex gap-3 items-center text-left px-4 py-3 rounded-2xl text-xs font-bold ${tab === 'profile' ? 'bg-[#00B67A] text-white' : 'text-slate-600 hover:bg-slate-50'}`}><Lock className="w-4 h-4" />Profile</button>
+        <button onClick={() => setTab('classes')} className={`w-full flex gap-3 items-center text-left px-4 py-3 rounded-2xl text-xs font-bold ${tab === 'classes' ? 'bg-[#00B67A] text-white' : 'text-slate-600 hover:bg-slate-50'}`}><Radio className="w-4 h-4" />Live Classes</button>
+      </aside>
+      <main className="md:col-span-9 rounded-[32px] bg-white border border-slate-200 p-6 sm:p-8">
+        {tab === 'profile' && <div className="max-w-xl space-y-6"><div className="border-b pb-4"><h2 className="text-2xl font-black">Change Password</h2><p className="text-xs text-slate-500 mt-1">Update the password for this administrator account.</p></div><form onSubmit={submitPassword} className="space-y-4">
+          <label className="block text-xs font-bold text-slate-700">Current Password<input required type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-slate-300" /></label>
+          <label className="block text-xs font-bold text-slate-700">New Password<input required type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-slate-300" /></label>
+          <label className="block text-xs font-bold text-slate-700">Confirm New Password<input required type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-slate-300" /></label>
+          <button className="px-6 py-3 rounded-full bg-[#00B67A] text-white text-xs font-black">Update Password</button>{passwordError && <p className="text-xs text-rose-600">{passwordError}</p>}{passwordMessage && <p className="text-xs text-emerald-600">{passwordMessage}</p>}
+        </form></div>}
+        {tab === 'classes' && <div className="space-y-8"><div className="flex items-center justify-between border-b pb-4"><div><h2 className="text-2xl font-black">Live Classes</h2><p className="text-xs text-slate-500 mt-1">Create, edit, or delete scheduled live classes.</p></div><button onClick={resetForm} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold"><Plus className="w-4 h-4" />New Class</button></div>
+          <form onSubmit={saveClass} className="rounded-2xl bg-slate-50 border border-slate-200 p-5 grid grid-cols-1 sm:grid-cols-2 gap-4"><h3 className="sm:col-span-2 font-black text-sm">{editingId ? 'Edit Live Class' : 'Create Live Class'}</h3>
+            <label className="text-xs font-bold">Class name<input required placeholder="e.g. YouTube Growth Workshop" value={form.name} onChange={(e) => updateForm('name', e.target.value)} className="mt-1 w-full p-3 rounded-xl border" /></label><label className="text-xs font-bold">Live meeting URL<input required type="url" placeholder="https://zoom.us/j/123456789" value={form.url} onChange={(e) => updateForm('url', e.target.value)} className="mt-1 w-full p-3 rounded-xl border" /></label>
+            <label className="text-xs font-bold">Start date & time<input required type="datetime-local" placeholder="Select start date and time" title="Select start date and time" value={form.class_date} onChange={(e) => updateForm('class_date', e.target.value)} className="mt-1 w-full p-3 rounded-xl border" /></label><label className="text-xs font-bold">End date & time<input required type="datetime-local" placeholder="Select end date and time" title="Select end date and time" value={form.end_date && form.end_time ? `${form.end_date}T${form.end_time}` : ''} onChange={(e) => { const [endDate, endTime] = e.target.value.split('T'); updateForm('end_date', endDate); updateForm('end_time', endTime || ''); }} className="mt-1 w-full p-3 rounded-xl border" /></label>
+            <div className="text-xs font-bold"><div className="flex flex-wrap gap-4 pt-2">{[{ id: 1, name: 'Basic' }, { id: 3, name: 'Classic' }, { id: 2, name: 'Premium' }].map((plan) => <label key={plan.id} className="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={form.plan_ids.includes(plan.id)} onChange={() => togglePlan(plan.id)} className="w-4 h-4 accent-[#00B67A]" />{plan.name}</label>)}</div></div>
+            <label className="sm:col-span-2 flex items-center gap-2 text-xs font-bold"><input type="checkbox" checked={form.is_active} onChange={(e) => updateForm('is_active', e.target.checked)} />Active and visible to members</label><div className="sm:col-span-2 flex gap-3"><button className="px-6 py-3 rounded-full bg-[#00B67A] text-white text-xs font-black">{editingId ? 'Save Changes' : 'Create Class'}</button>{editingId && <button type="button" onClick={resetForm} className="px-5 py-3 text-xs font-bold">Cancel</button>}</div>
+          </form>{classError && <p className="text-xs text-rose-600">{classError}</p>}{classMessage && <p className="text-xs text-emerald-600">{classMessage}</p>}
+          {loadingClasses ? <div className="text-xs text-slate-500">Loading classes…</div> : <div className="space-y-3">{classes.map((item) => <div key={item.id} className="border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row gap-3 justify-between"><div><p className="font-black text-sm">{item.name}</p><p className="text-xs text-slate-500 mt-1">{new Date(item.class_date).toLocaleString()}</p><p className={`text-[11px] font-bold mt-1 ${item.is_active ? 'text-emerald-600' : 'text-slate-500'}`}>{item.is_active ? 'Active' : 'Inactive'}</p></div><div className="flex gap-2"><button onClick={() => editClass(item)} className="p-2 text-emerald-700" aria-label="Edit class"><Pencil className="w-4 h-4" /></button><button onClick={() => deleteClass(item.id)} className="p-2 text-rose-600" aria-label="Delete class"><Trash2 className="w-4 h-4" /></button></div></div>)}{!classes.length && <p className="text-xs text-slate-500">No live classes have been created.</p>}</div>}
+        </div>}
+      </main>
+    </div>
+  </div></div></PublicLayout>;
 };
