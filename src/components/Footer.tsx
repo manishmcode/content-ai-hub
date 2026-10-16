@@ -53,10 +53,10 @@ export const Footer: React.FC = () => {
             {/* CTA Button (4 Cols) */}
             <div className="lg:col-span-4 flex justify-center lg:justify-end">
               <Link
-                to="/library"
+                to="/pricing"
                 className="inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full bg-white text-slate-950 font-black text-sm hover:bg-emerald-50 hover:text-emerald-950 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl group"
               >
-                <span>Get All 6 Courses</span>
+                <span>Explore Courses</span>
                 <ArrowRight className="w-4 h-4 text-emerald-700 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -90,14 +90,20 @@ export const Footer: React.FC = () => {
                 ContentAIHub.net is the premier destination for AI-powered marketing, viral video growth blueprints, TikTok Shop commerce, and creator economy business scaling.
               </p>
 
-              {/* Payment Methods Badges */}
+              {/* Payment Method Logos */}
               <div className="pt-2">
                 <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider block mb-2">Accepted Payment Methods</span>
-                <div className="flex items-center gap-2">
-                  <span className="bg-white/10 border border-white/10 px-2.5 py-1 rounded text-xs font-bold text-slate-300">Visa</span>
-                  <span className="bg-white/10 border border-white/10 px-2.5 py-1 rounded text-xs font-bold text-slate-300">Mastercard</span>
-                  <span className="bg-white/10 border border-white/10 px-2.5 py-1 rounded text-xs font-bold text-slate-300">SEPA</span>
-                  <span className="bg-white/10 border border-white/10 px-2.5 py-1 rounded text-xs font-bold text-slate-300">PayPal</span>
+                <div className="flex flex-wrap items-center gap-2" aria-label="Accepted payment methods: Visa, Mastercard, SEPA, and PayPal">
+                  <span title="Visa" className="flex h-8 w-12 items-center justify-center rounded-md bg-white px-1.5 text-[13px] font-black italic tracking-[-0.08em] text-[#1A1F71] shadow-sm">VISA</span>
+                  <span title="Mastercard" className="flex h-8 w-12 items-center justify-center rounded-md bg-white shadow-sm">
+                    <span className="relative h-4 w-7">
+                      <i className="absolute left-0 top-0 h-4 w-4 rounded-full bg-[#EB001B]" />
+                      <i className="absolute right-0 top-0 h-4 w-4 rounded-full bg-[#F79E1B]" />
+                      <i className="absolute left-2 top-0 h-4 w-3 bg-[#FF5F00] opacity-90" />
+                    </span>
+                  </span>
+                  <span title="SEPA" className="flex h-8 w-12 items-center justify-center rounded-md bg-[#0050A4] px-1 text-[10px] font-black tracking-tight text-white">SEPA<span className="ml-0.5 text-sm leading-none">€</span></span>
+                  <span title="PayPal" className="flex h-8 w-12 items-center justify-center rounded-md bg-white px-1 text-[11px] font-black italic tracking-[-0.08em] shadow-sm"><span className="text-[#003087]">Pay</span><span className="text-[#009CDE]">Pal</span></span>
                 </div>
               </div>
             </div>
@@ -111,19 +117,6 @@ export const Footer: React.FC = () => {
                 <li><Link to="/pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link></li>
                 <li><Link to="/unsubscribe" className="hover:text-cyan-400 transition-colors">Unsubscribe</Link></li>
                 <li><Link to="/my-account" className="hover:text-cyan-400 transition-colors">My Account</Link></li>
-              </ul>
-            </div>
-
-            {/* Column 3: 6 Featured Courses */}
-            <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">6 Video Upgrades</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link to="/courses/how-to-youtube-video-upgrade" className="hover:text-cyan-400 transition-colors">YouTube Video Upgrade</Link></li>
-                <li><Link to="/courses/instagram-marketing-masterclass-video-upgrade" className="hover:text-cyan-400 transition-colors">Instagram Masterclass</Link></li>
-                <li><Link to="/courses/tiktok-shop-masterclass-video-upgrade" className="hover:text-cyan-400 transition-colors">TikTok Shop Blueprint</Link></li>
-                <li><Link to="/courses/faceless-marketing-masterclass-video-upgrade" className="hover:text-cyan-400 transition-colors">Faceless AI Marketing</Link></li>
-                <li><Link to="/courses/the-creator-economy-video-upgrade" className="hover:text-cyan-400 transition-colors">The Creator Economy</Link></li>
-                <li><Link to="/courses/know-your-niche-video-upgrade" className="hover:text-cyan-400 transition-colors">Know Your Niche</Link></li>
               </ul>
             </div>
 
