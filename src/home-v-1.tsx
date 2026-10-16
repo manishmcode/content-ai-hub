@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Courses } from './components/Courses';
 import { Features } from './components/Features';
-import { TutorsLiveHub } from './components/TutorsLiveHub';
+import { LiveClassesSection } from './components/LiveClassesSection';
 import { PathTimeline } from './components/PathTimeline';
 import { Showcase } from './components/Showcase';
 import { Footer } from './components/Footer';
@@ -23,7 +23,7 @@ export default function HomeV1() {
         <Hero />
         <Courses />
         <Features />
-        <TutorsLiveHub />
+        <LiveClassesSection />
         <PathTimeline />
         <Showcase />
       </main>

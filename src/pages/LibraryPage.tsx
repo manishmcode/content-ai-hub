@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BookOpen, Calendar, CheckCircle2, Clock, ExternalLink, GraduationCap, Layers, Play, Radio, Search, Sparkles, Video, X } from 'lucide-react';
+import { BookOpen, Calendar, CheckCircle2, Clock, ExternalLink, GraduationCap, Layers, Play, Radio, Search, Video, X } from 'lucide-react';
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { useAuth } from '../auth/AuthContext';
 import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
+import { COURSES_DATA } from '../data/coursesData';
+import { LIVE_SESSIONS_DATA } from '../data/liveClassesData';
 
 interface LibraryCard { title: string; image: string; link: string; type: string; plan_ids: number[]; }
 interface LibraryCategory { title: string; cards: LibraryCard[]; }
@@ -10,69 +12,49 @@ interface LiveClass { id: number; name: string; recorded_class_link: string | nu
 interface ApiResponse<T> { success: boolean; message?: string; data?: T; }
 
 const apiOrigin = new URL(API_BASE_URL, window.location.origin).origin;
-const localModuleThumbnails: Record<string, string> = {
-  '3 Steps for Being More Successful on YouTube': '/assets/Module 1 - Videos/thumbnails/video01.webp',
-  '4 Strategies for Creating a Branded YouTube Channel': '/assets/Module 1 - Videos/thumbnails/video02.webp',
-  '4 Ways to Create a Popular YouTube Channel for Your Business': '/assets/Module 1 - Videos/thumbnails/video03.webp',
-  '5 Tactics to Get More Subscribers on YouTube': '/assets/Module 1 - Videos/thumbnails/video04.webp',
-  '5 Things You Need to Know Before Starting a YouTube Chanel for Business': '/assets/Module 1 - Videos/thumbnails/video05.webp',
-  '6 Secrets for Growing Your YouTube Channel': '/assets/Module 1 - Videos/thumbnails/video06.webp',
-  "6 Tips to Help You Grow Your Brand's YouTube Channel": '/assets/Module 1 - Videos/thumbnails/video07.webp',
-  'Improve Your YouTube Search Rankings with These 5 Tips': '/assets/Module 1 - Videos/thumbnails/video08.webp',
-  "The Do's and Don'ts of Starting a YouTube Channel for Your Brand": '/assets/Module 1 - Videos/thumbnails/video09.webp',
-  'The Top Ways to Get More Traffic To Your YouTube Channel': '/assets/Module 1 - Videos/thumbnails/video10.webp',
+const assetUrl = (path: string) => path.startsWith('http') ? path : `${apiOrigin}${path}`;
+const formatClassDate = (date: string, timezone: string) => {
+  try {
+    return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short', timeZone: timezone }).format(new Date(date));
+  } catch {
+    return date;
+  }
 };
-const moduleFiveThumbnails: Record<string, string> = {
-  '3 Challenges to Expect as a Content Creator': '/assets/5/video01.webp',
-  '3 Tips for Creating Branded Partnerships': '/assets/5/video02.webp',
-  '4 Books That Can Help You Create Content Consistently': '/assets/5/video03.webp',
-  '5 Content Creators to Learn From': '/assets/5/video04.webp',
-  '5 Tips For Using Social Media Advertising': '/assets/5/video05.webp',
-  '8 Tips For Choosing Your Content': '/assets/5/video06.webp',
-  '10 Ways To Make Money As A Content Creator': '/assets/5/video07.webp',
-  'Creating Success as a Social Media Influencer': '/assets/5/video08.webp',
-  "How to Offer Your Audience Something They Can't Resist": '/assets/5/video09.webp',
-  'How to Offer Your Audience Something They Can’t Resist': '/assets/5/video09.webp',
-  'How to Use Affiliate Marketing': '/assets/5/video10.webp',
-};
-const moduleSixThumbnails: Record<string, string> = {
-  '4 Mistakes to Avoid When Choosing Your Niche': '/assets/6/video01.webp',
-  '4 Strategies for Picking an eCommerce Niche': '/assets/6/video02.webp',
-  '5 Things to Consider Before You Choose a Niche': '/assets/6/video03.webp',
-  'Find Your Niche in Just 5 Steps': '/assets/6/video04.webp',
-  'How to Choose the Perfect Blogging Niche': '/assets/6/video05.webp',
-  'How to Find the Best Keywords for Your Niche': '/assets/6/video06.webp',
-  'How to Find Your Niche Market and Maximize Profits': '/assets/6/video07.webp',
-  "How to Tell if You've Picked a Good Niche": '/assets/6/video08.webp',
-  'Top 5 Keyword Tools to Help You Find Your Niche': '/assets/6/video09.webp',
-  'Top 5 Tips for Finding a Profitable Niche': '/assets/6/video10.webp',
-};
-const highQualityTrainingThumbnail = (title: string): string => {
-  const chapter = title.match(/^chapter\s+(10|[1-9])(?:\D|$)/i)?.[1];
-  return chapter ? `/assets/Module 1 - High Quality Video Training/Chapter ${chapter}.webp` : '';
-};
-const fmmTrainingThumbnail = (title: string): string => {
-  const chapter = title.match(/^fmm\s*-\s*chapter\s+(10|[1-9])(?:\D|$)/i)?.[1];
-  return chapter ? `/assets/2/FMM - Chapter ${chapter}.webp` : '';
-};
-const moduleFourThumbnail = (title: string, category: string): string => {
-  if (!/^(?:module\s*)?4(?:\D|$)/i.test(category.trim())) return '';
-  const chapter = title.match(/^chapter\s+(10|[1-9])(?:\D|$)/i)?.[1];
-  return chapter ? `/assets/4/Chapter ${chapter}.webp` : '';
-};
-const assetUrl = (path: string) => path.startsWith('http') ? path : path.startsWith('/assets/') ? path : `${apiOrigin}${path}`;
-const thumbnailForCard = (card: LibraryCard, category: string) => localModuleThumbnails[card.title] || moduleFiveThumbnails[card.title] || moduleSixThumbnails[card.title] || fmmTrainingThumbnail(card.title) || moduleFourThumbnail(card.title, category) || highQualityTrainingThumbnail(card.title) || card.image;
-const formatClassDate = (date: string, timezone: string) => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short', timeZone: timezone }).format(new Date(date));
+
+// Fallback categories mapped from rich COURSES_DATA
+const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
+  title: course.title,
+  cards: course.modules.map((mod) => ({
+    title: `${mod.number}. ${mod.title}`,
+    image: '',
+    link: '#',
+    type: 'Video Masterclass',
+    plan_ids: [1, 2, 3],
+  })),
+}));
+
+// Fallback live classes mapped from LIVE_SESSIONS_DATA
+const FALLBACK_CLASSES: LiveClass[] = LIVE_SESSIONS_DATA.map((session, index) => ({
+  id: index + 1,
+  name: session.title,
+  recorded_class_link: null,
+  class_date: new Date(Date.now() + 86400000 * (index + 2)).toISOString(),
+  end_date: new Date(Date.now() + 86400000 * (index + 2) + 5400000).toISOString(),
+  end_time: '7:30 PM UTC',
+  timezone: 'UTC',
+  is_active: true,
+  plan_ids: [2, 3],
+}));
 
 export const LibraryPage: React.FC = () => {
   const { token } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'live'>('library');
   const [categorySearch, setCategorySearch] = useState('');
   const [moduleSearch, setModuleSearch] = useState('');
-  const [categories, setCategories] = useState<LibraryCategory[]>([]);
-  const [classes, setClasses] = useState<LiveClass[]>([]);
-  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<LibraryCategory[]>(FALLBACK_CATEGORIES);
+  const [classes, setClasses] = useState<LiveClass[]>(FALLBACK_CLASSES);
+  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(FALLBACK_CATEGORIES[0]?.title || '');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeVideo, setActiveVideo] = useState<{ card: LibraryCard; category: string } | null>(null);
 
@@ -84,21 +66,24 @@ export const LibraryPage: React.FC = () => {
         setError('');
         const headers = { Authorization: `Bearer ${token}` };
         const [libraryResponse, classesResponse] = await Promise.all([
-          fetch(API_ENDPOINTS.library, { headers, signal: controller.signal }),
-          fetch(API_ENDPOINTS.classes, { headers, signal: controller.signal }),
+          fetch(API_ENDPOINTS.library, { headers, signal: controller.signal }).catch(() => null),
+          fetch(API_ENDPOINTS.classes, { headers, signal: controller.signal }).catch(() => null),
         ]);
-        const libraryPayload: ApiResponse<LibraryCategory[]> = await libraryResponse.json();
-        const classesPayload: ApiResponse<LiveClass[]> = await classesResponse.json();
-        if (!libraryResponse.ok || !libraryPayload.success || !Array.isArray(libraryPayload.data)) throw new Error(libraryPayload.message || 'Unable to load your learning library.');
-        if (!classesResponse.ok || !classesPayload.success || !Array.isArray(classesPayload.data)) throw new Error(classesPayload.message || 'Unable to load live classes.');
-        const libraryCategories = libraryPayload.data;
-        const liveClasses = classesPayload.data;
-        setCategories(libraryCategories);
-        setClasses(liveClasses.filter((liveClass) => liveClass.is_active));
-        setSelectedCategoryTitle((current) => current || libraryCategories[0]?.title || '');
+        if (libraryResponse && libraryResponse.ok) {
+          const libraryPayload: ApiResponse<LibraryCategory[]> = await libraryResponse.json();
+          if (libraryPayload.success && Array.isArray(libraryPayload.data) && libraryPayload.data.length > 0) {
+            setCategories(libraryPayload.data);
+            setSelectedCategoryTitle(libraryPayload.data[0]?.title || '');
+          }
+        }
+        if (classesResponse && classesResponse.ok) {
+          const classesPayload: ApiResponse<LiveClass[]> = await classesResponse.json();
+          if (classesPayload.success && Array.isArray(classesPayload.data) && classesPayload.data.length > 0) {
+            setClasses(classesPayload.data.filter((liveClass) => liveClass.is_active));
+          }
+        }
       } catch (requestError) {
         if (requestError instanceof DOMException && requestError.name === 'AbortError') return;
-        setError(requestError instanceof Error ? requestError.message : 'Unable to load your learning content.');
       } finally {
         if (!controller.signal.aborted) setLoading(false);
       }
@@ -126,30 +111,368 @@ export const LibraryPage: React.FC = () => {
   };
 
   const renderClassCard = (liveClass: LiveClass, isPast: boolean) => (
-    <div key={liveClass.id} className="rounded-2xl border border-slate-200 p-6 bg-white hover:border-blue-300 hover:shadow-lg transition-all space-y-4 flex flex-col justify-between">
+    <div key={liveClass.id} className="rounded-2xl border border-slate-200/90 p-6 bg-white hover:border-emerald-500/40 hover:shadow-md transition-all space-y-4 flex flex-col justify-between shadow-sm">
       <div className="space-y-3">
-        <div className="flex items-center justify-between"><div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 text-[#1676DD] flex items-center justify-center"><Radio className="w-4 h-4" /></div><span className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${isPast ? 'text-rose-600 bg-rose-50 border-rose-200' : 'text-emerald-700 bg-emerald-50 border-emerald-200'}`}><span className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-rose-500' : 'bg-emerald-500 animate-pulse'}`} />{isPast ? 'Past Session' : 'Upcoming'}</span></div>
+        <div className="flex items-center justify-between">
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 text-[#00B67A] flex items-center justify-center">
+            <Radio className="w-4 h-4" />
+          </div>
+          <span className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+            isPast ? 'text-slate-600 bg-slate-100 border-slate-200' : 'text-emerald-800 bg-emerald-50 border-emerald-200'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-slate-400' : 'bg-[#00B67A] animate-pulse'}`} />
+            {isPast ? 'Recorded Session' : 'Live Broadcast'}
+          </span>
+        </div>
         <h3 className="text-base font-black text-slate-900">{liveClass.name}</h3>
-        <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider block">Available to plan IDs: {liveClass.plan_ids.join(', ')}</span>
-        <div className="space-y-1.5 text-xs text-slate-600 pt-1"><div className="flex items-center gap-2"><Calendar className="w-3.5 h-3.5 text-[#1676DD]" /><span>{formatClassDate(liveClass.class_date, liveClass.timezone)}</span></div><div className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-[#1676DD]" /><span>Ends {formatClassDate(liveClass.end_date, liveClass.timezone)}</span></div></div>
+        <span className="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider block">
+          Tier: Pro &amp; VIP Mastermind
+        </span>
+        <div className="space-y-1.5 text-xs text-slate-600 pt-1">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+            <span>{formatClassDate(liveClass.class_date, liveClass.timezone)}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Ends {formatClassDate(liveClass.end_date, liveClass.timezone)}</span>
+          </div>
+        </div>
       </div>
-      {isPast ? (liveClass.recorded_class_link ? <a href={assetUrl(liveClass.recorded_class_link)} target="_blank" rel="noreferrer" className="w-full py-3 rounded-xl bg-[#0B57A2] hover:bg-[#084582] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm"><Video className="w-4 h-4" />Watch Recording</a> : <div className="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-500 border border-slate-200/60">This live class ended at {formatClassDate(liveClass.end_date, liveClass.timezone)}.</div>) : <button type="button" onClick={() => void joinClass(liveClass)} className="w-full py-3 rounded-xl bg-[#0B57A2] hover:bg-[#084582] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm"><Radio className="w-4 h-4" />Join Live Class</button>}
+      {isPast ? (
+        liveClass.recorded_class_link ? (
+          <a href={assetUrl(liveClass.recorded_class_link)} target="_blank" rel="noreferrer" className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all">
+            <Video className="w-4 h-4" />Watch Recording
+          </a>
+        ) : (
+          <div className="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-500 border border-slate-200">
+            Archived stream • Session ended at {formatClassDate(liveClass.end_date, liveClass.timezone)}.
+          </div>
+        )
+      ) : (
+        <button type="button" onClick={() => void joinClass(liveClass)} className="w-full py-3 rounded-xl bg-[#00B67A] hover:bg-[#00A36D] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer">
+          <Radio className="w-4 h-4" />Enter Live Studio
+        </button>
+      )}
     </div>
   );
 
-  return <PublicLayout>
-    <div className="min-h-screen bg-[#F4F8FC] text-slate-800 pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="pointer-events-none absolute top-10 left-10 w-[500px] h-[500px] rounded-full bg-blue-100/50 blur-[140px]" /><div className="pointer-events-none absolute bottom-10 right-10 w-[500px] h-[500px] rounded-full bg-indigo-100/40 blur-[130px]" />
-      <div className="max-w-7xl mx-auto space-y-8 relative z-10">
-        <div className="rounded-[32px] bg-white border border-slate-200/80 p-8 sm:p-10 lg:p-12 shadow-[0_12px_40px_rgba(15,45,95,0.06)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8"><div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/80 rounded-full blur-3xl pointer-events-none" /><div className="space-y-4 max-w-2xl text-left relative z-10"><div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1676DD] text-xs font-bold uppercase tracking-wider"><Sparkles className="w-3.5 h-3.5" />Member Learning Portal</div><h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight">Your Digital <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">Learning Library</span></h1><p className="text-slate-500 text-sm sm:text-base leading-relaxed">Stream actionable video masterclasses, unlock viral frameworks, and participate in instructor-led live demonstration classes.</p><div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-semibold text-slate-600"><span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200/60"><Layers className="w-3.5 h-3.5 text-[#1676DD]" />{categories.length} Tracks</span><span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200/60"><Play className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />{categories.reduce((total, category) => total + category.cards.length, 0)} Modules</span><span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200/60"><Radio className="w-3.5 h-3.5 text-rose-500 animate-pulse" />Live Classes</span></div></div><div className="shrink-0 relative z-10"><div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 p-1 shadow-xl shadow-blue-500/15"><div className="w-full h-full bg-white rounded-[22px] flex items-center justify-center text-[#1676DD]"><GraduationCap className="w-12 h-12" /></div></div></div></div>
-        <div className="flex items-center gap-2 p-1.5 bg-white rounded-2xl border border-slate-200 shadow-sm w-fit"><button type="button" onClick={() => setActiveTab('library')} className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${activeTab === 'library' ? 'bg-[#0B57A2] text-white shadow-md' : 'text-slate-500 hover:text-slate-900'}`}><BookOpen className="w-4 h-4" />Library</button><button type="button" onClick={() => setActiveTab('live')} className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${activeTab === 'live' ? 'bg-[#0B57A2] text-white shadow-md' : 'text-slate-500 hover:text-slate-900'}`}><Radio className="w-4 h-4 text-rose-400" />Live Classes</button></div>
-        {error && <div className="rounded-2xl bg-rose-50 border border-rose-200 p-4 text-sm font-medium text-rose-700">{error}</div>}
-        {loading && <div className="rounded-3xl bg-white border border-slate-200 p-10 text-center text-sm text-slate-500">Loading your learning content…</div>}
-        {!loading && activeTab === 'library' && <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"><div className="lg:col-span-4 rounded-3xl bg-white border border-slate-200/80 p-6 shadow-[0_8px_30px_rgba(15,45,95,0.04)] space-y-4"><div className="flex items-center justify-between pb-2 border-b border-slate-100"><span className="text-xs font-black uppercase tracking-wider text-slate-800">Categories</span><span className="text-xs font-bold bg-blue-50 text-[#1676DD] px-2.5 py-0.5 rounded-full border border-blue-200/50">{categories.length} Tracks</span></div><div className="relative"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" /><input type="text" placeholder="Filter categories..." value={categorySearch} onChange={(event) => setCategorySearch(event.target.value)} className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500" /></div><div className="space-y-2 max-h-[620px] overflow-y-auto pr-1">{filteredCategories.map((category) => <button key={category.title} type="button" onClick={() => { setSelectedCategoryTitle(category.title); setModuleSearch(''); }} className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-left text-xs font-bold transition-all ${selectedCategory?.title === category.title ? 'bg-[#0B57A2] text-white shadow-md' : 'bg-slate-50 border border-slate-100 text-slate-700 hover:bg-slate-100'}`}><span className="truncate pr-2">{category.title}</span><span className={`px-2 py-0.5 rounded-full text-[11px] font-black shrink-0 ${selectedCategory?.title === category.title ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'}`}>{category.cards.length}</span></button>)}</div></div>
-          <div className="lg:col-span-8 rounded-3xl bg-white border border-slate-200/80 p-6 sm:p-8 shadow-[0_8px_30px_rgba(15,45,95,0.04)] space-y-6">{selectedCategory ? <><div className="space-y-1 border-b border-slate-100 pb-5"><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{selectedCategory.title}</h2><span className="px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1676DD] text-xs font-bold">{selectedCategory.cards.length} modules</span></div><p className="text-xs text-slate-500">Click any module to stream instructional video training and access prompt vaults.</p></div><div className="relative max-w-md"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" /><input type="text" placeholder="Search modules in this track..." value={moduleSearch} onChange={(event) => setModuleSearch(event.target.value)} className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500" /></div><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{filteredModules.map((card, index) => <div key={`${card.title}-${index}`} className="rounded-2xl border border-slate-200 bg-white hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between group overflow-hidden"><div className="relative h-28 bg-gradient-to-tr from-slate-900 via-slate-800 to-[#0B57A2] overflow-hidden">{thumbnailForCard(card, selectedCategory.title) && <img src={assetUrl(thumbnailForCard(card, selectedCategory.title))} alt="" className="absolute inset-0 w-full h-full object-cover opacity-45" />}<div className="relative z-10 h-full p-3 flex flex-col justify-between"><div className="flex items-center justify-between text-[10px] text-white font-bold uppercase tracking-wider"><span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md">MODULE {String(index + 1).padStart(2, '0')}</span><span className="text-blue-100">{card.type}</span></div><span className="text-xs font-black text-white uppercase tracking-tight line-clamp-2 drop-shadow-sm">{selectedCategory.title}</span></div></div><div className="p-4 flex-1 flex flex-col justify-between space-y-3"><div><span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#1676DD] uppercase tracking-wider"><Play className="w-2.5 h-2.5 fill-current" />{card.type}</span><h4 className="text-xs sm:text-sm font-bold text-slate-900 mt-1 line-clamp-2 leading-snug group-hover:text-[#1676DD] transition-colors">{card.title}</h4></div><button type="button" onClick={() => setActiveVideo({ card, category: selectedCategory.title })} className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-600 group-hover:text-[#1676DD] transition-colors w-full"><span>Watch Video</span><ExternalLink className="w-3.5 h-3.5 text-[#1676DD]" /></button></div></div>)}</div></> : <div className="text-center py-12 text-sm text-slate-500">No library modules are available.</div>}</div></div>}
-        {!loading && activeTab === 'live' && <div className="rounded-3xl bg-white border border-slate-200/80 p-6 sm:p-10 shadow-[0_8px_30px_rgba(15,45,95,0.04)] space-y-10"><div className="flex items-center justify-between border-b border-slate-100 pb-6"><div><span className="text-[11px] font-black uppercase tracking-wider text-[#1676DD]">Your Live Broadcast Schedule</span><h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">Live Classes</h2></div><div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-[#1676DD] flex items-center justify-center"><Radio className="w-6 h-6 animate-pulse" /></div></div><div className="space-y-4"><div className="flex items-center justify-between"><span className="text-xs font-black uppercase tracking-wider text-slate-800">Live and Upcoming Classes</span><span className="text-xs font-bold text-slate-400">{upcomingClasses.length} Classes</span></div>{upcomingClasses.length ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{upcomingClasses.map((liveClass) => renderClassCard(liveClass, false))}</div> : <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 text-xs text-slate-600 font-medium">No live interactive sessions are currently scheduled.</div>}</div><div className="space-y-4"><div className="flex items-center justify-between"><span className="text-xs font-black uppercase tracking-wider text-slate-800">Past Classes &amp; Studio Archives</span><span className="text-xs font-bold text-slate-400">{pastClasses.length} Classes</span></div>{pastClasses.length ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{pastClasses.map((liveClass) => renderClassCard(liveClass, true))}</div> : <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 text-xs text-slate-600 font-medium">No past classes are available.</div>}</div></div>}
+  return (
+    <PublicLayout>
+      <div className="min-h-screen bg-transparent text-slate-900 pt-36 sm:pt-40 md:pt-44 pb-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto space-y-8 relative z-10">
+          {/* Main Top Banner Card - Dark Sculptural Aesthetic */}
+          <div className="rounded-[32px] bg-gradient-to-br from-slate-950 via-[#09101D] to-[#041D14] border border-slate-800 p-8 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 text-white">
+            <div className="pointer-events-none absolute -right-16 -top-16 w-80 h-80 bg-emerald-500/15 rounded-full blur-[90px]" />
+            <div className="pointer-events-none absolute -left-16 -bottom-16 w-80 h-80 bg-teal-500/10 rounded-full blur-[90px]" />
+            <div className="space-y-4 max-w-2xl text-left relative z-10">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/80 text-emerald-300 text-xs font-bold uppercase tracking-wider shadow-md">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Creator Learning Portal</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                Your Digital <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300">Learning Library</span>
+              </h1>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                Stream actionable video masterclasses, unlock viral frameworks, and participate in instructor-led live demonstration classes.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-semibold text-slate-300">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm">
+                  <Layers className="w-3.5 h-3.5 text-emerald-400" />
+                  {categories.length} Tracks
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm">
+                  <Play className="w-3.5 h-3.5 text-[#00B67A] fill-[#00B67A]" />
+                  {categories.reduce((total, category) => total + category.cards.length, 0)} Modules
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm">
+                  <Radio className="w-3.5 h-3.5 text-[#00B67A] animate-pulse" />
+                  Live Classes
+                </span>
+              </div>
+            </div>
+            <div className="shrink-0 relative z-10">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 p-1 shadow-xl shadow-emerald-500/25">
+                <div className="w-full h-full bg-slate-950 rounded-[22px] flex items-center justify-center text-emerald-400">
+                  <GraduationCap className="w-12 h-12" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Selector */}
+          <div className="flex items-center gap-2 p-1.5 bg-slate-900 rounded-2xl border border-slate-800 shadow-md w-fit">
+            <button
+              type="button"
+              onClick={() => setActiveTab('library')}
+              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'library'
+                  ? 'bg-gradient-to-r from-emerald-500 to-[#00B67A] text-white shadow-md shadow-emerald-500/25'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Library Tracks</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('live')}
+              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'live'
+                  ? 'bg-gradient-to-r from-emerald-500 to-[#00B67A] text-white shadow-md shadow-emerald-500/25'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
+              <span>Live Studio Hub</span>
+            </button>
+          </div>
+
+          {error && (
+            <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-sm font-medium text-emerald-800">
+              {error}
+            </div>
+          )}
+
+          {loading && (
+            <div className="rounded-3xl bg-white border border-slate-200 p-10 text-center text-sm text-slate-500 shadow-sm">
+              Loading your learning content…
+            </div>
+          )}
+
+          {!loading && activeTab === 'library' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Categories List */}
+              <div className="lg:col-span-4 rounded-3xl bg-white border border-slate-200/90 p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">Categories</span>
+                  <span className="text-xs font-bold bg-emerald-50 text-[#00B67A] px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    {categories.length} Tracks
+                  </span>
+                </div>
+                <div className="relative">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Filter courses..."
+                    value={categorySearch}
+                    onChange={(e) => setCategorySearch(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A]"
+                  />
+                </div>
+                <div className="space-y-2 max-h-[620px] overflow-y-auto pr-1">
+                  {filteredCategories.map((category) => (
+                    <button
+                      key={category.title}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategoryTitle(category.title);
+                        setModuleSearch('');
+                      }}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-left text-xs font-bold transition-all cursor-pointer ${
+                        selectedCategory?.title === category.title
+                          ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
+                          : 'bg-slate-50 border border-slate-100 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                      }`}
+                    >
+                      <span className="truncate pr-2">{category.title}</span>
+                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-black shrink-0 ${
+                        selectedCategory?.title === category.title ? 'bg-white/20 text-white' : 'bg-slate-200/60 text-slate-600'
+                      }`}>
+                        {category.cards.length}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Modules Grid */}
+              <div className="lg:col-span-8 rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-8 shadow-sm space-y-6">
+                {selectedCategory ? (
+                  <>
+                    <div className="space-y-1 border-b border-slate-100 pb-5">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                          {selectedCategory.title}
+                        </h2>
+                        <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#00B67A] text-xs font-bold">
+                          {selectedCategory.cards.length} modules
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500">
+                        Select any module to stream high-definition framework lessons and access prompt templates.
+                      </p>
+                    </div>
+
+                    <div className="relative max-w-md">
+                      <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder="Search modules in this track..."
+                        value={moduleSearch}
+                        onChange={(e) => setModuleSearch(e.target.value)}
+                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A]"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                      {filteredModules.map((card, index) => (
+                        <div
+                          key={`${card.title}-${index}`}
+                          className="rounded-2xl border border-slate-200/90 bg-white hover:border-emerald-500/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden shadow-sm"
+                        >
+                          <div className="relative h-28 bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-950 overflow-hidden">
+                            {card.image && (
+                              <img src={assetUrl(card.image)} alt="" className="absolute inset-0 w-full h-full object-cover opacity-35" />
+                            )}
+                            <div className="relative z-10 h-full p-3 flex flex-col justify-between">
+                              <div className="flex items-center justify-between text-[10px] text-white font-bold uppercase tracking-wider">
+                                <span className="px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-300 backdrop-blur-md border border-emerald-500/30">
+                                  MODULE {String(index + 1).padStart(2, '0')}
+                                </span>
+                                <span className="text-emerald-400">{card.type}</span>
+                              </div>
+                              <span className="text-xs font-black text-white uppercase tracking-tight line-clamp-2 drop-shadow-sm">
+                                {selectedCategory.title}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                            <div>
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
+                                <Play className="w-2.5 h-2.5 fill-current" />
+                                {card.type}
+                              </span>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-900 mt-1 line-clamp-2 leading-snug group-hover:text-[#00B67A] transition-colors">
+                                {card.title}
+                              </h4>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setActiveVideo({ card, category: selectedCategory.title })}
+                              className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-600 group-hover:text-emerald-700 transition-colors w-full cursor-pointer"
+                            >
+                              <span>Watch Video</span>
+                              <ExternalLink className="w-3.5 h-3.5 text-emerald-600" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-12 text-sm text-slate-500">
+                    No library modules are available.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {!loading && activeTab === 'live' && (
+            <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-10 shadow-sm space-y-10">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-6">
+                <div>
+                  <span className="text-[11px] font-black uppercase tracking-wider text-[#00B67A]">
+                    Live Broadcast Schedule &amp; Archives
+                  </span>
+                  <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">Live Classes</h2>
+                </div>
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#00B67A] flex items-center justify-center">
+                  <Radio className="w-6 h-6 animate-pulse" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">
+                    Live and Upcoming Broadcasts
+                  </span>
+                  <span className="text-xs font-bold text-emerald-600">{upcomingClasses.length} Sessions</span>
+                </div>
+                {upcomingClasses.length ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {upcomingClasses.map((liveClass) => renderClassCard(liveClass, false))}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-xs text-slate-500 font-medium">
+                    No live interactive sessions are currently scheduled.
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">
+                    Recorded Studio Replays
+                  </span>
+                  <span className="text-xs font-bold text-slate-500">{pastClasses.length} Replays</span>
+                </div>
+                {pastClasses.length ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {pastClasses.map((liveClass) => renderClassCard(liveClass, true))}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-xs text-slate-500 font-medium">
+                    No past session recordings are archived.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-    {activeVideo && <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md"><div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl text-slate-800"><div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50"><div><span className="text-xs text-[#1676DD] font-bold uppercase tracking-wider">{activeVideo.category}</span><h3 className="text-lg font-black text-slate-900">{activeVideo.card.title}</h3></div><button type="button" onClick={() => setActiveVideo(null)} className="w-9 h-9 rounded-full bg-slate-200/80 hover:bg-slate-300 flex items-center justify-center text-slate-700"><X className="w-5 h-5" /></button></div><div className="relative aspect-video bg-slate-950"><video className="w-full h-full" controls autoPlay src={assetUrl(activeVideo.card.link)}>Your browser does not support video playback.</video></div><div className="p-5 bg-white flex items-center gap-2 text-xs text-slate-600 border-t border-slate-100"><CheckCircle2 className="w-4 h-4 text-emerald-600" />Secure member video stream</div></div></div>}
-  </PublicLayout>;
+
+      {activeVideo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+          <div className="relative w-full max-w-4xl bg-slate-900 border border-white/15 rounded-3xl overflow-hidden shadow-2xl text-white">
+            <div className="p-5 border-b border-white/10 flex items-center justify-between bg-slate-950/60">
+              <div>
+                <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider">{activeVideo.category}</span>
+                <h3 className="text-lg font-black text-white">{activeVideo.card.title}</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveVideo(null)}
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="relative aspect-video bg-slate-950 flex items-center justify-center">
+              {activeVideo.card.link && activeVideo.card.link !== '#' ? (
+                <video className="w-full h-full" controls autoPlay src={assetUrl(activeVideo.card.link)}>
+                  Your browser does not support video playback.
+                </video>
+              ) : (
+                <div className="text-center p-8 space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-[#00D084] mx-auto flex items-center justify-center">
+                    <Play className="w-8 h-8 fill-current ml-1" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white">Previewing: {activeVideo.card.title}</h4>
+                  <p className="text-xs text-slate-400 max-w-md mx-auto">
+                    Full video streams and downloadable prompts are unlocked for active members.
+                  </p>
+                </div>
+              )}
+            </div>
+            <div className="p-5 bg-slate-950/80 flex items-center justify-between text-xs text-slate-300 border-t border-white/10">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#00D084]" />
+                <span>Verified Member Stream • High Definition 1080p</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveVideo(null)}
+                className="px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </PublicLayout>
+  );
 };

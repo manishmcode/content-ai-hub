@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Target, Zap, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, Briefcase, CheckCircle2 } from 'lucide-react';
 
 interface PathStep {
   number: string;
@@ -15,44 +15,44 @@ interface PathStep {
 const pathSteps: PathStep[] = [
   {
     number: '01',
-    title: 'Niche & Blue Ocean Audit',
-    subtitle: 'Validate profitable markets & pain points',
-    description: 'Pinpoint underserved audiences, analyze competitor content voids, and benchmark monetization potential using our proprietary profit-scoring matrix.',
-    gradient: 'from-violet-500 via-indigo-600 to-cyan-500',
-    glowClass: 'shadow-[0_0_30px_rgba(139,92,246,0.45)] ring-4 ring-violet-500/30',
-    icon: <Target className="w-5 h-5 text-white" />,
+    title: 'Choose Your Course',
+    subtitle: 'Select a topic that aligns with your goals',
+    description: 'Explore the available video courses and select a learning topic that aligns with your personal interests, creative skills, and business goals.',
+    gradient: 'from-emerald-500 via-teal-500 to-[#00B67A]',
+    glowClass: 'shadow-[0_0_30px_rgba(0,182,122,0.45)] ring-4 ring-emerald-500/30',
+    icon: <GraduationCap className="w-5 h-5 text-white" />,
     milestones: [
-      'Blue ocean keyword & audience demand audit',
-      'Unique Value Proposition (UVP) positioning',
-      'Monetization & competitor gap scoring model',
+      'Browse comprehensive video blueprints & curricula',
+      'Select YouTube, Instagram, TikTok Shop, or Faceless AI',
+      'Identify actionable skills for immediate implementation',
     ],
   },
   {
     number: '02',
-    title: 'AI Production & Retention Sprints',
-    subtitle: 'Automate video creation & viral hooks',
-    description: 'Deploy end-to-end AI scriptwriting, voice synthesis, thumbnail CTR frameworks, and automated short-form video editing pipelines for maximum algorithmic watch time.',
-    gradient: 'from-indigo-600 via-violet-600 to-cyan-400',
-    glowClass: 'shadow-[0_0_30px_rgba(99,102,241,0.45)] ring-4 ring-indigo-500/30',
-    icon: <Zap className="w-5 h-5 text-white" />,
+    title: 'Learn at Your Own Pace',
+    subtitle: 'Work through lessons on your schedule',
+    description: 'Work through the available video lessons and learning materials at a pace that suits your schedule, on any desktop or mobile device.',
+    gradient: 'from-teal-500 via-emerald-600 to-cyan-500',
+    glowClass: 'shadow-[0_0_30px_rgba(13,148,136,0.45)] ring-4 ring-teal-500/30',
+    icon: <Briefcase className="w-5 h-5 text-white" />,
     milestones: [
-      'YouTube high-retention script templates',
-      'TikTok Shop UGC & product showcase hooks',
-      'Automated faceless video rendering pipeline',
+      'Self-paced on-demand HD video walkthroughs',
+      'Tested scripting templates & step-by-step frameworks',
+      'Weekly live instructor sessions & interactive Q&A',
     ],
   },
   {
     number: '03',
-    title: 'Scale & Multi-Stream Monetization',
-    subtitle: 'Sponsorships, TikTok Shop & digital sales',
-    description: 'Turn views into recurring profits. Scale automated DM funnels, close 5-figure brand sponsorships, and launch paid community subscriptions for long-term equity.',
-    gradient: 'from-slate-900 via-violet-950 to-slate-900',
-    glowClass: 'shadow-[0_0_30px_rgba(15,23,42,0.5)] ring-4 ring-violet-900/40',
-    icon: <TrendingUp className="w-5 h-5 text-white" />,
+    title: 'Put Knowledge Into Practice',
+    subtitle: 'Apply techniques to your everyday work',
+    description: 'Apply the ideas and techniques you learn to your everyday work, personal productivity, content creation, or online business projects.',
+    gradient: 'from-cyan-600 via-teal-600 to-emerald-600',
+    glowClass: 'shadow-[0_0_30px_rgba(6,182,212,0.45)] ring-4 ring-cyan-500/30',
+    icon: <CheckCircle2 className="w-5 h-5 text-white" />,
     milestones: [
-      'TikTok Shop seller & affiliate commission flywheels',
-      'Automated DM lead generation & digital products',
-      'Brand sponsorship media kit & pitch contract terms',
+      'Launch algorithmically optimized video channels',
+      'Deploy social commerce & affiliate monetization loops',
+      'Build repeatable digital media & creator revenue streams',
     ],
   },
 ];
@@ -60,23 +60,23 @@ const pathSteps: PathStep[] = [
 export const PathTimeline: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
 
-  // Caret position relative to the 3 step cards
+  // Caret position relative to the 3 step nodes
   const caretPositions = ['left-[16%]', 'left-1/2 -translate-x-1/2', 'left-[84%] -translate-x-full'];
 
   return (
-    <section id="path" className="py-24 md:py-32 bg-white relative overflow-hidden border-b border-slate-100">
+    <section id="how-it-works" className="py-24 md:py-32 bg-white relative overflow-hidden border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
           <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#00B67A] bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full inline-block">
-            STRUCTURED ROADMAP
+            HOW IT WORKS
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mt-3">
-            The <span className="text-[#00B67A]">Learning Path</span>
+            Three Simple Steps to <span className="text-[#00B67A]">Get Started</span>
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base mt-3">
-            A proven 3-phase journey engineered to turn creators into scalable, automated media businesses.
+          <p className="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
+            Choose a practical learning topic, move through the course at your own pace, and apply new ideas to your work.
           </p>
         </div>
 
@@ -151,7 +151,7 @@ export const PathTimeline: React.FC = () => {
                   {pathSteps[activeStep].title} Breakdown
                 </h4>
                 <p className="text-xs text-slate-500">
-                  Milestone criteria, mentor checkpoints, and expectations
+                  Action criteria, practical milestones, and learning expectations
                 </p>
               </div>
             </div>
@@ -196,3 +196,4 @@ export const PathTimeline: React.FC = () => {
     </section>
   );
 };
+export default PathTimeline;

@@ -20,6 +20,8 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [activeModalCourse, setActiveModalCourse] = useState<Course | null>(null);
 
+  const filteredCourses = COURSES_DATA;
+
   const toggleExpand = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedCardId(expandedCardId === id ? null : id);
@@ -55,11 +57,15 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
             </span>
           </h2>
 
+          <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            Six comprehensive video upgrade masterclasses engineered for the creator economy. From YouTube retention and viral Reels to automated TikTok Shop commerce and anonymous faceless channels.
+          </p>
+
         </div>
 
         {/* Course Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
-            {COURSES_DATA.slice(0, 3).map((course) => {
+            {filteredCourses.map((course) => {
               const isExpanded = expandedCardId === course.id;
 
               return (
@@ -76,7 +82,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                         <span>{course.category}</span>
                       </div>
 
-                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#00B67A] transition-colors mb-5">
+                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#00B67A] transition-colors mb-4">
                         {course.title}
                       </h3>
 
@@ -137,7 +143,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                 </div>
               );
             })}
-        </div>
+          </div>
 
         {/* Global Bottom Button matching Screenshot */}
         <div className="mt-14 text-center">

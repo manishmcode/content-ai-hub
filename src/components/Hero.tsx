@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight, Play, Zap } from 'lucide-react';
 const heroImage = '/assets/images/hero-student-mentor.webp';
+
 
 export const Hero: React.FC = () => {
   return (
@@ -51,7 +52,15 @@ export const Hero: React.FC = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
+              <Link
+                to="/#live-hub"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-white/5 border border-white/15 hover:border-emerald-400/40 text-white font-semibold text-sm backdrop-blur-md hover:bg-white/10 active:scale-95 transition-all duration-200"
+              >
+                <Play className="w-4 h-4 text-[#00D084] fill-[#00D084]" />
+                <span>Watch preview</span>
+              </Link>
             </div>
+    
 
           </div>
 
@@ -84,6 +93,7 @@ export const Hero: React.FC = () => {
               </div>
 
             </div>
+
 
           </div>
 
