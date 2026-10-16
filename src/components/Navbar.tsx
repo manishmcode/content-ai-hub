@@ -74,13 +74,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             to="/"
             className="flex items-center gap-2.5 font-extrabold tracking-tight text-xl group"
           >
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-all bg-[#00B67A] shadow-emerald-500/25 group-hover:shadow-emerald-500/40 group-hover:scale-105">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-all bg-gradient-to-tr from-[#00B67A] to-teal-400 shadow-emerald-500/25 group-hover:shadow-emerald-500/40 group-hover:scale-105">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex items-baseline font-black tracking-tight text-lg text-white">
               <span>Content</span>
-              <span className="text-[#00B67A]">AIHub</span>
-              <span className="text-[#00B67A] font-mono text-xs ml-0.5 font-bold">.net</span>
+              <span className="text-[#00B67A] ml-1">AI Hub</span>
             </div>
           </Link>
 

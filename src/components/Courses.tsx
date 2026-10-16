@@ -7,7 +7,6 @@ import {
   X,
   BookOpen, 
   ExternalLink, 
-  Play,
 } from 'lucide-react';
 import { COURSES_DATA, Course } from '../data/coursesData';
 
@@ -58,7 +57,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                   className="rounded-[1.8rem] transition-all duration-300 flex flex-col justify-between bg-white border border-slate-200 shadow-[0_12px_30px_rgba(15,23,42,0.07)] group overflow-hidden"
                 >
                   {/* Gradient video-card header */}
-                  <div className={`h-[183px] p-5 bg-gradient-to-br ${course.gradientBadge} text-white relative overflow-hidden`}>
+                  <div className={`h-[160px] p-5 bg-gradient-to-br ${course.gradientBadge} text-white relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/5" />
                     <div className="relative h-full flex flex-col">
                       <div className="flex items-center gap-2">
@@ -67,13 +66,8 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-3 mt-5">
-                        <div className="w-12 h-12 rounded-2xl bg-white/95 text-slate-900 flex items-center justify-center shrink-0 shadow-sm">
-                          <Play className="w-5 h-5 fill-current ml-0.5" />
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-xs font-black line-clamp-2">{course.title}</div>
-                        </div>
+                      <div className="mt-7">
+                        <div className="text-xl sm:text-2xl font-black leading-tight line-clamp-3">{course.title}</div>
                       </div>
                     </div>
                   </div>
