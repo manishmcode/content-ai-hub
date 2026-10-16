@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-script {
+  font-family: 'Caveat', cursive;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: #F4F6FB;
+    color: #1e293b;
+    overflow-x: hidden;
+  }
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-panel-dark {
+  background: rgba(17, 35, 64, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0B0E;
+}
+::-webkit-scrollbar-thumb {
+  background: #0066FF;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF5CA8;
+}
+
+/* Continuous Infinite Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+

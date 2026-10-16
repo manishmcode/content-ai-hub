@@ -1,0 +1,17 @@
+Options -MultiViews
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# Public API: https://contentaihub.net/content-aihub-api
+# Keep API requests out of the React SPA fallback. The web server / Node app
+# must serve this path directly.
+RewriteRule ^content-aihub-api(?:/|$) - [L]
+
+# Let Apache serve real files and directories normally.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# React Router client-side route fallback.
+RewriteRule ^ index.html [L]
