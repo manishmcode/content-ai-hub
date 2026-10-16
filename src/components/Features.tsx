@@ -6,31 +6,39 @@ interface FeatureCardData {
   icon: React.ReactNode;
   title: string;
   description: string;
-  gradientBadge: string;
   features: string[];
 }
 
 const featureCards: FeatureCardData[] = [
   {
     icon: <Cpu className="w-7 h-7 text-white" />,
-    title: 'AI Video Pipelines',
-    description: 'Generate high-retention scripts, viral hooks, and voiceovers with production-tested AI automation toolchains.',
-    gradientBadge: 'from-violet-600 to-indigo-600',
-    features: ['High-retention prompt frameworks', 'Automated caption & clip workflows', 'Faceless evergreen asset vaults'],
+    title: 'AI for Productivity',
+    description: 'Discover ways to use AI tools for task management, video scripting, content creation, and everyday automated workflows.',
+    features: [
+      'AI prompt & video scripting toolchains',
+      'Automated caption & clip workflows',
+      'Faceless evergreen content pipelines'
+    ],
   },
   {
     icon: <TrendingUp className="w-7 h-7 text-white" />,
-    title: 'Omnichannel Distribution',
-    description: 'Syndicate content across YouTube, TikTok Shop, and Instagram Reels with algorithmically optimized video formats.',
-    gradientBadge: 'from-violet-600 via-indigo-600 to-cyan-500',
-    features: ['TikTok Shop & affiliate sales loops', 'Cross-platform organic repurposing', 'Algorithmic retention scoring'],
+    title: 'Personal Productivity',
+    description: 'Build better routines, manage your time, reduce distractions, and accomplish more with a focused creator approach.',
+    features: [
+      'High-retention video frameworks',
+      'Disciplined creative batching systems',
+      'Cross-platform repurposing loops'
+    ],
   },
   {
     icon: <Sparkles className="w-7 h-7 text-white" />,
-    title: '1:1 Growth Strategy',
-    description: 'Get your thumbnails, scripts, and monetization funnels audited by experienced creators and marketing specialists.',
-    gradientBadge: 'from-cyan-600 to-emerald-500',
-    features: ['Weekly live video audits & reviews', 'Niche profit scoring models', 'High-ticket sponsor pitch decks'],
+    title: 'Work From Home',
+    description: 'Learn strategies for creating a productive home office, maintaining motivation, and managing remote creator businesses effectively.',
+    features: [
+      'TikTok Shop & YouTube commerce flywheels',
+      '5-Figure brand sponsorships & digital sales',
+      'Scalable remote creator income models'
+    ],
   },
 ];
 
@@ -53,14 +61,14 @@ export const Features: React.FC = () => {
             </span>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              Built for <br className="hidden sm:inline" />
+              Skills That Make Your <br className="hidden sm:inline" />
               <span className="text-[#00B67A]">
-                Real-World Mastery
+                Workday Better
               </span>
             </h2>
 
             <p className="text-slate-600 text-base leading-relaxed">
-              Step beyond static lectures. ContentAIHub.net equips you with production-grade AI frameworks, viral short-form hooks, TikTok Shop commerce, and faceless automation models.
+              Explore practical learning resources designed around everyday productivity, modern AI tools, and scalable video creator business development.
             </p>
 
             <div className="pt-2">
@@ -75,7 +83,7 @@ export const Features: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: 3 Feature Cards in Desktop Grid */}
+          {/* Right Column: 3 Feature Cards in Desktop Grid (Original Layout & Design) */}
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {featureCards.map((card, idx) => {
@@ -94,8 +102,8 @@ export const Features: React.FC = () => {
                   >
                     {/* Middle Card Accent Glow Badge */}
                     {isMiddle && (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#00B67A] text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md whitespace-nowrap">
-                        Most Popular Strategy
+                      <div className="hidden">
+                     
                       </div>
                     )}
 
@@ -149,3 +157,4 @@ export const Features: React.FC = () => {
     </section>
   );
 };
+export default Features;

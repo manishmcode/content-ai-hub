@@ -4,11 +4,10 @@ import {
   ArrowRight, 
   Sparkles, 
   CheckCircle2, 
-  X, 
+  X,
   BookOpen, 
   Play, 
   ExternalLink, 
-  Search, 
   ChevronDown, 
   ChevronUp,
   Clock,
@@ -22,34 +21,10 @@ interface CoursesProps {
 }
 
 export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [activeModalCourse, setActiveModalCourse] = useState<Course | null>(null);
 
-  const categories = [
-    { label: 'All Blueprints', value: 'All' },
-    { label: 'YouTube', value: 'YouTube' },
-    { label: 'Instagram', value: 'Instagram' },
-    { label: 'TikTok Shop', value: 'TikTok Shop' },
-    { label: 'Faceless AI', value: 'Faceless Marketing' },
-    { label: 'Creator Economy', value: 'Creator Economy' },
-    { label: 'Niche Strategy', value: 'Niche Strategy' },
-  ];
-
-  const filteredCourses = COURSES_DATA.filter((course) => {
-    const matchesCategory =
-      selectedCategory === 'All' ||
-      course.category.toLowerCase() === selectedCategory.toLowerCase();
-    const matchesSearch =
-      searchQuery.trim() === '' ||
-      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.category.toLowerCase().includes(searchQuery.toLowerCase());
-
-    return matchesCategory && matchesSearch;
-  });
+  const filteredCourses = COURSES_DATA;
 
   const toggleExpand = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -90,76 +65,10 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
             Six comprehensive video upgrade masterclasses engineered for the creator economy. From YouTube retention and viral Reels to automated TikTok Shop commerce and anonymous faceless channels.
           </p>
 
-          {/* Interactive Search & Filter Console */}
-          <div className="mt-8 max-w-2xl mx-auto bg-white p-2 sm:p-2.5 rounded-2xl border border-slate-200 shadow-md shadow-slate-200/50 flex flex-col sm:flex-row gap-2">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by skill, hook, platform, or keyword..."
-                className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-transparent border-0 focus:outline-none focus:ring-0"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                  aria-label="Clear search"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-slate-100 pt-2 sm:pt-0 sm:pl-3">
-              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full whitespace-nowrap border border-emerald-200/50">
-                {filteredCourses.length} of {COURSES_DATA.length} Available
-              </span>
-            </div>
-          </div>
-
-          {/* Category Filter Pills */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setSelectedCategory(cat.value)}
-                type="button"
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
-                  selectedCategory === cat.value
-                    ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25 scale-105'
-                    : 'bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200/80 shadow-2xs'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Course Cards Grid */}
-        {filteredCourses.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-lg mx-auto shadow-sm">
-            <div className="w-12 h-12 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center mx-auto mb-4">
-              <Search className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900 mb-1">No courses match your search</h3>
-            <p className="text-xs text-slate-500 mb-6">
-              Try adjusting your search terms or select "All Blueprints" to view all 6 video upgrades.
-            </p>
-            <button
-              onClick={() => {
-                setSelectedCategory('All');
-                setSearchQuery('');
-              }}
-              className="px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold transition shadow-sm"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
             {filteredCourses.map((course) => {
               const isExpanded = expandedCardId === course.id;
 
@@ -218,13 +127,9 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                         <span>{course.tagline}</span>
                       </div>
 
-                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#00B67A] transition-colors mb-3">
+                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#00B67A] transition-colors mb-4">
                         {course.title}
                       </h3>
-
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
-                        {course.shortDescription}
-                      </p>
 
                       {/* Key Outcomes */}
                       <div className="space-y-2 mb-4">
@@ -292,7 +197,6 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
               );
             })}
           </div>
-        )}
 
         {/* Global Bottom Button matching Screenshot */}
         <div className="mt-14 text-center">
