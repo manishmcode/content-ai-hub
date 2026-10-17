@@ -44,7 +44,7 @@ const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
 }));
 
 export const LibraryPage: React.FC = () => {
-  const { token } = useAuth();
+  const { token, apiFetch } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'live'>('library');
   const [categorySearch, setCategorySearch] = useState('');
   const [moduleSearch, setModuleSearch] = useState('');
@@ -63,8 +63,8 @@ export const LibraryPage: React.FC = () => {
         setError('');
         const headers = { Authorization: `Bearer ${token}` };
         const [libraryResponse, classesResponse] = await Promise.all([
-          fetch(API_ENDPOINTS.library, { headers, signal: controller.signal }).catch(() => null),
-          fetch(API_ENDPOINTS.classes, { headers, signal: controller.signal }).catch(() => null),
+          apiFetch(API_ENDPOINTS.library, { headers, signal: controller.signal }).catch(() => null),
+          apiFetch(API_ENDPOINTS.classes, { headers, signal: controller.signal }).catch(() => null),
         ]);
         if (libraryResponse && libraryResponse.ok) {
           const libraryPayload: ApiResponse<LibraryCategory[]> = await libraryResponse.json();
@@ -87,7 +87,7 @@ export const LibraryPage: React.FC = () => {
     };
     if (token) void loadContent();
     return () => controller.abort();
-  }, [token]);
+  }, [token, apiFetch]);
 
   const filteredCategories = useMemo(() => categories.filter((category) => category.title.toLowerCase().includes(categorySearch.toLowerCase())), [categories, categorySearch]);
   const selectedCategory = categories.find((category) => category.title === selectedCategoryTitle) || categories[0];
@@ -98,7 +98,7 @@ export const LibraryPage: React.FC = () => {
 
   const joinClass = async (liveClass: LiveClass) => {
     try {
-      const response = await fetch(`${API_ENDPOINTS.classes}/${liveClass.id}/join`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+      const response = await apiFetch(`${API_ENDPOINTS.classes}/${liveClass.id}/join`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
       const payload: ApiResponse<{ join_path: string }> = await response.json();
       if (!response.ok || !payload.success || !payload.data?.join_path) throw new Error(payload.message || 'Unable to open this class.');
       window.open(`${API_BASE_URL}${payload.data.join_path}`, '_blank', 'noopener,noreferrer');

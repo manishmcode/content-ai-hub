@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { API_ENDPOINTS } from '../config/api';
+import { clearSession, fetchWithSession } from './session';
 
 export interface AuthUser {
   id: number;
@@ -43,6 +44,7 @@ interface AuthContextValue {
   hasActivePlan: boolean | null;
   authenticate: (token: string, user: AuthUser) => void;
   logout: () => void;
+  apiFetch: (url: string, options?: RequestInit) => Promise<Response>;
   getDashboard: () => Promise<DashboardData>;
   updateProfile: (profile: { firstname: string; lastname: string; display_name: string }) => Promise<void>;
   changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
@@ -84,34 +86,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    setAssetAuthCookie('', -1);
+    clearSession();
     setToken(null);
     setUser(null);
     setHasActivePlan(null);
   }, []);
 
   const handleExpiredSession = useCallback(() => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    setAssetAuthCookie('', -1);
-    setToken(null);
-    setUser(null);
-    setHasActivePlan(null);
-    window.location.replace('/logout');
-  }, []);
+    logout();
+    window.location.replace('/login');
+  }, [logout]);
+
+  const apiFetch = useCallback((url: string, options: RequestInit = {}) => (
+    fetchWithSession(url, options, token, handleExpiredSession)
+  ), [token, handleExpiredSession]);
 
   const getDashboard = useCallback(async () => {
     if (!token) throw new Error('Please sign in to view your account.');
 
-    const response = await fetch(API_ENDPOINTS.dashboard, {
+    const response = await apiFetch(API_ENDPOINTS.dashboard, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (response.status === 401) {
-      handleExpiredSession();
-      throw new Error('Your session has expired. Please sign in again.');
-    }
     const payload = await response.json();
     if (!response.ok || !payload.success) {
       throw new Error(payload.message || 'Unable to load account information.');
@@ -119,11 +114,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const dashboard = payload.data as DashboardData;
     setHasActivePlan(dashboard.subscriptions.some((subscription) => subscription.status.toLowerCase() === 'active'));
     return dashboard;
-  }, [token, handleExpiredSession]);
+  }, [token, apiFetch]);
 
   const requestWithAuth = useCallback(async (url: string, method: 'POST' | 'PUT', body: Record<string, string>) => {
     if (!token) throw new Error('Please sign in to continue.');
-    const response = await fetch(url, {
+    const response = await apiFetch(url, {
       method,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -131,13 +126,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       },
       body: JSON.stringify(body),
     });
-    if (response.status === 401) {
-      handleExpiredSession();
-      throw new Error('Your session has expired. Please sign in again.');
-    }
     const payload = await response.json();
     if (!response.ok || !payload.success) throw new Error(payload.message || 'Request could not be completed.');
-  }, [token, handleExpiredSession]);
+  }, [token, apiFetch]);
 
   const updateProfile = useCallback(async (profile: { firstname: string; lastname: string; display_name: string }) => {
     await requestWithAuth(API_ENDPOINTS.profile, 'PUT', profile);
@@ -159,7 +150,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     getDashboard().catch(() => setHasActivePlan(false));
   }, [token, getDashboard]);
 
-  const value = useMemo(() => ({ token, user, isAuthenticated: Boolean(token), hasActivePlan, authenticate, logout, getDashboard, updateProfile, changePassword }), [token, user, hasActivePlan, authenticate, logout, getDashboard, updateProfile, changePassword]);
+  const value = useMemo(() => ({ token, user, isAuthenticated: Boolean(token), hasActivePlan, authenticate, logout, apiFetch, getDashboard, updateProfile, changePassword }), [token, user, hasActivePlan, authenticate, logout, apiFetch, getDashboard, updateProfile, changePassword]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

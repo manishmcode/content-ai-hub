@@ -599,7 +599,7 @@ export const MyAccountPage: React.FC = () => {
 const AdminAccountPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, token, logout, changePassword } = useAuth();
+  const { user, token, logout, changePassword, apiFetch } = useAuth();
   const [tab, setTab] = useState<'profile' | 'classes'>(() => new URLSearchParams(location.search).get('tab') === 'classes' ? 'classes' : 'profile');
   const [classes, setClasses] = useState<AdminLiveClass[]>([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
@@ -614,7 +614,7 @@ const AdminAccountPage: React.FC = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
 
   const request = async (url: string, options: RequestInit = {}) => {
-    const response = await fetch(url, {
+    const response = await apiFetch(url, {
       ...options,
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', ...options.headers },
     });

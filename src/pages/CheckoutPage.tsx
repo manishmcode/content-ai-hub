@@ -56,7 +56,7 @@ const COUNTRIES = [
 ];
 
 export const CheckoutPage: React.FC = () => {
-  const { token, getDashboard } = useAuth();
+  const { token, getDashboard, apiFetch } = useAuth();
   const planId = Number(sessionStorage.getItem('contentaihub_checkout_plan_id')) || 2;
   const [plan, setPlan] = useState<Plan | null>(DEFAULT_PLANS.find(p => p.id === planId) || DEFAULT_PLANS[1]);
   const [submitting, setSubmitting] = useState(false);
@@ -135,7 +135,7 @@ export const CheckoutPage: React.FC = () => {
     setSubmitting(true);
     setError('');
     try {
-      const response = await fetch(API_ENDPOINTS.createPaymentSession, {
+      const response = await apiFetch(API_ENDPOINTS.createPaymentSession, {
         method: 'POST',
         headers: {
           Authorization: token ? `Bearer ${token}` : '',
