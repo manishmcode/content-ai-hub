@@ -20,6 +20,8 @@ interface ApiResponse<T> {
   data?: T;
 }
 
+const CHECKOUT_ENABLED = false;
+
 const formatPrice = (price: string, currency: string) =>
   new Intl.NumberFormat(undefined, {
     style: 'currency',
@@ -122,6 +124,7 @@ export const CheckoutPage: React.FC = () => {
 
   const submitCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!CHECKOUT_ENABLED) return;
     if (!plan) return;
 
     if (!form.agree_terms) {
@@ -484,8 +487,8 @@ export const CheckoutPage: React.FC = () => {
                   {/* Complete Order Button */}
                   <button
                     type="submit"
-                    disabled={submitting}
-                    className="w-full py-4 rounded-full font-black text-xs uppercase tracking-wider bg-slate-900 hover:bg-slate-800 text-white shadow-lg active:scale-95 transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                    disabled={!CHECKOUT_ENABLED || submitting}
+                    className="w-full py-4 rounded-full font-black text-xs uppercase tracking-wider bg-slate-900 hover:bg-slate-800 text-white shadow-lg active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     <span>{submitting ? 'Processing secure order…' : 'Complete secure order'}</span>
                   </button>
