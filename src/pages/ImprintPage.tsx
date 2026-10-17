@@ -155,22 +155,7 @@ export const ImprintPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Consumer Dispute Resolution */}
-            <div className="space-y-3 pt-2">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Scale className="w-5 h-5 text-[#00B67A]" />
-                Online Dispute Resolution (ODR)
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                The European Commission provides an online dispute resolution platform (ODR) for consumer matters, accessible at:{' '}
-                <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-[#00B67A] font-bold hover:underline">
-                  https://ec.europa.eu/consumers/odr
-                </a>.
-              </p>
-              <p className="text-xs text-slate-500">
-                We are neither obligated nor committed to participate in dispute resolution proceedings before a consumer arbitration entity, prioritizing direct customer support resolution via {COMPANY.email}.
-              </p>
-            </div>
+      
 
             <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
               <span>© {new Date().getFullYear()} ContentAIHub.net — All Rights Reserved.</span>
