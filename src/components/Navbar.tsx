@@ -149,15 +149,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 Log In
               </Link>
             )}
-            {!isAdmin && !hasActivePlan && (
-              <Link
-                to="/pricing"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white text-xs font-bold shadow-[0_4px_15px_rgba(0,182,122,0.35)] active:scale-95 transition-all"
-              >
-                <Sparkles className="w-3 h-3" />
-                <span>Get Access</span>
-              </Link>
-            )}
           </div>
 
           {/* Mobile Hamburger Button */}

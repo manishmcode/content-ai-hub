@@ -21,24 +21,10 @@ export const MastercardIcon: React.FC<{ className?: string }> = ({ className = '
 );
 
 export const SepaIcon: React.FC<{ className?: string }> = ({ className = 'h-3.5 w-auto' }) => (
-  <svg className={className} viewBox="0 0 52 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <text
-      x="0"
-      y="13"
-      fill="#0B57A2"
-      fontFamily="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-      fontWeight="900"
-      fontSize="14"
-      letterSpacing="0.8"
-    >
-      SEPA
-    </text>
-    <path
-      d="M40 3C45 3 49 6.5 49 11.5"
-      stroke="#00B67A"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
+  <svg className={className} viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SEPA">
+    <text x="1" y="13" fill="#143D91" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="15">S</text>
+    <text x="11" y="13" fill="#FFD500" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="15">€</text>
+    <text x="22" y="13" fill="#143D91" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="15" letterSpacing="-0.5">PA</text>
   </svg>
 );
 

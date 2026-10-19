@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { COMPANY } from '../config/company';
-import { VisaIcon, MastercardIcon, SepaIcon } from './common/PaymentIcons';
+import { MastercardIcon, SepaIcon, VisaIcon } from './common/PaymentIcons';
 
 export const Footer: React.FC = () => {
   const { pathname } = useLocation();

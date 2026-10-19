@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
-import { ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Mail, User, CreditCard } from 'lucide-react';
+import { ArrowRight, ArrowLeft, RefreshCw, Mail, User, CreditCard } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
 export const UnsubscribePage: React.FC = () => {
@@ -10,13 +10,15 @@ export const UnsubscribePage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [ibanDigits, setIbanDigits] = useState('');
   const [confirmed, setConfirmed] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading'>('idle');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!firstName || !lastName || !email || !ibanDigits || !confirmed) return;
     setError('');
+    setSuccessMessage('');
     setStatus('loading');
     try {
       const response = await fetch(API_ENDPOINTS.unsubscribe, {
@@ -32,7 +34,13 @@ export const UnsubscribePage: React.FC = () => {
       });
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error(payload.message || 'Unable to cancel the subscription.');
-      setStatus('success');
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setIbanDigits('');
+      setConfirmed(false);
+      setSuccessMessage('Email sent successfully.');
+      setStatus('idle');
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Unable to cancel the subscription.');
       setStatus('idle');
@@ -71,28 +79,12 @@ export const UnsubscribePage: React.FC = () => {
             {/* Form Body */}
             <div className="p-7 sm:p-9 space-y-6">
               
-              {status === 'success' ? (
-                <div className="text-center py-6 space-y-5">
-                  <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-[#00B67A] flex items-center justify-center mx-auto shadow-sm">
-                    <CheckCircle2 className="w-8 h-8" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-black text-slate-900">Subscription Cancelled</h3>
-                    <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-                      Auto-renewal has been terminated for <strong className="text-slate-900">{email}</strong>. You will retain access until the end of your current paid period.
-                    </p>
-                  </div>
-                  <div className="pt-3">
-                    <Link
-                      to="/"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#00B67A] text-white text-xs font-black uppercase tracking-wider hover:bg-[#00A36D] transition-all shadow-md active:scale-95"
-                    >
-                      <span>Return to Homepage</span>
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                  {successMessage && (
+                    <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
+                      {successMessage}
+                    </div>
+                  )}
                   {error && (
                     <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
                       {error}
@@ -225,8 +217,7 @@ export const UnsubscribePage: React.FC = () => {
                     </div>
                   </div>
 
-                </form>
-              )}
+              </form>
 
             </div>
 
