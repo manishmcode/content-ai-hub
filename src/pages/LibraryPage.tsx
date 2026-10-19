@@ -12,22 +12,24 @@ interface ApiResponse<T> { success: boolean; message?: string; data?: T; }
 
 const apiOrigin = new URL(API_BASE_URL, window.location.origin).origin;
 const assetUrl = (path: string) => path.startsWith('http') ? path : `${apiOrigin}${path}`;
-const formatClassDate = (date: string, timezone: string) => {
+// Class dates are stored as UTC instants. Each member sees the equivalent time
+// in their browser's local timezone, instead of the timezone chosen by the host.
+const formatClassDate = (date: string) => {
   try {
-    return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short', timeZone: timezone }).format(new Date(date));
+    return new Intl.DateTimeFormat(undefined, { dateStyle: 'long', timeStyle: 'short' }).format(new Date(date));
   } catch {
     return date;
   }
 };
 
-const formatGmtOffset = (date: string, timezone: string) => {
+const formatLocalGmtOffset = (date: string) => {
   try {
-    const offset = new Intl.DateTimeFormat('en-US', { timeZone: timezone, timeZoneName: 'shortOffset' })
+    const offset = new Intl.DateTimeFormat('en-US', { timeZoneName: 'shortOffset' })
       .formatToParts(new Date(date))
       .find((part) => part.type === 'timeZoneName')?.value;
     return offset?.replace(/GMT([+-])0(\d)/, 'GMT$1$2') || 'GMT';
   } catch {
-    return timezone;
+    return 'GMT';
   }
 };
 
@@ -136,11 +138,11 @@ export const LibraryPage: React.FC = () => {
         <div className="space-y-1.5 text-xs text-slate-600 pt-1">
           <div className="flex items-center gap-2">
             <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-            <span>{formatClassDate(liveClass.class_date, liveClass.timezone)} · {formatGmtOffset(liveClass.class_date, liveClass.timezone)}</span>
+            <span>{formatClassDate(liveClass.class_date)} · {formatLocalGmtOffset(liveClass.class_date)}</span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Ends {formatClassDate(liveClass.end_date, liveClass.timezone)}</span>
+            <span>Ends {formatClassDate(liveClass.end_date)} · {formatLocalGmtOffset(liveClass.end_date)}</span>
           </div>
         </div>
       </div>
@@ -151,7 +153,7 @@ export const LibraryPage: React.FC = () => {
           </a>
         ) : (
           <div className="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-500 border border-slate-200">
-            Archived stream • Session ended at {formatClassDate(liveClass.end_date, liveClass.timezone)}.
+            Archived stream • Session ended at {formatClassDate(liveClass.end_date)}.
           </div>
         )
       ) : (
