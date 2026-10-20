@@ -26,14 +26,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
   const navLinks = isAdmin
     ? [
-        { name: 'Profile', path: '/my-account', isHash: false },
-        { name: 'Live Classes', path: '/my-account?tab=classes', isHash: false },
+        { name: 'Profile', path: '/my-account/', isHash: false },
+        { name: 'Live Classes', path: '/my-account/?tab=classes', isHash: false },
       ]
     : [
         { name: 'Home', path: '/', isHash: false },
-        { name: 'Library', path: '/library', isHash: false },
-        ...(!hasActivePlan ? [{ name: 'Pricing', path: '/pricing', isHash: false }] : []),
-        { name: 'Unsubscribe', path: '/unsubscribe', isHash: false },
+        { name: 'Library', path: '/library/', isHash: false },
+        ...(!hasActivePlan ? [{ name: 'Pricing', path: '/pricing/', isHash: false }] : []),
+        { name: 'Unsubscribe', path: '/unsubscribe/', isHash: false },
       ];
 
   const handleNavClick = (link: { name: string; path: string; isHash?: boolean }) => {
@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
-    if (isAdmin && path === '/my-account') return location.pathname === '/my-account' && new URLSearchParams(location.search).get('tab') !== 'classes';
+    if (isAdmin && path === '/my-account/') return location.pathname === '/my-account/' && new URLSearchParams(location.search).get('tab') !== 'classes';
     if (path.includes('?')) return `${location.pathname}${location.search}` === path;
     return location.pathname.startsWith(path);
   };
@@ -136,14 +136,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             </div>
             {isAuthenticated ? (
               <Link
-                to="/my-account"
+                to="/my-account/"
                 className="text-xs font-bold px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 transition-colors"
               >
                 {isAdmin ? 'Profile' : 'My Account'}
               </Link>
             ) : (
               <Link
-                to="/login"
+                to="/login/"
                 className="text-xs font-bold px-4 py-2 rounded-full border border-white/10 bg-white/5 text-slate-200 hover:text-white hover:bg-white/10 hover:border-emerald-500/30 transition-all"
               >
                 Log In
@@ -210,7 +210,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             </div>
             {isAuthenticated ? (
               <Link
-                to="/my-account"
+                to="/my-account/"
                 onClick={() => setIsOpen(false)}
                 className="w-full text-center py-2.5 text-sm font-medium rounded-lg border text-slate-200 hover:text-white hover:bg-white/5 border-white/10"
               >
@@ -218,7 +218,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
               </Link>
             ) : (
               <Link
-                to="/login"
+                to="/login/"
                 onClick={() => setIsOpen(false)}
                 className="w-full text-center py-2.5 text-sm font-medium rounded-lg border text-slate-200 hover:text-white hover:bg-white/5 border-white/10"
               >
@@ -226,7 +226,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
               </Link>
             )}
             <Link
-              to="/library"
+              to="/library/"
               onClick={() => setIsOpen(false)}
               className="w-full text-center py-2.5 text-sm font-bold text-white rounded-full shadow-lg bg-[#00B67A] shadow-emerald-500/25"
             >

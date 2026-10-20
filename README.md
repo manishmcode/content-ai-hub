@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+﻿# ContentAIHub frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React + TypeScript, built with Create React App and deployed to Apache.
 
-## Available Scripts
+## Folder structure
 
-In the project directory, you can run:
+- `src/App.tsx`: page routes and compatibility aliases.
+- `src/pages/`: page components.
+- `src/components/`: shared UI and canonical URL updates during navigation.
+- `src/auth/`: session handling and protected routes.
+- `src/config/`: API, company, and canonical site configuration.
+- `src/data/`: course and live class content.
+- `public/`: static files, robots.txt, and Apache `.htaccess`.
+- `scripts/`: production canonical HTML/sitemap generation and validation.
+- `build/`: generated deployment files (ignored by Git).
 
-### `npm start`
+## Development and validation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```sh
+npm install
+npm start
+npm test -- --watchAll=false --runInBand
+npm run build
+npm run verify:seo
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+On Windows PowerShell, use `npm.cmd` if the system `npm.ps1` wrapper fails.
 
-### `npm test`
+## Canonical URLs and deployment
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Page URLs use HTTPS, the non-www host, and a trailing slash, for example
+`https://contentaihub.net/pricing/`. API endpoints, signed asset URLs, and static
+files retain their path formats.
 
-### `npm run build`
+`src/config/site.json` lists page paths and public sitemap entries. The postbuild
+script generates a separate `index.html` with the correct canonical for each
+page, plus `sitemap.xml` and `404.html`. Account, checkout, logout, and protected
+library pages are excluded from the sitemap. The React canonical component
+updates the canonical on client navigation and omits query strings and fragments.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Upload the **entire contents of `build/`**, including hidden `.htaccess`, page
+folders, and `404.html`, to the Apache document root. Keep the existing backend
+application in place. Do not deploy just the homepage and static assets.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Apache must permit these `.htaccess` directives and load `mod_rewrite`. The rules
+permanently redirect HTTP, www, repeated slashes, slashless page URLs, explicit
+page index files, and legacy aliases. Unknown paths retain HTTP 404 responses.
+The rewrite syntax follows the [Apache mod_rewrite documentation](https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If a proxy/CDN terminates TLS, configure the origin's HTTPS detection with the
+hosting provider before enabling redirects; these rules use Apache's HTTPS
+variable. Both domain names must resolve to the host and have valid certificates
+so HTTPS requests to www can reach the redirect.
 
-### `npm run eject`
+After deploying, check response headers without following redirects:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```sh
+curl -I http://contentaihub.net/
+curl -I https://www.contentaihub.net/pricing
+curl --path-as-is -I https://www.contentaihub.net//
+curl -I https://contentaihub.net/pricing
+curl -I https://contentaihub.net/pricing/
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The first four must return 301 with canonical Location destinations; the final
+URL must return 200. Also check the page source canonical, `/sitemap.xml`, a static
+asset, backend endpoints, and an unknown URL returning 404.

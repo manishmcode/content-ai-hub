@@ -73,7 +73,7 @@ export const Features: React.FC = () => {
 
             <div className="pt-2">
               <Link
-                to="/library"
+                to="/library/"
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-sm shadow-[0_12px_24px_-4px_rgba(0,182,122,0.4)] active:scale-95 transition-all duration-200 group"
               >
                 <Zap className="w-4 h-4 text-emerald-100 fill-emerald-100" />

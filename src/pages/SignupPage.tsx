@@ -45,7 +45,7 @@ export const SignupPage: React.FC = () => {
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error(payload.message || 'Unable to create your account.');
       authenticate(payload.data.token, payload.data.user);
-      navigate('/library', { replace: true });
+      navigate('/library/', { replace: true });
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Unable to create your account.');
     } finally {
@@ -149,11 +149,11 @@ export const SignupPage: React.FC = () => {
                   />
                   <span>
                     I agree to the{' '}
-                    <Link to="/terms-conditions" className="text-emerald-600 font-bold hover:underline">
+                    <Link to="/terms-conditions/" className="text-emerald-600 font-bold hover:underline">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link to="/privacy-policy" className="text-emerald-600 font-bold hover:underline">
+                    <Link to="/privacy-policy/" className="text-emerald-600 font-bold hover:underline">
                       Privacy Policy
                     </Link>.
                   </span>
@@ -178,7 +178,7 @@ export const SignupPage: React.FC = () => {
 
             <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500 relative z-10">
               <span>Already have an account? </span>
-              <Link to="/login" className="text-emerald-600 font-bold hover:underline">
+              <Link to="/login/" className="text-emerald-600 font-bold hover:underline">
                 Sign In
               </Link>
             </div>

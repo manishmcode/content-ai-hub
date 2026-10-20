@@ -4,5 +4,5 @@ import { useAuth } from './AuthContext';
 
 export const RequireAuth: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/pricing" replace />;
+  return isAuthenticated ? children : <Navigate to="/pricing/" replace />;
 };

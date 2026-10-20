@@ -7,5 +7,5 @@ export const RequirePlan: React.FC<{ children: React.ReactElement }> = ({ childr
 
   // Wait for the dashboard membership request before choosing a destination.
   if (hasActivePlan === null) return null;
-  return hasActivePlan ? children : <Navigate to="/pricing" replace />;
+  return hasActivePlan ? children : <Navigate to="/pricing/" replace />;
 };

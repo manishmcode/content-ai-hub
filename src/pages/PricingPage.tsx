@@ -86,7 +86,7 @@ export const PricingPage: React.FC = () => {
 
   const handleSelectPlan = (planId: number) => {
     sessionStorage.setItem('contentaihub_checkout_plan_id', String(planId));
-    navigate('/checkout');
+    navigate('/checkout/');
   };
 
   return (

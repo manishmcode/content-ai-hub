@@ -81,9 +81,9 @@ export const PrivacyPolicyPage: React.FC = () => {
             {/* Quick Navigation Between Legal Pages */}
             <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
               <Link
-                to="/terms-conditions"
+                to="/terms-conditions/"
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all shadow-xs ${
-                  pathname === '/terms-conditions'
+                  pathname === '/terms-conditions/'
                     ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
                 }`}
@@ -91,9 +91,9 @@ export const PrivacyPolicyPage: React.FC = () => {
                 Terms &amp; Conditions
               </Link>
               <Link
-                to="/privacy-policy"
+                to="/privacy-policy/"
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all shadow-xs ${
-                  pathname === '/privacy-policy'
+                  pathname === '/privacy-policy/'
                     ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
                 }`}
@@ -101,9 +101,9 @@ export const PrivacyPolicyPage: React.FC = () => {
                 Privacy Policy
               </Link>
               <Link
-                to="/imprint"
+                to="/imprint/"
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all shadow-xs ${
-                  pathname === '/imprint'
+                  pathname === '/imprint/'
                     ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
                 }`}
@@ -147,7 +147,7 @@ export const PrivacyPolicyPage: React.FC = () => {
             {/* Footer Navigation & Rights Notice */}
             <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
               <span>To exercise any of your privacy rights, email: <a href={`mailto:${COMPANY.email}`} className="font-bold text-slate-800 hover:text-[#00B67A]">{COMPANY.email}</a></span>
-              <Link to="/terms-conditions" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
+              <Link to="/terms-conditions/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
                 <span>View Terms &amp; Conditions</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>

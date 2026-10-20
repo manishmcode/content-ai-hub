@@ -208,7 +208,7 @@ export const UnsubscribePage: React.FC = () => {
 
                     <div className="pt-1">
                       <Link
-                        to="/library"
+                        to="/library/"
                         className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#00B67A] transition-colors"
                       >
                         <ArrowLeft className="w-3.5 h-3.5" />

@@ -94,7 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const handleExpiredSession = useCallback(() => {
     logout();
-    window.location.replace('/login');
+    window.location.replace('/login/');
   }, [logout]);
 
   const apiFetch = useCallback((url: string, options: RequestInit = {}) => (

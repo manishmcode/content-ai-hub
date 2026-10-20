@@ -40,7 +40,7 @@ export const LoginPage: React.FC = () => {
       if (!response.ok || !payload.success) throw new Error(payload.message || 'Unable to sign in.');
       authenticate(payload.data.token, payload.data.user);
       const nextPath = new URLSearchParams(location.search).get('next');
-      const defaultPath = payload.data.user?.is_admin ? '/my-account' : '/library';
+      const defaultPath = payload.data.user?.is_admin ? '/my-account/' : '/library/';
       navigate(nextPath?.startsWith('/') && !nextPath.startsWith('//') ? nextPath : defaultPath, { replace: true });
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Unable to sign in.');
@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
             
             <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500 relative z-10">
               <span>Don't have an account yet? </span>
-              <Link to="/signup" className="text-emerald-600 font-bold hover:underline">
+              <Link to="/signup/" className="text-emerald-600 font-bold hover:underline">
                 Create an Account
               </Link>
             </div>

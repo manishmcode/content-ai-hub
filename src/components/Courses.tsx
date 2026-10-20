@@ -103,7 +103,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
         {/* Global Bottom Button matching Screenshot */}
         <div className="mt-14 text-center">
           <Link
-            to="/library"
+            to="/library/"
             className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-emerald-500/25 active:scale-95 transition-all"
           >
             <span>Explore Courses</span>

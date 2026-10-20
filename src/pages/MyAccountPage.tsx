@@ -192,13 +192,13 @@ export const MyAccountPage: React.FC = () => {
             {/* Quick Actions */}
             <div className="flex items-center gap-3 relative z-10">
               <button
-                onClick={() => navigate('/library')}
+                onClick={() => navigate('/library/')}
                 className="px-5 py-2.5 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-xs shadow-md shadow-emerald-500/25 transition-all cursor-pointer"
               >
                 Go to Library
               </button>
               <button
-                onClick={() => { logout(); navigate('/login'); }}
+                onClick={() => { logout(); navigate('/login/'); }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 text-rose-300 text-xs font-bold transition-all cursor-pointer backdrop-blur-sm"
               >
                 <LogOut className="w-3.5 h-3.5" />
@@ -684,7 +684,7 @@ const AdminAccountPage: React.FC = () => {
   return <PublicLayout><div className="min-h-screen pt-36 sm:pt-40 pb-24 px-4 sm:px-6 text-slate-900"><div className="max-w-6xl mx-auto space-y-6">
     <div className="rounded-[32px] bg-gradient-to-br from-slate-950 to-emerald-950 p-7 sm:p-8 text-white flex flex-col sm:flex-row gap-5 justify-between sm:items-center">
       <div><p className="text-emerald-300 text-xs font-black uppercase tracking-wider">Administrator</p><h1 className="text-2xl font-black mt-1">{user?.name}</h1><p className="text-sm text-slate-300 mt-1">Manage your profile and live classes.</p></div>
-      <button onClick={() => { logout(); navigate('/login'); }} className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold">Log Out</button>
+      <button onClick={() => { logout(); navigate('/login/'); }} className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold">Log Out</button>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
       <aside className="md:col-span-3 rounded-3xl bg-white border border-slate-200 p-3 space-y-1">

@@ -38,7 +38,7 @@ export const NotFoundPage: React.FC = () => {
               <span>Return to Homepage</span>
             </Link>
             <Link
-              to="/library"
+              to="/library/"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-black text-xs uppercase tracking-wider border border-slate-800 active:scale-95 transition-all shadow-md"
             >
               <BookOpen className="w-4 h-4 text-[#00B67A]" />

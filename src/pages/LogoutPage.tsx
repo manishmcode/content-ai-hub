@@ -8,7 +8,7 @@ export const LogoutPage: React.FC = () => {
 
   useEffect(() => {
     logout();
-    navigate('/login', { replace: true });
+    navigate('/login/', { replace: true });
   }, [logout, navigate]);
 
   return null;

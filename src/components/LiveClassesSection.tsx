@@ -145,7 +145,7 @@ export const LiveClassesSection: React.FC = () => {
             {/* CTA Action */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto justify-end">
               <Link
-                to="/library"
+                to="/library/"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-black text-xs sm:text-sm tracking-wider uppercase shadow-lg shadow-emerald-500/30 active:scale-95 transition-all duration-200 group whitespace-nowrap"
               >
                 <span>Explore Library</span>

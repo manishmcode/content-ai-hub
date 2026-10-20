@@ -3,6 +3,32 @@ DirectoryIndex index.html
 
 RewriteEngine On
 
+# Canonical public origin. If TLS terminates at a reverse proxy, configure
+# HTTPS correctly at the trusted proxy/vhost before enabling these rules.
+# Old page names go directly to their canonical destination.
+RewriteRule ^account/?$ https://contentaihub.net/my-account/ [R=301,L]
+RewriteRule ^(?:dashboard|my-courses|live-classes|courses(?:/[^/]+)?)/?$ https://contentaihub.net/library/ [R=301,L]
+RewriteRule ^terms/?$ https://contentaihub.net/terms-conditions/ [R=301,L]
+RewriteRule ^privacy/?$ https://contentaihub.net/privacy-policy/ [R=301,L]
+
+# Canonicalize page paths first to avoid a second redirect for /pricing.
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(library|pricing|unsubscribe|login|logout|signup|my-account|privacy-policy|terms-conditions|imprint|checkout)$ https://contentaihub.net/$1/ [R=301,L]
+
+# Apache merges repeated slashes before matching RewriteRule. THE_REQUEST
+# retains the original spelling, allowing // (including the root) to redirect.
+RewriteCond %{THE_REQUEST} "\s[^?\s]*//"
+RewriteRule ^(.*)$ https://contentaihub.net/$1 [R=301,L]
+
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^contentaihub\.net$ [NC]
+RewriteRule ^ https://contentaihub.net%{REQUEST_URI} [R=301,L]
+
+# Direct requests for HTML entry files should use their public page URL.
+# THE_REQUEST prevents redirecting internal DirectoryIndex / 404 requests.
+RewriteCond %{THE_REQUEST} "\s/+((?:library/|pricing/|unsubscribe/|login/|logout/|signup/|my-account/|privacy-policy/|terms-conditions/|imprint/|checkout/)?)index\.html(?:[?\s])" [NC]
+RewriteRule ^ https://contentaihub.net/%1 [R=301,L]
+
 # ==========================================
 # 5. SIGNED ASSET ROUTING
 # ==========================================
@@ -13,9 +39,9 @@ RewriteEngine On
 RewriteRule ^v/(.+)$ /content-aihub-api/v/$1 [L,NC,NE]
 
 # Keep the SPA's designed 404 screen while preserving an actual HTTP 404
-# response for invalid URLs. Apache internally serves index.html; the browser
+# response for invalid URLs. Apache internally serves 404.html; the browser
 # keeps the original URL, so React Router renders its catch-all NotFoundPage.
-ErrorDocument 404 /index.html
+ErrorDocument 404 /404.html
 
 # Public API: https://contentaihub.net/content-aihub-api
 # Keep API requests out of the React SPA fallback. The web server / Node app

@@ -173,7 +173,7 @@ export const CheckoutPage: React.FC = () => {
           {/* Header section matching reference */}
           <div className="space-y-3">
             <Link
-              to="/pricing"
+              to="/pricing/"
               className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-emerald-600 transition-colors bg-white px-3.5 py-1.5 rounded-full border border-slate-200 shadow-xs mb-2"
             >
               <ArrowLeft className="w-3.5 h-3.5 text-[#00B67A]" />
@@ -473,11 +473,11 @@ export const CheckoutPage: React.FC = () => {
                       />
                       <span>
                         I confirm that I have read and agree to the{' '}
-                        <Link to="/terms-conditions" target="_blank" className="text-[#00B67A] font-bold hover:underline">
+                        <Link to="/terms-conditions/" target="_blank" className="text-[#00B67A] font-bold hover:underline">
                           Terms &amp; Conditions
                         </Link>{' '}
                         and{' '}
-                        <Link to="/privacy-policy" target="_blank" className="text-[#00B67A] font-bold hover:underline">
+                        <Link to="/privacy-policy/" target="_blank" className="text-[#00B67A] font-bold hover:underline">
                           Privacy Policy
                         </Link>.
                       </span>

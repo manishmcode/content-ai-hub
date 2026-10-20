@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
               {/* CTA Button (4 Cols) */}
               <div className="lg:col-span-4 flex justify-center lg:justify-end">
                 <Link
-                  to="/library"
+                  to="/library/"
                   className="inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full bg-white text-slate-950 font-black text-sm hover:bg-emerald-50 hover:text-emerald-950 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl group"
                 >
                   <span>Explore Library</span>
@@ -126,17 +126,17 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/library" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                <Link to="/library/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Library
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                <Link to="/pricing/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link to="/unsubscribe" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                <Link to="/unsubscribe/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Unsubscribe
                 </Link>
               </li>
@@ -150,17 +150,17 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-4">
               <li>
-                <Link to="/privacy-policy" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                <Link to="/privacy-policy/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-conditions" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                <Link to="/terms-conditions/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Terms &amp; Conditions
                 </Link>
               </li>
               <li>
-                <Link to="/imprint" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                <Link to="/imprint/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Imprint
                 </Link>
               </li>
@@ -196,13 +196,13 @@ export const Footer: React.FC = () => {
         <div className="border-t border-slate-800/80 pt-6 text-[12px] font-bold text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p>© {new Date().getFullYear()} ContentAIHub.net. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link to="/privacy-policy" className="hover:text-slate-300 transition-colors">
+            <Link to="/privacy-policy/" className="hover:text-slate-300 transition-colors">
               Privacy
             </Link>
-            <Link to="/terms-conditions" className="hover:text-slate-300 transition-colors">
+            <Link to="/terms-conditions/" className="hover:text-slate-300 transition-colors">
               Terms
             </Link>
-            <Link to="/imprint" className="hover:text-slate-300 transition-colors">
+            <Link to="/imprint/" className="hover:text-slate-300 transition-colors">
               Imprint
             </Link>
           </div>
