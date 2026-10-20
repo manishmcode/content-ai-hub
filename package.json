@@ -11,6 +11,7 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "country-state-city": "^3.2.1",
     "lucide-react": "^1.57.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -22,6 +23,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "node scripts/generate-seo.cjs",
+    "verify:seo": "node scripts/verify-seo.cjs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

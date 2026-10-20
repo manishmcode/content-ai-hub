@@ -1,36 +1,44 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, TrendingUp, Cpu, CheckCircle, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, TrendingUp, Video, CheckCircle, Zap } from 'lucide-react';
 
 interface FeatureCardData {
   icon: React.ReactNode;
   title: string;
   description: string;
-  gradientBadge: string;
   features: string[];
 }
 
 const featureCards: FeatureCardData[] = [
   {
-    icon: <Cpu className="w-7 h-7 text-white" />,
-    title: 'AI Video Pipelines',
-    description: 'Generate high-retention scripts, viral hooks, and voiceovers with production-tested AI automation toolchains.',
-    gradientBadge: 'from-violet-600 to-indigo-600',
-    features: ['High-retention prompt frameworks', 'Automated caption & clip workflows', 'Faceless evergreen asset vaults'],
+    icon: <Video className="w-7 h-7 text-white" />,
+    title: 'YouTube & Video Marketing',
+    description: 'Learn practical ways to grow a YouTube channel, create stronger videos, and reach the right audience.',
+    features: [
+      'Create a branded YouTube channel',
+      'Grow subscribers and channel traffic',
+      'Improve search rankings and reach'
+    ],
   },
   {
     icon: <TrendingUp className="w-7 h-7 text-white" />,
-    title: 'Omnichannel Distribution',
-    description: 'Syndicate content across YouTube, TikTok Shop, and Instagram Reels with algorithmically optimized video formats.',
-    gradientBadge: 'from-violet-600 via-indigo-600 to-cyan-500',
-    features: ['TikTok Shop & affiliate sales loops', 'Cross-platform organic repurposing', 'Algorithmic retention scoring'],
+    title: 'Faceless Marketing',
+    description: 'Build a strong digital presence and create content without showing your face.',
+    features: [
+      'Build anonymous brand identities',
+      'Create content without personal exposure',
+      'Monetize your faceless brand'
+    ],
   },
   {
     icon: <Sparkles className="w-7 h-7 text-white" />,
-    title: '1:1 Growth Strategy',
-    description: 'Get your thumbnails, scripts, and monetization funnels audited by experienced creators and marketing specialists.',
-    gradientBadge: 'from-cyan-600 to-emerald-500',
-    features: ['Weekly live video audits & reviews', 'Niche profit scoring models', 'High-ticket sponsor pitch decks'],
+    title: 'Creator Economy',
+    description: 'Develop the skills to create consistently, build partnerships, and earn as a content creator.',
+    features: [
+      'Build branded partnerships',
+      'Choose content that serves your audience',
+      'Explore creator income opportunities'
+    ],
   },
 ];
 
@@ -53,29 +61,29 @@ export const Features: React.FC = () => {
             </span>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              Built for <br className="hidden sm:inline" />
+              Learn Skills for Your <br className="hidden sm:inline" />
               <span className="text-[#00B67A]">
-                Real-World Mastery
+                Creator Journey
               </span>
             </h2>
 
             <p className="text-slate-600 text-base leading-relaxed">
-              Step beyond static lectures. ContentAIHub.net equips you with production-grade AI frameworks, viral short-form hooks, TikTok Shop commerce, and faceless automation models.
+              Explore practical video lessons for YouTube growth, faceless marketing, social commerce, and the creator economy.
             </p>
 
             <div className="pt-2">
               <Link
-                to="/#courses"
+                to="/library/"
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-sm shadow-[0_12px_24px_-4px_rgba(0,182,122,0.4)] active:scale-95 transition-all duration-200 group"
               >
                 <Zap className="w-4 h-4 text-emerald-100 fill-emerald-100" />
-                <span>Explore Capabilities</span>
+                <span>Explore Library</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* Right Column: 3 Feature Cards in Desktop Grid */}
+          {/* Right Column: 3 Feature Cards in Desktop Grid (Original Layout & Design) */}
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {featureCards.map((card, idx) => {
@@ -94,8 +102,8 @@ export const Features: React.FC = () => {
                   >
                     {/* Middle Card Accent Glow Badge */}
                     {isMiddle && (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#00B67A] text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md whitespace-nowrap">
-                        Most Popular Strategy
+                      <div className="hidden">
+                     
                       </div>
                     )}
 
@@ -103,13 +111,7 @@ export const Features: React.FC = () => {
                       {/* Top Icon Badge */}
                       <div className="flex items-center justify-between mb-6">
                         <div
-                          className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-black/5 ${
-                            idx === 0 
-                              ? 'bg-gradient-to-tr from-emerald-600 to-teal-500' 
-                              : idx === 1 
-                                ? 'bg-gradient-to-tr from-[#00B67A] to-teal-400' 
-                                : 'bg-gradient-to-tr from-teal-600 to-cyan-500'
-                          }`}
+                          className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-black/5 bg-gradient-to-tr from-[#00B67A] to-teal-400"
                         >
                           {card.icon}
                         </div>
@@ -149,3 +151,4 @@ export const Features: React.FC = () => {
     </section>
   );
 };
+export default Features;

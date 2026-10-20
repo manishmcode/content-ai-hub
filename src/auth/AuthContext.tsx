@@ -1,10 +1,12 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { API_ENDPOINTS } from '../config/api';
+import { clearSession, fetchWithSession } from './session';
 
 export interface AuthUser {
   id: number;
   name: string;
   email: string;
+  is_admin?: boolean;
   user_meta?: { phone?: string | number; role?: string };
 }
 
@@ -42,6 +44,7 @@ interface AuthContextValue {
   hasActivePlan: boolean | null;
   authenticate: (token: string, user: AuthUser) => void;
   logout: () => void;
+  apiFetch: (url: string, options?: RequestInit) => Promise<Response>;
   getDashboard: () => Promise<DashboardData>;
   updateProfile: (profile: { firstname: string; lastname: string; display_name: string }) => Promise<void>;
   changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
@@ -49,7 +52,13 @@ interface AuthContextValue {
 
 const TOKEN_KEY = 'contentaihub_token';
 const USER_KEY = 'contentaihub_user';
+const ASSET_AUTH_COOKIE = 'bgp_auth_token';
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+const setAssetAuthCookie = (value: string, maxAge = 0) => {
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${ASSET_AUTH_COOKIE}=${encodeURIComponent(value)}; Path=/; SameSite=Lax${secure}${maxAge ? `; Max-Age=${maxAge}` : ''}`;
+};
 
 const readStoredUser = (): AuthUser | null => {
   try {
@@ -68,38 +77,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const authenticate = useCallback((nextToken: string, nextUser: AuthUser) => {
     localStorage.setItem(TOKEN_KEY, nextToken);
     localStorage.setItem(USER_KEY, JSON.stringify(nextUser));
+    // <img> and <video> requests cannot send an Authorization header. The
+    // backend accepts this same JWT from a first-party cookie for /v/:token.
+    setAssetAuthCookie(nextToken, 7 * 24 * 60 * 60);
     setToken(nextToken);
     setUser(nextUser);
     setHasActivePlan(null);
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    clearSession();
     setToken(null);
     setUser(null);
     setHasActivePlan(null);
   }, []);
 
   const handleExpiredSession = useCallback(() => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    setToken(null);
-    setUser(null);
-    setHasActivePlan(null);
-    window.location.replace('/logout');
-  }, []);
+    logout();
+    window.location.replace('/login/');
+  }, [logout]);
+
+  const apiFetch = useCallback((url: string, options: RequestInit = {}) => (
+    fetchWithSession(url, options, token, handleExpiredSession)
+  ), [token, handleExpiredSession]);
 
   const getDashboard = useCallback(async () => {
     if (!token) throw new Error('Please sign in to view your account.');
 
-    const response = await fetch(API_ENDPOINTS.dashboard, {
+    const response = await apiFetch(API_ENDPOINTS.dashboard, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (response.status === 401) {
-      handleExpiredSession();
-      throw new Error('Your session has expired. Please sign in again.');
-    }
     const payload = await response.json();
     if (!response.ok || !payload.success) {
       throw new Error(payload.message || 'Unable to load account information.');
@@ -107,11 +114,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const dashboard = payload.data as DashboardData;
     setHasActivePlan(dashboard.subscriptions.some((subscription) => subscription.status.toLowerCase() === 'active'));
     return dashboard;
-  }, [token, handleExpiredSession]);
+  }, [token, apiFetch]);
 
   const requestWithAuth = useCallback(async (url: string, method: 'POST' | 'PUT', body: Record<string, string>) => {
     if (!token) throw new Error('Please sign in to continue.');
-    const response = await fetch(url, {
+    const response = await apiFetch(url, {
       method,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -119,13 +126,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       },
       body: JSON.stringify(body),
     });
-    if (response.status === 401) {
-      handleExpiredSession();
-      throw new Error('Your session has expired. Please sign in again.');
-    }
     const payload = await response.json();
     if (!response.ok || !payload.success) throw new Error(payload.message || 'Request could not be completed.');
-  }, [token, handleExpiredSession]);
+  }, [token, apiFetch]);
 
   const updateProfile = useCallback(async (profile: { firstname: string; lastname: string; display_name: string }) => {
     await requestWithAuth(API_ENDPOINTS.profile, 'PUT', profile);
@@ -143,10 +146,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (!token) return;
+    setAssetAuthCookie(token, 7 * 24 * 60 * 60);
     getDashboard().catch(() => setHasActivePlan(false));
   }, [token, getDashboard]);
 
-  const value = useMemo(() => ({ token, user, isAuthenticated: Boolean(token), hasActivePlan, authenticate, logout, getDashboard, updateProfile, changePassword }), [token, user, hasActivePlan, authenticate, logout, getDashboard, updateProfile, changePassword]);
+  const value = useMemo(() => ({ token, user, isAuthenticated: Boolean(token), hasActivePlan, authenticate, logout, apiFetch, getDashboard, updateProfile, changePassword }), [token, user, hasActivePlan, authenticate, logout, apiFetch, getDashboard, updateProfile, changePassword]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

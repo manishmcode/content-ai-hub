@@ -9,5 +9,5 @@ export const COMPANY = {
     'United Kingdom',
   ],
   email: 'support@contentaihub.net',
-  website: 'https://contentaihub.net',
+  website: 'https://contentaihub.net/',
 } as const;

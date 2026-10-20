@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Play, Star, CheckCircle2, TrendingUp, Zap } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 const heroImage = '/assets/images/hero-student-mentor.webp';
-const avatarMentor = '/assets/images/avatar-mentor.webp';
+
 
 export const Hero: React.FC = () => {
   return (
@@ -38,49 +38,21 @@ export const Hero: React.FC = () => {
 
             {/* Subtitle */}
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
-              Accelerate your reach across YouTube, TikTok Shop, Instagram, and Faceless AI channels. Master automated video workflows, viral hooks, and high-margin creator monetization.
+              Learn with expert-led courses and live classes built to help creators grow. Explore practical lessons in video marketing, faceless content, social commerce, and audience growth.
             </p>
 
             {/* Refined Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <Link
-                to="/#courses"
+                to="/library/"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-sm shadow-[0_10px_25px_-5px_rgba(0,182,122,0.45)] active:scale-95 transition-all duration-200 group"
               >
                 <Zap className="w-4 h-4 text-emerald-100 fill-emerald-100" />
                 <span>Explore Courses</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-
-              <Link
-                to="/#live-hub"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-white/5 border border-white/15 hover:border-emerald-400/40 text-white font-semibold text-sm backdrop-blur-md hover:bg-white/10 active:scale-95 transition-all duration-200"
-              >
-                <Play className="w-4 h-4 text-[#00D084] fill-[#00D084]" />
-                <span>Watch preview</span>
-              </Link>
             </div>
-
-            {/* Trust and Social Proof Bar */}
-            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm text-slate-300 border-t border-white/10">
-              <div className="flex items-center gap-2">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400" />
-                  ))}
-                </div>
-                <span>
-                  <strong className="font-bold text-white">4.9/5</strong> from 3,800+ creators
-                </span>
-              </div>
-
-              <div className="hidden sm:block h-3.5 w-px bg-white/20" />
-
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#00D084]" />
-                <span>10x Content Velocity with AI</span>
-              </div>
-            </div>
+    
 
           </div>
 
@@ -112,44 +84,8 @@ export const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Refined Top-Right Status Badge */}
-              <div className="absolute -top-3.5 right-6 z-20 bg-slate-900/90 backdrop-blur-xl border border-emerald-400/30 px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-2 text-xs font-semibold text-white">
-                <span className="w-2 h-2 rounded-full bg-[#00D084] animate-pulse" />
-                <span>AI Video Pipeline Active</span>
-              </div>
-
-              {/* Clean Single Overlapping Card at Bottom: Active Growth Review */}
-              <div className="absolute -bottom-5 left-4 right-4 z-20 bg-slate-900/95 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-[0_20px_45px_rgba(0,0,0,0.5)] flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <picture>
-                    <source srcSet={avatarMentor} type="image/webp" />
-                    <img
-                      src={avatarMentor}
-                      alt="Marcus Vance"
-                      className="w-11 h-11 rounded-full object-cover border-2 border-emerald-400 ring-2 ring-white/10"
-                      width="44"
-                      height="44"
-                    />
-                  </picture>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-white">Marcus Vance</span>
-                      <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold px-1.5 py-0.5 rounded">
-                        Growth Lead
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-400">Viral Hook &amp; TikTok Shop Audit</p>
-                  </div>
-                </div>
-
-                {/* Growth Metric Badge */}
-                <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
-                  <TrendingUp className="w-3.5 h-3.5" />
-                  <span>+340%</span>
-                </div>
-              </div>
-
             </div>
+
 
           </div>
 

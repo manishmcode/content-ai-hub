@@ -1,126 +1,206 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
-import { Scale, FileText } from 'lucide-react';
+import { FileText, ArrowRight, Building2 } from 'lucide-react';
+import { COMPANY } from '../config/company';
+
+interface TermsSection {
+  title: string;
+  content: string;
+}
+
+const TERMS_SECTIONS: TermsSection[] = [
+  {
+    title: '1. Service',
+    content:
+      "We provide online courses and educational materials through our platform. The Service is provided 'as is' and 'as available' without any warranties of any kind. We reserve the right to modify, suspend, or discontinue the Service at any time without notice.",
+  },
+  {
+    title: '2. User Agreement',
+    content:
+      'By accessing or using the Service, you agree to be bound by these Terms and our Privacy Policy. If you disagree with any part of the terms, then you may not access the Service. You must provide accurate and complete information when creating an account.',
+  },
+  {
+    title: '3. Your License',
+    content:
+      'We grant you a limited, non-exclusive, non-transferable, and revocable license to access and use the Service for your personal, non-commercial educational purposes. You may not copy, modify, distribute, sell, or lease any part of our Services or included software.',
+  },
+  {
+    title: '4. Support Services',
+    content:
+      `Support is provided primarily via email and our dedicated support portal. Email ${COMPANY.email} to contact ${COMPANY.name}. We strive to respond to all inquiries within 24-48 business hours.`,
+  },
+  {
+    title: '5. Fees and Payment',
+    content:
+      'Certain aspects of the Service may be provided for a fee or other charge. If you elect to use paid aspects of the Service, you agree to the pricing and payment terms. We may add new services for additional fees and charges, or amend fees and charges for existing services, at any time in our sole discretion.',
+  },
+  {
+    title: '6. Cancellation',
+    content:
+      'You may cancel your subscription at any time. Cancellation will take effect at the end of your current billing cycle. You will continue to have access to the Service through the end of your billing period.',
+  },
+  {
+    title: '7. Refund Policy',
+    content:
+      `All courses and educational content offered through this website are delivered digitally and access is typically granted immediately upon purchase. By completing a purchase, you acknowledge that immediate access affects your eligibility for a refund.\n\nYou may request a refund within 14 days of your initial purchase, provided that you have not substantially accessed or completed the course materials. Requests are assessed on a case-by-case basis and are not automatically guaranteed.\n\nRefund requests must be submitted in writing to ${COMPANY.email}, including your order number and the reason for the request. We aim to respond to all refund requests within 5 business days.`,
+  },
+  {
+    title: '8. Right to Terminate',
+    content:
+      'We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.',
+  },
+  {
+    title: '9. Your Responsibilities',
+    content:
+      'You are responsible for all activities that occur under your account. You agree not to share your account credentials with third parties, use the Service for any illegal or unauthorized purpose, attempt to hack, destabilize, or adapt the Service, or transmit any worms, viruses, or destructive code.',
+  },
+  {
+    title: '10. Suspension / Discontinuation',
+    content:
+      'We reserve the right at any time to modify or discontinue, temporarily or permanently, the Service or any part thereof with or without notice.',
+  },
+  {
+    title: '11. Dispute Resolution',
+    content:
+      `If you have a complaint or dispute regarding a purchase, charge, or your use of the services, you agree to first contact us at ${COMPANY.email} so that we may attempt to resolve the matter directly. We aim to acknowledge complaints within 24 hours and to reach a resolution within 5 business days.`,
+  },
+  {
+    title: '12. Governing Law',
+    content:
+      'These Terms, and any dispute or claim arising out of or in connection with them or the services provided through this website, shall be governed by and construed in accordance with the laws of United Kingdom, without regard to its conflict of law provisions.',
+  },
+  {
+    title: '13. Copyright',
+    content:
+      'All content, features, and functionality are and will remain the exclusive property of ContentAIHub.net and its licensors. Our trademarks and trade dress may not be used in connection with any product or service without our prior written consent.',
+  },
+  {
+    title: '14. Links to Other Websites',
+    content:
+      'Our Service may contain links to third-party web sites or services that are not owned or controlled by us. We have no control over, and assume no responsibility for the content, privacy policies, or practices of any third-party websites or services.',
+  },
+  {
+    title: '15. Trademarks',
+    content:
+      `The company name, logo, and related names, product names, service names, designs, and slogans are trademarks of ${COMPANY.name}, ContentAIHub.net, or its affiliates or licensors.`,
+  },
+  {
+    title: '16. Force Majeure',
+    content:
+      'We shall not be liable for any failure or delay in performance under these Terms resulting from acts beyond our reasonable control, including war, terrorism, riots, embargoes, fire, floods, accidents, strikes, or shortages of transportation, fuel, energy, labor, or materials.',
+  },
+  {
+    title: '17. Disclaimer of Warranties',
+    content:
+      'Your use of the Service is at your sole risk. The Service is provided on an AS IS and AS AVAILABLE basis. The Service is provided without warranties of any kind, whether express or implied.',
+  },
+  {
+    title: '18. Age Restriction',
+    content:
+      'The Service is intended only for access and use by individuals at least eighteen (18) years old. By accessing or using the Service, you warrant and represent that you are at least eighteen (18) years of age.',
+  },
+  {
+    title: '19. General Provisions',
+    content:
+      'These Terms shall be governed and construed in accordance with the laws of United Kingdom, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.',
+  },
+];
 
 export const TermsPage: React.FC = () => {
+  const { pathname } = useLocation();
+
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-[#F4F8FC] text-slate-800 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto space-y-10">
+      <div className="min-h-screen bg-transparent text-slate-800 pt-36 sm:pt-40 md:pt-44 pb-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-10 relative z-10">
           
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#0B57A2] text-xs font-bold uppercase tracking-wider">
-              <Scale className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white border border-slate-700/60 text-xs font-bold uppercase tracking-wider shadow-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Legal Terms of Service</span>
-            </span>
+            </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900">
               Terms &amp; Conditions
             </h1>
             <p className="text-slate-500 text-sm sm:text-base">
-              Last updated: October 1, 2026 • Effective for all users and subscribers of ContentAIHub.net
+              Please read these Terms and Conditions carefully before using our website and services operated by {COMPANY.name}.
             </p>
+
+            {/* Quick Navigation Between Legal Pages */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
+              <Link
+                to="/terms-conditions/"
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all shadow-xs ${
+                  pathname === '/terms-conditions/'
+                    ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+                }`}
+              >
+                Terms &amp; Conditions
+              </Link>
+              <Link
+                to="/privacy-policy/"
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all shadow-xs ${
+                  pathname === '/privacy-policy/'
+                    ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+                }`}
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                to="/imprint/"
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all shadow-xs ${
+                  pathname === '/imprint/'
+                    ? 'bg-[#00B67A] text-white shadow-md shadow-emerald-500/25'
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+                }`}
+              >
+                Imprint &amp; Disclosure
+              </Link>
+            </div>
           </div>
 
           {/* Legal Content Card */}
-          <div className="rounded-[32px] bg-white border border-slate-200/80 p-8 sm:p-12 shadow-[0_12px_40px_rgba(15,45,95,0.05)] space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
+          <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
             
             {/* Entity Notice */}
-            <div className="rounded-2xl bg-blue-50 border border-blue-200/80 p-6 text-xs sm:text-sm text-slate-800 space-y-1.5">
-              <span className="font-black text-[#0B57A2] uppercase tracking-wider block text-xs">Service Provider Details</span>
+            <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 text-xs sm:text-sm text-slate-800 space-y-1.5">
+              <span className="font-black text-[#00B67A] uppercase tracking-wider block text-xs flex items-center gap-1.5">
+                <Building2 className="w-4 h-4" />
+                Operating Entity Details
+              </span>
               <p>
-                This website (<strong>ContentAIHub.net</strong>) and its educational content, video upgrades, and digital memberships are owned and operated by <strong>Zenaria Ltd</strong>, a registered company with offices at <strong>Str A15 Stadiou, 2867 Oikos, Nicosia, Cyprus</strong> (hereafter "Company", "we", "us", or "our").
+                This website (<strong>ContentAIHub.net</strong>) and its educational curriculum, digital memberships, and masterclasses are operated by <strong>{COMPANY.name}</strong>, registered in the United Kingdom under Company No. <strong>{COMPANY.companyNumber}</strong>, located at <strong>{COMPANY.addressLines.join(', ')}</strong>.
               </p>
             </div>
 
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                1. Acceptance of Terms
-              </h2>
-              <p>
-                By accessing, browsing, registering for an account, or purchasing any educational video course, digital guide, or subscription package through ContentAIHub.net, you agree to be legally bound by these Terms and Conditions and our Privacy Policy. If you do not agree to all terms stated herein, you must refrain from using the platform.
-              </p>
-            </section>
+            {/* Terms Sections */}
+            <div className="space-y-8 divide-y divide-slate-100">
+              {TERMS_SECTIONS.map((section, idx) => (
+                <section key={section.title} className={idx > 0 ? 'pt-8 space-y-3' : 'space-y-3'}>
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2.5">
+                    <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-50 text-[#00B67A] text-xs font-black">
+                      <FileText className="w-4 h-4 text-[#00B67A]" />
+                    </span>
+                    <span>{section.title}</span>
+                  </h2>
+                  <div className="text-slate-600 text-sm sm:text-[15px] leading-relaxed whitespace-pre-line space-y-2">
+                    {section.content}
+                  </div>
+                </section>
+              ))}
+            </div>
 
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                2. Educational Services &amp; Video Courses
-              </h2>
-              <p>
-                ContentAIHub.net provides digital educational material, high-definition instructional video masterclasses, prompt templates, action roadmaps, and optional live interactive growth coaching related to social media algorithms, AI content production, and digital marketing.
-              </p>
-              <p>
-                All materials provided are intended strictly for informational and educational purposes. We do not guarantee specific income figures, algorithmic virality, or follower counts, as real-world results depend on individual dedication, market niches, and platform algorithmic updates.
-              </p>
-            </section>
-
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                3. Subscriptions, Pricing &amp; Billing
-              </h2>
-              <p>
-                We offer recurring membership plans (such as €29 Basic, €59 Standard, and €97 Premium per month) providing on-demand video access and interactive live classes.
-              </p>
-              <ul className="list-disc pl-6 space-y-2 text-slate-600 text-sm">
-                <li>Recurring subscriptions renew automatically at the specified monthly interval unless cancelled prior to the renewal date.</li>
-                <li>All transactions are processed securely via SSL encryption using PCI-compliant payment gateways (supporting Visa, Mastercard, SEPA, and debit cards).</li>
-                <li>Your bank statement will display the descriptor <strong>Zenaria Ltd</strong>.</li>
-              </ul>
-            </section>
-
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                4. Cancellation &amp; 30-Day Money-Back Guarantee
-              </h2>
-              <p>
-                We maintain an unconditional <strong>30-day money-back guarantee</strong> for all initial course enrollments and subscription starts. If you determine our content does not meet your standards within 30 days of initial purchase, contact support at <a href="mailto:support@contentaihub.net" className="text-[#0B57A2] font-bold hover:underline">support@contentaihub.net</a> for a full refund.
-              </p>
-              <p>
-                You may cancel your monthly subscription at any time without penalty via your account dashboard (/my-account) or the self-service <Link to="/unsubscribe" className="text-[#0B57A2] font-bold hover:underline">Unsubscribe page</Link>. Upon cancellation, your access remains active until the expiration of your prepaid period.
-              </p>
-            </section>
-
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                5. Intellectual Property Rights
-              </h2>
-              <p>
-                All digital video materials, software code, graphic designs, audio files, text, and curricula hosted on ContentAIHub.net are protected under international copyright and intellectual property treaties. Enrolled students are granted a non-exclusive, non-transferable personal license to view materials for educational development. 
-              </p>
-              <p className="text-amber-800 bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs sm:text-sm font-medium">
-                Reselling, unauthorized public mirroring, group-buying sharing, or mass distribution of video streams without express written consent from Zenaria Ltd is strictly prohibited and subject to account termination.
-              </p>
-            </section>
-
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                6. Governing Law &amp; Jurisdiction
-              </h2>
-              <p>
-                These Terms and Conditions shall be governed by and interpreted in accordance with the laws of the Republic of Cyprus and relevant European Union consumer legislation. Any dispute arising out of or in connection with these Terms shall be submitted to the exclusive jurisdiction of the competent courts of Nicosia, Cyprus.
-              </p>
-            </section>
-
-            <section className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0B57A2]" />
-                7. Contact Information
-              </h2>
-              <p>
-                For legal notices or questions regarding these Terms, contact:
-              </p>
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 space-y-1">
-                <p className="text-slate-900 font-bold">Zenaria Ltd</p>
-                <p>Str A15 Stadiou, 2867 Oikos, Nicosia, Cyprus</p>
-                <p>Email: <a href="mailto:support@contentaihub.net" className="text-[#0B57A2] font-bold">support@contentaihub.net</a></p>
-              </div>
+            {/* Footer Notice */}
+            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+              <span>Questions regarding our Terms? Contact: <a href={`mailto:${COMPANY.email}`} className="font-bold text-slate-800 hover:text-[#00B67A]">{COMPANY.email}</a></span>
+              <Link to="/privacy-policy/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
+                <span>View Privacy Policy</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </section>
 
           </div>

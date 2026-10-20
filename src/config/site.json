@@ -1,0 +1,12 @@
+{
+  "origin": "https://contentaihub.net",
+  "pagePaths": [
+    "/", "/library/", "/pricing/", "/unsubscribe/", "/login/",
+    "/logout/", "/signup/", "/my-account/", "/privacy-policy/",
+    "/terms-conditions/", "/imprint/", "/checkout/"
+  ],
+  "sitemapPaths": [
+    "/", "/pricing/", "/unsubscribe/", "/login/", "/signup/",
+    "/privacy-policy/", "/terms-conditions/", "/imprint/"
+  ]
+}

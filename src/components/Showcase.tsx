@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BarChart3, Clock, CheckCircle, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
+import { ArrowRight, BarChart3, ShieldCheck, Zap } from 'lucide-react';
 const dashboardImg = '/assets/images/dashboard-showcase.webp';
 
 export const Showcase: React.FC = () => {
@@ -35,49 +35,14 @@ export const Showcase: React.FC = () => {
               A contemporary, high-resolution creator command center. Monitor YouTube click-through rates, TikTok Shop conversion funnels, Reel retention spikes, and AI pipeline velocity in real time.
             </p>
 
-            {/* Frosted Glass Stat Blocks */}
-            <div className="grid grid-cols-2 gap-4 pt-1">
-              
-              {/* Stat 1: +340% */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-md shadow-lg text-left hover:border-emerald-400/30 transition-colors">
-                <div className="flex items-center gap-2 text-[#00D084] mb-1.5">
-                  <TrendingUp className="w-5 h-5" />
-                  <span className="text-2xl sm:text-3xl font-black text-white">+340%</span>
-                </div>
-                <p className="text-xs text-slate-400 font-medium">Organic Reach Acceleration</p>
-              </div>
-
-              {/* Stat 2: 5.2x */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-md shadow-lg text-left hover:border-emerald-400/30 transition-colors">
-                <div className="flex items-center gap-2 text-[#00D084] mb-1.5">
-                  <Clock className="w-5 h-5" />
-                  <span className="text-2xl sm:text-3xl font-black text-white">5.2x</span>
-                </div>
-                <p className="text-xs text-slate-400 font-medium">Faster AI Video Output</p>
-              </div>
-
-            </div>
-
-            {/* Checklist */}
-            <div className="space-y-2.5 pt-1 text-left">
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-300">
-                <CheckCircle className="w-4 h-4 text-[#00D084] shrink-0" />
-                <span>Second-by-second viewer retention dropoff analysis</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-300">
-                <CheckCircle className="w-4 h-4 text-[#00D084] shrink-0" />
-                <span>TikTok Shop conversion funnels &amp; affiliate attribution</span>
-              </div>
-            </div>
-
             {/* CTA Button */}
             <div className="pt-2">
               <Link
-                to="/#courses"
+                to="/library/"
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-sm shadow-[0_12px_28px_-6px_rgba(0,182,122,0.5)] active:scale-95 transition-all duration-200 group"
               >
                 <Zap className="w-4 h-4 text-emerald-100 fill-emerald-100" />
-                <span>Explore Growth Blueprints</span>
+                <span>Explore Courses</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
