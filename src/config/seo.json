@@ -19,7 +19,14 @@
     "title": "Create Your Account | Content AI Hub",
     "description": "Create your Content AI Hub account to access AI courses, prompt vaults, and educational resources. Sign up to start learning today.",
     "ogDescription": "Create your Content AI Hub account to access AI courses, prompt vaults, and educational resources. Start learning today.",
-    "imageAlt": "Create an account with Content AI Hub"
+    "imageAlt": "Create an account with Content AI Hub",
+    "robots": "noindex, follow"
+  },
+  "/login/": {
+    "title": "Log In | Content AI Hub",
+    "description": "Log in to your Content AI Hub account.",
+    "imageAlt": "Log in to Content AI Hub",
+    "robots": "noindex, follow"
   },
   "/terms-conditions/": {
     "title": "Terms & Conditions | Content AI Hub",

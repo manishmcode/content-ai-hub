@@ -6,7 +6,7 @@
     "/terms-conditions/", "/imprint/", "/checkout/"
   ],
   "sitemapPaths": [
-    "/", "/pricing/", "/unsubscribe/", "/login/", "/signup/",
+    "/", "/pricing/", "/unsubscribe/",
     "/privacy-policy/", "/terms-conditions/", "/imprint/"
   ]
 }

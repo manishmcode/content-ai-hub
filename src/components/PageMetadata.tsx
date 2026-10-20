@@ -4,7 +4,7 @@ import site from '../config/site.json';
 import pages from '../config/seo.json';
 import structuredData from '../config/structured-data.json';
 
-type Metadata = { title: string; description: string; ogDescription?: string; imageAlt: string };
+type Metadata = { title: string; description: string; ogDescription?: string; imageAlt: string; robots?: string };
 const metadata = pages as Record<string, Metadata>;
 const imageUrl = `${site.origin}/logo.webp`;
 
@@ -29,6 +29,12 @@ export const PageMetadata = () => {
     const socialDescription = page.ogDescription || page.description;
     document.title = page.title;
     setMeta('meta[name="description"]', 'name', 'description', page.description);
+    const robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (page.robots) {
+      setMeta('meta[name="robots"]', 'name', 'robots', page.robots);
+    } else {
+      robots?.remove();
+    }
     setMeta('meta[property="og:title"]', 'property', 'og:title', page.title);
     setMeta('meta[property="og:description"]', 'property', 'og:description', socialDescription);
     setMeta('meta[property="og:url"]', 'property', 'og:url', url);

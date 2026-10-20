@@ -10,7 +10,7 @@ const headings = require('../src/config/headings.json');
 const buildDir = path.resolve(__dirname, '../build');
 const template = fs.readFileSync(path.join(buildDir, 'index.html'), 'utf8');
 const imageUrl = `${site.origin}/logo.webp`;
-const jsonLdTag = schema => `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>`;
+const jsonLdTag = schema => `<script type="application/ld+json" data-content-aihub-schema="true">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>`;
 const pageSchema = pagePath => {
   const page = structuredData.pages[pagePath];
   return page && { ...page, publisher: structuredData.organization };
@@ -52,6 +52,7 @@ const renderPage = (pagePath, page = metadata[pagePath], includeCanonical = true
     `<meta name="twitter:description" content="${escapeHtml(socialDescription)}" />`,
     `<meta name="twitter:image" content="${imageUrl}" />`,
     `<meta name="twitter:image:alt" content="${escapeHtml(imageAlt)}" />`,
+    page?.robots && `<meta name="robots" content="${escapeHtml(page.robots)}" />`,
     ...schemas.map(jsonLdTag)
   ].filter(Boolean).join('\n    ');
 

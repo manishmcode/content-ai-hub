@@ -27,6 +27,9 @@ assert.equal(fs.readFileSync(path.join(buildDir, '.htaccess'), 'utf8'), fs.readF
 const htaccess = fs.readFileSync(path.resolve(__dirname, '../public/.htaccess'), 'utf8');
 assert.ok(htaccess.includes('contentaihub_access=1'), 'missing library access-cookie redirect');
 assert.ok(htaccess.indexOf('contentaihub_access=1') < htaccess.indexOf('Let Apache serve real files'), 'library redirect must run before static files');
+for (const header of ['Strict-Transport-Security', 'Content-Security-Policy', 'X-Content-Type-Options', 'Referrer-Policy', 'Permissions-Policy', 'X-Frame-Options']) {
+  assert.ok(htaccess.includes(`Header always set ${header}`), `missing security header: ${header}`);
+}
 for (const [pagePath, page] of Object.entries(metadata)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
   assert.ok(html.includes(`<title>${escapeHtml(page.title)}</title>`), pagePath);
@@ -34,12 +37,14 @@ for (const [pagePath, page] of Object.entries(metadata)) {
   assert.ok(html.includes('property="og:title"'), pagePath);
   assert.ok(html.includes('name="twitter:card" content="summary_large_image"'), pagePath);
   assert.ok(html.includes('type="application/ld+json"'), pagePath);
+  if (page.robots) assert.ok(html.includes(`name="robots" content="${page.robots}"`), `${pagePath}: robots directive missing`);
 }
 for (const pagePath of Object.keys(structuredData.pages)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
   assert.ok(html.includes('"@type":"WebPage"'), `page schema missing: ${pagePath}`);
   assert.ok(html.includes('"publisher":{"@type":"Organization"'), `nested organization missing: ${pagePath}`);
   assert.equal((html.match(/type="application\/ld\+json"/g) || []).length, 1, `expected one schema item: ${pagePath}`);
+  assert.equal((html.match(/data-content-aihub-schema="true"/g) || []).length, 1, `expected one reusable schema node: ${pagePath}`);
 }
 const pricingHtml = fs.readFileSync(path.join(buildDir, 'pricing/index.html'), 'utf8');
 assert.ok(pricingHtml.includes('"mainEntity":{"@type":"OfferCatalog"'), 'pricing offer catalog must be nested in WebPage');
