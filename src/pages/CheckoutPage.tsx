@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Lock, CheckCircle2, Clock, Shield } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
@@ -36,24 +36,7 @@ const DEFAULT_PLANS: Plan[] = [
   { id: 3, name: 'Premium', price: '98', currency: 'EUR', is_active: true, description: 'Full unlimited access with scheduled instructor-led live classes & direct Q&A.' },
 ];
 
-const COUNTRIES = [
-  { code: 'US', name: 'United States' },
-  { code: 'GB', name: 'United Kingdom' },
-  { code: 'DE', name: 'Germany' },
-  { code: 'FR', name: 'France' },
-  { code: 'ES', name: 'Spain' },
-  { code: 'IT', name: 'Italy' },
-  { code: 'NL', name: 'Netherlands' },
-  { code: 'CA', name: 'Canada' },
-  { code: 'AU', name: 'Australia' },
-  { code: 'SE', name: 'Sweden' },
-  { code: 'CH', name: 'Switzerland' },
-  { code: 'AT', name: 'Austria' },
-  { code: 'BE', name: 'Belgium' },
-  { code: 'DK', name: 'Denmark' },
-  { code: 'NO', name: 'Norway' },
-  { code: 'IE', name: 'Ireland' },
-];
+const BillingLocationFields = lazy(() => import('../components/BillingLocationFields'));
 
 export const CheckoutPage: React.FC = () => {
   const { token, getDashboard, apiFetch } = useAuth();
@@ -356,51 +339,12 @@ export const CheckoutPage: React.FC = () => {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-[11px] font-black uppercase tracking-wider text-slate-700 mb-1.5">
-                        COUNTRY <span className="text-[#00B67A]">*</span>
-                      </label>
-                      <select
-                        required
-                        value={form.country}
-                        onChange={updateField('country')}
-                        className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition font-medium cursor-pointer"
-                      >
-                        {COUNTRIES.map((c) => (
-                          <option key={c.code} value={c.code}>
-                            {c.name} ({c.code})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-[11px] font-black uppercase tracking-wider text-slate-700 mb-1.5">
-                          STATE / REGION <span className="text-[#00B67A]">*</span>
-                        </label>
-                        <input
-                          required
-                          value={form.state_region}
-                          onChange={updateField('state_region')}
-                          placeholder="State or region"
-                          className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition font-medium"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-black uppercase tracking-wider text-slate-700 mb-1.5">
-                          TOWN / CITY <span className="text-[#00B67A]">*</span>
-                        </label>
-                        <input
-                          required
-                          value={form.city}
-                          onChange={updateField('city')}
-                          placeholder="City"
-                          className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition font-medium"
-                        />
-                      </div>
-                    </div>
+                    <Suspense fallback={<p className="text-sm text-slate-500" role="status">Loading address options...</p>}>
+                      <BillingLocationFields
+                        value={form}
+                        onChange={location => setForm(prev => ({ ...prev, ...location }))}
+                      />
+                    </Suspense>
 
                     <div>
                       <label className="block text-[11px] font-black uppercase tracking-wider text-slate-700 mb-1.5">
