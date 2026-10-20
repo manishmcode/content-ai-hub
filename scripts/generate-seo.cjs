@@ -11,10 +11,14 @@ const buildDir = path.resolve(__dirname, '../build');
 const template = fs.readFileSync(path.join(buildDir, 'index.html'), 'utf8');
 const imageUrl = `${site.origin}/logo.webp`;
 const jsonLdTag = schema => `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>`;
+const pageSchema = pagePath => {
+  const page = structuredData.pages[pagePath];
+  return page && { ...page, publisher: structuredData.organization };
+};
 const headingHtml = pagePath => {
   const outline = headings[pagePath];
   if (!outline) return '';
-  return `<main data-prerendered-outline="true">${['h1', 'h2', 'h3']
+  return `<main data-prerendered-outline="true" hidden aria-hidden="true">${['h1', 'h2', 'h3']
     .flatMap(level => (outline[level] || []).map(text => `<${level}>${escapeHtml(text)}</${level}>`))
     .join('')}</main>`;
 };
@@ -31,7 +35,7 @@ const renderPage = (pagePath, page = metadata[pagePath], includeCanonical = true
   const socialDescription = page?.ogDescription || description;
   const imageAlt = page?.imageAlt || 'Content AI Hub';
   const canonical = `${site.origin}${pagePath}`;
-  const schemas = includeSchema ? [structuredData.pages[pagePath]].filter(Boolean) : [];
+  const schemas = includeSchema ? [pageSchema(pagePath)].filter(Boolean) : [];
   const tags = [
     includeCanonical && `<link rel="canonical" href="${canonical}" />`,
     `<meta property="og:title" content="${escapeHtml(title)}" />`,

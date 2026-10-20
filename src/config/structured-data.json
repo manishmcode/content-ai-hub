@@ -1,4 +1,31 @@
 {
+  "organization": {
+    "@type": "Organization",
+    "@id": "https://contentaihub.net/#organization",
+    "name": "Content AI Hub",
+    "legalName": "VAQUITA MEDIA LTD",
+    "url": "https://contentaihub.net/",
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://contentaihub.net/#logo",
+      "url": "https://contentaihub.net/logo.webp",
+      "contentUrl": "https://contentaihub.net/logo.webp"
+    },
+    "email": "support@contentaihub.net",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "11 Station Road",
+      "addressLocality": "Watford",
+      "addressRegion": "Hertfordshire",
+      "postalCode": "WD17 1AP",
+      "addressCountry": "United Kingdom"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "support@contentaihub.net"
+    }
+  },
   "pages": {
     "/": {
       "@context": "https://schema.org",
