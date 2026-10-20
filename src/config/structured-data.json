@@ -60,7 +60,7 @@
               "@type": "Service",
               "@id": "https://contentaihub.net/pricing/#basic-plan",
               "name": "Content AI Hub Basic Plan",
-              "image": "https://contentaihub.net/logo.webp",
+              "image": "https://contentaihub.net/basic.webp",
               "serviceType": "Online course membership",
               "description": "Access to lifestyle courses. Members can cancel anytime.",
               "provider": { "@id": "https://contentaihub.net/#organization" }
@@ -78,7 +78,7 @@
               "@type": "Service",
               "@id": "https://contentaihub.net/pricing/#classic-plan",
               "name": "Content AI Hub Classic Plan",
-              "image": "https://contentaihub.net/logo.webp",
+              "image": "https://contentaihub.net/classic.webp",
               "serviceType": "Online course membership",
               "description": "Access to lifestyle courses and business courses. Members can cancel anytime.",
               "provider": { "@id": "https://contentaihub.net/#organization" }
@@ -96,7 +96,7 @@
               "@type": "Service",
               "@id": "https://contentaihub.net/pricing/#premium-plan",
               "name": "Content AI Hub Premium Plan",
-              "image": "https://contentaihub.net/logo.webp",
+              "image": "https://contentaihub.net/premium.webp",
               "serviceType": "Online courses and instructor-led live learning",
               "description": "Access to lifestyle courses, business courses, unlimited access, scheduled instructor-led live classes, direct interaction with instructors, practical live demonstrations, opportunities to ask questions during live sessions, access to upcoming and past classes through the account, and the ability to join eligible classes at their scheduled time. Members can cancel anytime.",
               "provider": { "@id": "https://contentaihub.net/#organization" }

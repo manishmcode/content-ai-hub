@@ -44,6 +44,9 @@ for (const pagePath of Object.keys(structuredData.pages)) {
 const pricingHtml = fs.readFileSync(path.join(buildDir, 'pricing/index.html'), 'utf8');
 assert.ok(pricingHtml.includes('"mainEntity":{"@type":"OfferCatalog"'), 'pricing offer catalog must be nested in WebPage');
 assert.ok(pricingHtml.includes('"breadcrumb":{"@type":"BreadcrumbList"'), 'pricing breadcrumb must be nested in WebPage');
+for (const image of ['basic.webp', 'classic.webp', 'premium.webp']) {
+  assert.ok(pricingHtml.includes(`"image":"${site.origin}/${image}"`), `pricing plan image missing: ${image}`);
+}
 for (const [pagePath, outline] of Object.entries(headings)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
   for (const level of ['h1', 'h2', 'h3']) {
