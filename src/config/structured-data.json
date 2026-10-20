@@ -1,42 +1,112 @@
 {
-  "global": {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://contentaihub.net/#organization",
-        "name": "Content AI Hub",
-        "legalName": "VAQUITA MEDIA LTD",
-        "url": "https://contentaihub.net/",
-        "logo": { "@type": "ImageObject", "@id": "https://contentaihub.net/#logo", "url": "https://contentaihub.net/logo.webp", "contentUrl": "https://contentaihub.net/logo.webp" },
-        "email": "support@contentaihub.net",
-        "address": { "@type": "PostalAddress", "streetAddress": "11 Station Road", "addressLocality": "Watford", "addressRegion": "Hertfordshire", "postalCode": "WD17 1AP", "addressCountry": "United Kingdom" },
-        "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "email": "support@contentaihub.net" }
-      },
-      { "@type": "WebSite", "@id": "https://contentaihub.net/#website", "url": "https://contentaihub.net/", "name": "Content AI Hub", "publisher": { "@id": "https://contentaihub.net/#organization" } },
-      { "@type": "Service", "@id": "https://contentaihub.net/#learning-membership", "name": "Content AI Hub Learning Membership", "serviceType": "Online AI, technology and creator education", "description": "An online learning membership providing access to lifestyle and business courses, AI and technology learning resources, prompt vaults, and scheduled instructor-led live classes according to the selected plan.", "url": "https://contentaihub.net/", "provider": { "@id": "https://contentaihub.net/#organization" } }
-    ]
-  },
   "pages": {
-    "/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/#webpage", "url": "https://contentaihub.net/", "name": "AI & Tech Courses with Live Classes | Content AI Hub", "description": "Learn AI and tech skills through practical online courses and scheduled live classes. Explore video marketing, creator training, and expert-led learning with Content AI Hub.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#learning-membership" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
+    "/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/#webpage",
+      "url": "https://contentaihub.net/",
+      "name": "AI & Tech Courses with Live Classes | Content AI Hub",
+      "description": "Learn AI and tech skills through practical online courses and scheduled live classes. Explore video marketing, creator training, and expert-led learning with Content AI Hub.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
     "/pricing/": {
       "@context": "https://schema.org",
-      "@graph": [
-        { "@type": "WebPage", "@id": "https://contentaihub.net/pricing/#webpage", "url": "https://contentaihub.net/pricing/", "name": "AI Course Pricing & Live Classes | Content AI Hub", "description": "Explore monthly pricing for AI courses, prompt vaults, and weekly live instructor sessions. No long-term lock-in. Cancel anytime.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#learning-membership" }, "mainEntity": { "@id": "https://contentaihub.net/pricing/#membership-plans" }, "breadcrumb": { "@id": "https://contentaihub.net/pricing/#breadcrumb" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-        { "@type": "OfferCatalog", "@id": "https://contentaihub.net/pricing/#membership-plans", "name": "Content AI Hub Membership Plans", "itemListElement": [
-          { "@type": "Offer", "@id": "https://contentaihub.net/pricing/#basic-plan-offer", "name": "Basic Plan", "url": "https://contentaihub.net/pricing/", "price": "18.00", "priceCurrency": "EUR", "seller": { "@id": "https://contentaihub.net/#organization" }, "itemOffered": { "@type": "Service", "@id": "https://contentaihub.net/pricing/#basic-plan", "name": "Content AI Hub Basic Plan", "image": "https://contentaihub.net/logo.webp", "serviceType": "Online course membership", "description": "Access to lifestyle courses. Members can cancel anytime.", "provider": { "@id": "https://contentaihub.net/#organization" } } },
-          { "@type": "Offer", "@id": "https://contentaihub.net/pricing/#classic-plan-offer", "name": "Classic Plan", "url": "https://contentaihub.net/pricing/", "price": "48.00", "priceCurrency": "EUR", "seller": { "@id": "https://contentaihub.net/#organization" }, "itemOffered": { "@type": "Service", "@id": "https://contentaihub.net/pricing/#classic-plan", "name": "Content AI Hub Classic Plan", "image": "https://contentaihub.net/logo.webp", "serviceType": "Online course membership", "description": "Access to lifestyle courses and business courses. Members can cancel anytime.", "provider": { "@id": "https://contentaihub.net/#organization" } } },
-          { "@type": "Offer", "@id": "https://contentaihub.net/pricing/#premium-plan-offer", "name": "Premium Plan", "url": "https://contentaihub.net/pricing/", "price": "98.00", "priceCurrency": "EUR", "seller": { "@id": "https://contentaihub.net/#organization" }, "itemOffered": { "@type": "Service", "@id": "https://contentaihub.net/pricing/#premium-plan", "name": "Content AI Hub Premium Plan", "image": "https://contentaihub.net/logo.webp", "serviceType": "Online courses and instructor-led live learning", "description": "Access to lifestyle courses, business courses, unlimited access, scheduled instructor-led live classes, direct interaction with instructors, practical live demonstrations, opportunities to ask questions during live sessions, access to upcoming and past classes through the account, and the ability to join eligible classes at their scheduled time. Members can cancel anytime.", "provider": { "@id": "https://contentaihub.net/#organization" } } }
-        ] },
-        { "@type": "BreadcrumbList", "@id": "https://contentaihub.net/pricing/#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://contentaihub.net/" }, { "@type": "ListItem", "position": 2, "name": "Pricing", "item": "https://contentaihub.net/pricing/" } ] }
-      ]
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/pricing/#webpage",
+      "url": "https://contentaihub.net/pricing/",
+      "name": "AI Course Pricing & Live Classes | Content AI Hub",
+      "description": "Explore monthly pricing for AI courses, viral prompt vaults, and weekly live instructor sessions. No long-term lock-in. Cancel anytime.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
     },
-    "/unsubscribe/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/unsubscribe/#webpage", "url": "https://contentaihub.net/unsubscribe/", "name": "Cancel Subscription | Content AI Hub", "description": "Cancel your Content AI Hub subscription by entering your verification details to stop recurring renewals.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#learning-membership" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-    "/signup/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/signup/#webpage", "url": "https://contentaihub.net/signup/", "name": "Create Your Account | Content AI Hub", "description": "Create your Content AI Hub account to access AI courses, prompt vaults, and educational resources.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#learning-membership" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-    "/terms-conditions/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/terms-conditions/#webpage", "url": "https://contentaihub.net/terms-conditions/", "name": "Terms & Conditions | Content AI Hub", "description": "Read the Terms and Conditions for Content AI Hub, including information about website use, memberships, payments, cancellations, refunds, and user responsibilities.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#organization" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-    "/privacy-policy/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/privacy-policy/#webpage", "url": "https://contentaihub.net/privacy-policy/", "name": "Privacy Policy | Content AI Hub", "description": "Review the Privacy Policy for Content AI Hub to understand how we collect, use, and protect your personal information when you use our website and services.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#organization" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-    "/imprint/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/imprint/#webpage", "url": "https://contentaihub.net/imprint/", "name": "Imprint & Legal Disclosure | Content AI Hub", "description": "Find official company information, registered address, contact details, and website ownership information for Content AI Hub.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#organization" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-    "/library/": { "@context": "https://schema.org", "@type": "CollectionPage", "@id": "https://contentaihub.net/library/#webpage", "url": "https://contentaihub.net/library/", "name": "Content AI Hub Learning Library", "description": "Explore the courses, educational resources, and learning content available through your Content AI Hub membership.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#learning-membership" }, "publisher": { "@id": "https://contentaihub.net/#organization" } },
-    "/my-account/": { "@context": "https://schema.org", "@type": "WebPage", "@id": "https://contentaihub.net/my-account/#webpage", "url": "https://contentaihub.net/my-account/", "name": "Profile | Content AI Hub", "description": "Manage your Content AI Hub account and membership information.", "isPartOf": { "@id": "https://contentaihub.net/#website" }, "about": { "@id": "https://contentaihub.net/#learning-membership" }, "publisher": { "@id": "https://contentaihub.net/#organization" } }
+    "/unsubscribe/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/unsubscribe/#webpage",
+      "url": "https://contentaihub.net/unsubscribe/",
+      "name": "Cancel Subscription | Content AI Hub",
+      "description": "Cancel your Content AI Hub subscription by entering your verification details to stop recurring renewals.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/signup/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/signup/#webpage",
+      "url": "https://contentaihub.net/signup/",
+      "name": "Create Your Account | Content AI Hub",
+      "description": "Create your Content AI Hub account to access AI courses, prompt vaults, and educational resources.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/terms-conditions/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/terms-conditions/#webpage",
+      "url": "https://contentaihub.net/terms-conditions/",
+      "name": "Terms & Conditions | Content AI Hub",
+      "description": "Read the Terms and Conditions for Content AI Hub, including information about website use, memberships, payments, cancellations, refunds, and user responsibilities.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/privacy-policy/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/privacy-policy/#webpage",
+      "url": "https://contentaihub.net/privacy-policy/",
+      "name": "Privacy Policy | Content AI Hub",
+      "description": "Review the Privacy Policy for Content AI Hub to understand how we collect, use, and protect your personal information when you use our website and services.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/imprint/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/imprint/#webpage",
+      "url": "https://contentaihub.net/imprint/",
+      "name": "Imprint & Legal Disclosure | Content AI Hub",
+      "description": "Find official company information, registered address, contact details, and website ownership information for Content AI Hub.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/library/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/library/#webpage",
+      "url": "https://contentaihub.net/library/",
+      "name": "Content AI Hub Learning Library",
+      "description": "Explore the courses, educational resources, and learning content available through your Content AI Hub membership.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/my-account/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/my-account/#webpage",
+      "url": "https://contentaihub.net/my-account/",
+      "name": "Profile | Content AI Hub",
+      "description": "Manage your Content AI Hub account and membership information.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/login/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/login/#webpage",
+      "url": "https://contentaihub.net/login/",
+      "name": "Log In | Content AI Hub",
+      "description": "Log in to your Content AI Hub account.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/logout/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/logout/#webpage",
+      "url": "https://contentaihub.net/logout/",
+      "name": "Log Out | Content AI Hub",
+      "description": "Log out of your Content AI Hub account.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    },
+    "/checkout/": {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://contentaihub.net/checkout/#webpage",
+      "url": "https://contentaihub.net/checkout/",
+      "name": "Checkout | Content AI Hub",
+      "description": "Complete your Content AI Hub membership checkout.",
+      "publisher": { "name": "Content AI Hub", "url": "https://contentaihub.net/" }
+    }
   }
 }

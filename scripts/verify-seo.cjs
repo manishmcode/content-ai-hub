@@ -32,13 +32,10 @@ for (const [pagePath, page] of Object.entries(metadata)) {
   assert.ok(html.includes('name="twitter:card" content="summary_large_image"'), pagePath);
   assert.ok(html.includes('type="application/ld+json"'), pagePath);
 }
-for (const pagePath of site.pagePaths) {
-  const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
-  assert.ok(html.includes('"@id":"https://contentaihub.net/#organization"'), `global schema missing: ${pagePath}`);
-}
 for (const pagePath of Object.keys(structuredData.pages)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
-  assert.ok(html.includes('"@type":"WebPage"') || html.includes('"@type":"CollectionPage"'), `page schema missing: ${pagePath}`);
+  assert.ok(html.includes('"@type":"WebPage"'), `page schema missing: ${pagePath}`);
+  assert.ok(!html.includes('"@type":"Service"'), `service schema must not be emitted: ${pagePath}`);
 }
 for (const [pagePath, outline] of Object.entries(headings)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');

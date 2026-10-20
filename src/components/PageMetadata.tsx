@@ -46,17 +46,19 @@ export const PageMetadata = () => {
   }, [path]);
 
   useEffect(() => {
-    const schemas = [structuredData.global, structuredData.pages[path as keyof typeof structuredData.pages]]
-      .filter(Boolean) as Array<Record<string, unknown>>;
+    const schema = structuredData.pages[path as keyof typeof structuredData.pages];
     let element = document.head.querySelector<HTMLScriptElement>('script[data-content-aihub-schema]');
+    if (!schema) {
+      element?.remove();
+      return;
+    }
     if (!element) {
       element = document.createElement('script');
       element.type = 'application/ld+json';
       element.dataset.contentAihubSchema = 'true';
       document.head.appendChild(element);
     }
-    const graph = schemas.flatMap(schema => Array.isArray(schema['@graph']) ? schema['@graph'] : [schema]);
-    element.text = JSON.stringify(schemas.length === 1 ? schemas[0] : { '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+    element.text = JSON.stringify(schema).replace(/</g, '\\u003c');
   }, [path]);
   return null;
 };

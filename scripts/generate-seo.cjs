@@ -25,13 +25,13 @@ const escapeHtml = value => String(value)
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;');
 
-const renderPage = (pagePath, page = metadata[pagePath], includeCanonical = true) => {
+const renderPage = (pagePath, page = metadata[pagePath], includeCanonical = true, includeSchema = true) => {
   const title = page?.title || 'Content AI Hub';
   const description = page?.description || 'Content AI Hub';
   const socialDescription = page?.ogDescription || description;
   const imageAlt = page?.imageAlt || 'Content AI Hub';
   const canonical = `${site.origin}${pagePath}`;
-  const schemas = [structuredData.global, structuredData.pages[pagePath]].filter(Boolean);
+  const schemas = includeSchema ? [structuredData.pages[pagePath]].filter(Boolean) : [];
   const tags = [
     includeCanonical && `<link rel="canonical" href="${canonical}" />`,
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
@@ -63,7 +63,7 @@ fs.writeFileSync(path.join(buildDir, '404.html'), renderPage('/', {
   title: 'Page Not Found | Content AI Hub',
   description: 'The requested page could not be found.',
   imageAlt: 'Content AI Hub'
-}, false).replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>'));
+}, false, false).replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>'));
 for (const pagePath of site.pagePaths) {
   const directory = path.join(buildDir, pagePath.slice(1));
   fs.mkdirSync(directory, { recursive: true });
