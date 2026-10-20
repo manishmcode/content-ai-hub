@@ -24,6 +24,9 @@ assert.ok(!fs.readFileSync(path.join(buildDir, '404.html'), 'utf8').includes('re
 assert.ok(fs.readFileSync(path.join(buildDir, '404.html'), 'utf8').includes('name="robots" content="noindex"'));
 assert.ok(fs.readFileSync(path.join(buildDir, 'robots.txt'), 'utf8').includes(`Sitemap: ${site.origin}/sitemap.xml`));
 assert.equal(fs.readFileSync(path.join(buildDir, '.htaccess'), 'utf8'), fs.readFileSync(path.resolve(__dirname, '../public/.htaccess'), 'utf8'));
+const htaccess = fs.readFileSync(path.resolve(__dirname, '../public/.htaccess'), 'utf8');
+assert.ok(htaccess.includes('contentaihub_access=1'), 'missing library access-cookie redirect');
+assert.ok(htaccess.indexOf('contentaihub_access=1') < htaccess.indexOf('Let Apache serve real files'), 'library redirect must run before static files');
 for (const [pagePath, page] of Object.entries(metadata)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
   assert.ok(html.includes(`<title>${escapeHtml(page.title)}</title>`), pagePath);

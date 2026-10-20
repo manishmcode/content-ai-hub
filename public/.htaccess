@@ -3,6 +3,10 @@ DirectoryIndex index.html
 
 RewriteEngine On
 
+
+RewriteCond %{HTTP:Cookie} !(^|;\s*)contentaihub_access=1(;|$) [NC]
+RewriteRule ^library/?$ https://contentaihub.net/pricing/ [R=302,L]
+
 # Canonical public origin. If TLS terminates at a reverse proxy, configure
 # HTTPS correctly at the trusted proxy/vhost before enabling these rules.
 # Old page names go directly to their canonical destination.

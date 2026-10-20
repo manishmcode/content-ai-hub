@@ -53,11 +53,17 @@ interface AuthContextValue {
 const TOKEN_KEY = 'contentaihub_token';
 const USER_KEY = 'contentaihub_user';
 const ASSET_AUTH_COOKIE = 'bgp_auth_token';
+const ACCESS_COOKIE = 'contentaihub_access';
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const setAssetAuthCookie = (value: string, maxAge = 0) => {
   const secure = window.location.protocol === 'https:' ? '; Secure' : '';
   document.cookie = `${ASSET_AUTH_COOKIE}=${encodeURIComponent(value)}; Path=/; SameSite=Lax${secure}${maxAge ? `; Max-Age=${maxAge}` : ''}`;
+};
+
+const setAccessCookie = (maxAge = 0) => {
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${ACCESS_COOKIE}=1; Path=/; SameSite=Lax${secure}${maxAge ? `; Max-Age=${maxAge}` : ''}`;
 };
 
 const readStoredUser = (): AuthUser | null => {
@@ -80,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // <img> and <video> requests cannot send an Authorization header. The
     // backend accepts this same JWT from a first-party cookie for /v/:token.
     setAssetAuthCookie(nextToken, 7 * 24 * 60 * 60);
+    setAccessCookie(7 * 24 * 60 * 60);
     setToken(nextToken);
     setUser(nextUser);
     setHasActivePlan(null);
@@ -147,6 +154,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (!token) return;
     setAssetAuthCookie(token, 7 * 24 * 60 * 60);
+    setAccessCookie(7 * 24 * 60 * 60);
     getDashboard().catch(() => setHasActivePlan(false));
   }, [token, getDashboard]);
 
