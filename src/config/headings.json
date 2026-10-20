@@ -1,0 +1,25 @@
+{
+  "/": {
+    "h1": ["Transform Your Skills, Live and Guided"],
+    "h2": ["Learn AI & Tech Through Courses & Live Guidance", "Learn Skills for Your Creator Journey", "Join Scheduled Live AI Classes", "Three Simple Steps to Get Started", "Learn Skills for Your Creator Business"],
+    "h3": ["How To YouTube Video Upgrade", "Instagram Marketing Masterclass Video Upgrade", "TikTok Shop Masterclass Video Upgrade", "Faceless Marketing Masterclass Video Upgrade", "The Creator Economy Video Upgrade", "Know Your Niche Video Upgrade", "YouTube & Video Marketing", "Faceless Marketing", "Creator Economy", "Scheduled Online Teaching", "Direct Instructor Interaction", "Available Through Your Account", "Choose Your Course", "Learn at Your Own Pace", "Put Knowledge Into Practice"]
+  },
+  "/pricing/": {
+    "h1": ["Invest in Practical Skills. Scale Your Revenue."],
+    "h2": ["Basic", "Premium", "Classic"]
+  },
+  "/unsubscribe/": { "h1": ["Cancel Subscription"] },
+  "/signup/": { "h1": ["Create Account"] },
+  "/terms-conditions/": {
+    "h1": ["Terms & Conditions"],
+    "h2": ["Service", "User Agreement", "Your License", "Support Services", "Fees and Payment", "Cancellation", "Refund Policy", "Right to Terminate", "Your Responsibilities", "Suspension / Discontinuation", "Dispute Resolution", "Governing Law", "Copyright", "Links to Other Websites", "Trademarks", "Force Majeure", "Disclaimer of Warranties", "Age Restriction", "General Provisions"]
+  },
+  "/privacy-policy/": {
+    "h1": ["Privacy Policy"],
+    "h2": ["Consent to Privacy Policy", "Information Collection", "Information Use", "Information Sharing and Disclosure", "Changing or Deleting Your Information", "Use of Cookies", "Behavioral Advertising", "Changes and Updates", "Contact"]
+  },
+  "/imprint/": {
+    "h1": ["Imprint & Legal Disclosure"],
+    "h2": ["Company Information", "Registered Address", "Registration", "Contact", "Responsible for Website Content"]
+  }
+}

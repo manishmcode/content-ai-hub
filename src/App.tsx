@@ -18,6 +18,7 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { RequireAuth } from './auth/RequireAuth';
 import { RequirePlan } from './auth/RequirePlan';
 import { CanonicalUrl } from './components/CanonicalUrl';
+import { PageMetadata } from './components/PageMetadata';
 
 const ScrollToHash: React.FC = () => {
   const { hash, pathname } = useLocation();
@@ -39,6 +40,7 @@ export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <CanonicalUrl />
+      <PageMetadata />
       <ScrollToHash />
       <Routes>
         {/* Core Pages from Reference Site */}
