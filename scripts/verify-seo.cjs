@@ -38,10 +38,12 @@ for (const [pagePath, page] of Object.entries(metadata)) {
 for (const pagePath of Object.keys(structuredData.pages)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
   assert.ok(html.includes('"@type":"WebPage"'), `page schema missing: ${pagePath}`);
-  assert.ok(!html.includes('"@type":"Service"'), `service schema must not be emitted: ${pagePath}`);
   assert.ok(html.includes('"publisher":{"@type":"Organization"'), `nested organization missing: ${pagePath}`);
   assert.equal((html.match(/type="application\/ld\+json"/g) || []).length, 1, `expected one schema item: ${pagePath}`);
 }
+const pricingHtml = fs.readFileSync(path.join(buildDir, 'pricing/index.html'), 'utf8');
+assert.ok(pricingHtml.includes('"mainEntity":{"@type":"OfferCatalog"'), 'pricing offer catalog must be nested in WebPage');
+assert.ok(pricingHtml.includes('"breadcrumb":{"@type":"BreadcrumbList"'), 'pricing breadcrumb must be nested in WebPage');
 for (const [pagePath, outline] of Object.entries(headings)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
   for (const level of ['h1', 'h2', 'h3']) {
