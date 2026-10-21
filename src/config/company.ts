@@ -6,7 +6,7 @@ export const COMPANY = {
     'The Old Free School',
     'George Street',
     'Watford, Hertfordshire',
-    'WD18 0BX',
+    'WD18\u00A00BX',
     'United Kingdom',
   ],
   email: 'support@contentaihub.net',
