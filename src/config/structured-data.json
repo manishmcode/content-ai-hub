@@ -14,10 +14,10 @@
     "email": "support@contentaihub.net",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "11 Station Road",
+      "streetAddress": "The Old Free School, George Street",
       "addressLocality": "Watford",
       "addressRegion": "Hertfordshire",
-      "postalCode": "WD17 1AP",
+      "postalCode": "WD18 0BX",
       "addressCountry": "United Kingdom"
     },
     "contactPoint": {
