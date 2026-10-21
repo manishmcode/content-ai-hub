@@ -83,7 +83,7 @@ export const ImprintPage: React.FC = () => {
                 <div className="space-y-2">
                   <p className={fieldLabelClass}>Company Name</p>
                   <p className={fieldValueClass}>{COMPANY.name}</p>
-                  <p className={supportingTextClass}>Operating entity for ContentAIHub.net</p>
+                  <p className={fieldValueClass}>Operating entity for ContentAIHub.net</p>
                   <div className="pt-2">
                     <p className={fieldLabelClass}>Represented by / Director</p>
                     <p className={fieldValueClass}>{COMPANY.directorName}</p>
@@ -98,8 +98,8 @@ export const ImprintPage: React.FC = () => {
                 </h2>
                 <div className="space-y-2">
                   <p className={fieldLabelClass}>Official Headquarters</p>
-                  {COMPANY.addressLines.map((line, index) => (
-                    <p key={line} className={index === 0 ? fieldValueClass : supportingTextClass}>{line}</p>
+                  {COMPANY.addressLines.map((line) => (
+                    <p key={line} className={fieldValueClass}>{line}</p>
                   ))}
                 </div>
               </div>
@@ -115,7 +115,7 @@ export const ImprintPage: React.FC = () => {
                 <div>
                   <span className={`${fieldLabelClass} block`}>Company Registration Number</span>
                   <span className={`${fieldValueClass} block`}>{COMPANY.companyNumber}</span>
-                  <p className={`${supportingTextClass} mt-1`}>Incorporated &amp; registered under the laws of the United Kingdom</p>
+                  <p className={`${fieldValueClass} mt-1`}>Incorporated &amp; registered under the laws of the United Kingdom</p>
                 </div>
               </div>
 
@@ -141,7 +141,7 @@ export const ImprintPage: React.FC = () => {
                 Responsible for Website Content
               </h2>
               <p className={fieldValueClass}>{COMPANY.name}</p>
-              <p className={supportingTextClass}>
+              <p className={fieldValueClass}>
                 {COMPANY.addressLines.join(', ')}
               </p>
             </div>
