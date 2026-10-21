@@ -26,19 +26,18 @@ export const Hero: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00D084]" />
               </span>
               <span className="text-xs font-bold tracking-wide text-emerald-300">
-                THE FUTURE OF LEARNING · AI &amp; CONTENT GROWTH
+                AI MARKETING &amp; CONTENT GROWTH
               </span>
             </div>
 
             {/* Headline matching screenshot visual aesthetic */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white">
-              Transform Your Skills, <br />
-              Live and <span className="text-[#00D084]">Guided.</span>
+              Learn, Create, and Grow in the <span className="text-[#00D084]">Digital World</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
-              Learn with expert-led courses and live classes built to help creators grow. Explore practical lessons in video marketing, faceless content, social commerce, and audience growth.
+              Explore learning opportunities in digital marketing, content creation, social media, and online business growth. Discover strategies for building your online presence, reaching the right audience, and developing content that supports your goals.
             </p>
 
             {/* Refined Action Buttons */}

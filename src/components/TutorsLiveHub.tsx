@@ -392,7 +392,7 @@ export const TutorsLiveHub: React.FC = () => {
                     <span>Average Creator Video (High Dropoff)</span>
                   </span>
                 </div>
-                <span className="font-mono text-emerald-400 font-bold">+184% Watch Time Advantage</span>
+                <span className="text-emerald-400 font-bold">+184% Watch Time Advantage</span>
               </div>
 
               {/* Progress Milestones Bar */}
@@ -400,7 +400,7 @@ export const TutorsLiveHub: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1.5">
                     <span className="text-cyan-300">0:00 - 0:03 | The Pattern Interrupt Hook</span>
-                    <span className="text-cyan-400 font-mono">94% Retention (vs 68% avg)</span>
+                    <span className="text-cyan-400">94% Retention (vs 68% avg)</span>
                   </div>
                   <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
                     <div className="h-full bg-gradient-to-r from-violet-500 to-cyan-400 rounded-full w-[94%]" />
@@ -413,7 +413,7 @@ export const TutorsLiveHub: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1.5">
                     <span className="text-cyan-300">0:15 - 0:25 | Open Loop &amp; Value Delivery</span>
-                    <span className="text-cyan-400 font-mono">82% Retention (vs 44% avg)</span>
+                    <span className="text-cyan-400">82% Retention (vs 44% avg)</span>
                   </div>
                   <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
                     <div className="h-full bg-gradient-to-r from-violet-500 to-cyan-400 rounded-full w-[82%]" />
@@ -426,7 +426,7 @@ export const TutorsLiveHub: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1.5">
                     <span className="text-cyan-300">0:45 - 1:00 | Call-To-Action &amp; Comment Trigger</span>
-                    <span className="text-cyan-400 font-mono">74% Retention (vs 28% avg)</span>
+                    <span className="text-cyan-400">74% Retention (vs 28% avg)</span>
                   </div>
                   <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
                     <div className="h-full bg-gradient-to-r from-violet-500 to-cyan-400 rounded-full w-[74%]" />

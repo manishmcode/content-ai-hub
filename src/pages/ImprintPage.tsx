@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
-import { Building2, Mail, MapPin, ShieldCheck, Scale, FileText, ArrowRight } from 'lucide-react';
+import { Building2, Mail, MapPin, ShieldCheck, FileText, ArrowRight } from 'lucide-react';
 import { COMPANY } from '../config/company';
+
+const sectionHeadingClass = 'text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2.5';
+const fieldLabelClass = 'text-xs uppercase tracking-wider text-slate-400 font-bold';
+const fieldValueClass = 'text-sm sm:text-[15px] font-semibold text-slate-900 leading-relaxed';
+const supportingTextClass = 'text-sm sm:text-[15px] text-slate-600 leading-relaxed';
 
 export const ImprintPage: React.FC = () => {
   const { pathname } = useLocation();
@@ -69,74 +74,74 @@ export const ImprintPage: React.FC = () => {
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-8 text-slate-600 text-sm sm:text-base leading-relaxed">
             
             {/* Company Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 border-b border-slate-100">
-              <div className="space-y-4">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 border-b border-slate-100 font-semibold">
+              <div className="space-y-3">
+                <h2 className={sectionHeadingClass}>
                   <Building2 className="w-5 h-5 text-[#00B67A]" />
                   Company Information
                 </h2>
-                <div className="space-y-1 text-slate-700 font-medium">
-                  <p className="text-xs uppercase tracking-wider text-slate-400 font-bold">Company Name</p>
-                  <p className="text-lg font-black text-slate-900">{COMPANY.name}</p>
-                  <p className="text-xs text-slate-500 pt-1">Operating entity for ContentAIHub.net</p>
+                <div className="space-y-2">
+                  <p className={fieldLabelClass}>Company Name</p>
+                  <p className={fieldValueClass}>{COMPANY.name}</p>
+                  <p className={supportingTextClass}>Operating entity for ContentAIHub.net</p>
                   <div className="pt-2">
-                    <p className="text-xs uppercase tracking-wider text-slate-400 font-bold">Represented by / Director</p>
-                    <p className="font-semibold text-slate-900">{COMPANY.directorName}</p>
+                    <p className={fieldLabelClass}>Represented by / Director</p>
+                    <p className={fieldValueClass}>{COMPANY.directorName}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <div className="space-y-3">
+                <h2 className={sectionHeadingClass}>
                   <MapPin className="w-5 h-5 text-[#00B67A]" />
                   Registered Address
                 </h2>
-                <div className="space-y-1 text-slate-700">
-                  <p className="text-xs uppercase tracking-wider text-slate-400 font-bold">Official Headquarters</p>
+                <div className="space-y-2">
+                  <p className={fieldLabelClass}>Official Headquarters</p>
                   {COMPANY.addressLines.map((line, index) => (
-                    <p key={line} className={index === 0 ? 'font-semibold text-slate-900' : undefined}>{line}</p>
+                    <p key={line} className={index === 0 ? fieldValueClass : supportingTextClass}>{line}</p>
                   ))}
                 </div>
               </div>
             </div>
 
             {/* Registration & Contact */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 border-b border-slate-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 border-b border-slate-100 font-semibold">
               <div className="space-y-3">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <h2 className={sectionHeadingClass}>
                   <FileText className="w-5 h-5 text-[#00B67A]" />
                   Registration
                 </h2>
                 <div>
-                  <span className="text-xs text-slate-400 block uppercase font-bold tracking-wider">Company Registration Number</span>
-                  <span className="text-xl font-bold tracking-wide text-slate-900 font-mono">{COMPANY.companyNumber}</span>
-                  <p className="text-xs text-slate-500 mt-1">Incorporated &amp; registered under the laws of the United Kingdom</p>
+                  <span className={`${fieldLabelClass} block`}>Company Registration Number</span>
+                  <span className={`${fieldValueClass} block`}>{COMPANY.companyNumber}</span>
+                  <p className={`${supportingTextClass} mt-1`}>Incorporated &amp; registered under the laws of the United Kingdom</p>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <h2 className={sectionHeadingClass}>
                   <Mail className="w-5 h-5 text-[#00B67A]" />
                   Contact
                 </h2>
                 <div>
-                  <span className="text-xs text-slate-400 block uppercase font-bold tracking-wider">Official Inquiries &amp; Support</span>
-                  <a href={`mailto:${COMPANY.email}`} className="text-base font-semibold text-[#00B67A] hover:underline">
+                  <span className={`${fieldLabelClass} block`}>Official Inquiries &amp; Support</span>
+                  <a href={`mailto:${COMPANY.email}`} className="text-sm sm:text-[15px] font-semibold text-[#00B67A] hover:underline">
                     {COMPANY.email}
                   </a>
-                  <p className="text-xs text-slate-500 mt-1">Website: <a href={COMPANY.website} className="hover:underline text-slate-700">{COMPANY.website}</a></p>
+                  <p className={`${supportingTextClass} mt-1`}>Website: <a href={COMPANY.website} className="hover:underline text-slate-700">{COMPANY.website}</a></p>
                 </div>
               </div>
             </div>
 
             {/* Responsible for Website Content */}
             <div className="space-y-3 pb-8 border-b border-slate-100">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <h2 className={sectionHeadingClass}>
                 <ShieldCheck className="w-5 h-5 text-[#00B67A]" />
                 Responsible for Website Content
               </h2>
-              <p className="text-sm font-semibold text-slate-900">{COMPANY.name}</p>
-              <p className="text-sm text-slate-600">
+              <p className={fieldValueClass}>{COMPANY.name}</p>
+              <p className={supportingTextClass}>
                 {COMPANY.addressLines.join(', ')}
               </p>
             </div>

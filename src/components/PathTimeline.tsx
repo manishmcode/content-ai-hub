@@ -15,8 +15,8 @@ const pathSteps: PathStep[] = [
   {
     number: '01',
     title: 'Choose Your Course',
-    subtitle: 'Select a topic that aligns with your goals',
-    description: 'Explore the available video courses and select a learning topic that aligns with your personal interests, creative skills, and business goals.',
+    subtitle: 'Browse the available learning paths',
+    description: 'Browse the available learning paths and select a course that matches your interests, current skills, and growth objectives.',
     gradient: 'from-emerald-500 via-teal-500 to-[#00B67A]',
     glowClass: 'shadow-[0_0_30px_rgba(0,182,122,0.45)] ring-4 ring-emerald-500/30',
     icon: <GraduationCap className="w-5 h-5 text-white" />,
@@ -25,16 +25,16 @@ const pathSteps: PathStep[] = [
     number: '02',
     title: 'Learn at Your Own Pace',
     subtitle: 'Work through lessons on your schedule',
-    description: 'Work through the available video lessons and learning materials at a pace that suits your schedule, on any desktop or mobile device.',
+    description: 'Work through the available course materials according to your schedule and the access conditions of your course. Join scheduled live classes where included.',
     gradient: 'from-teal-500 via-emerald-600 to-cyan-500',
     glowClass: 'shadow-[0_0_30px_rgba(13,148,136,0.45)] ring-4 ring-teal-500/30',
     icon: <Briefcase className="w-5 h-5 text-white" />,
   },
   {
     number: '03',
-    title: 'Put Knowledge Into Practice',
-    subtitle: 'Apply techniques to your everyday work',
-    description: 'Apply the ideas and techniques you learn to your everyday work, personal productivity, content creation, or online business projects.',
+    title: 'Apply What You Learn',
+    subtitle: 'Develop your content and marketing goals',
+    description: 'Use your knowledge to develop content ideas, improve your marketing approach, understand your audience, and explore new opportunities for growing your online presence.',
     gradient: 'from-cyan-600 via-teal-600 to-emerald-600',
     glowClass: 'shadow-[0_0_30px_rgba(6,182,212,0.45)] ring-4 ring-cyan-500/30',
     icon: <CheckCircle2 className="w-5 h-5 text-white" />,
@@ -52,10 +52,10 @@ export const PathTimeline: React.FC = () => {
             HOW IT WORKS
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mt-3">
-            Three Simple Steps to <span className="text-[#00B67A]">Get Started</span>
+            Start Your Learning Journey in <span className="text-[#00B67A]">Three Simple Steps</span>
           </h2>
           <p className="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
-            Choose a practical learning topic, move through the course at your own pace, and apply new ideas to your work.
+            Choose an area you want to develop, explore the available course materials, and apply your knowledge to your content and marketing goals.
           </p>
         </div>
 

@@ -12,32 +12,32 @@ interface FeatureCardData {
 const featureCards: FeatureCardData[] = [
   {
     icon: <Video className="w-7 h-7 text-white" />,
-    title: 'YouTube & Video Marketing',
-    description: 'Learn practical ways to grow a YouTube channel, create stronger videos, and reach the right audience.',
+    title: 'Create Better Content',
+    description: 'Discover approaches to content planning, idea development, and creating relevant material that connects with your target audience.',
     features: [
-      'Create a branded YouTube channel',
-      'Grow subscribers and channel traffic',
-      'Improve search rankings and reach'
+      'Content planning',
+      'Idea development',
+      'Relevant material'
     ],
   },
   {
     icon: <TrendingUp className="w-7 h-7 text-white" />,
-    title: 'Faceless Marketing',
-    description: 'Build a strong digital presence and create content without showing your face.',
+    title: 'Strengthen Your Marketing Approach',
+    description: 'Build your understanding of digital marketing strategies, online visibility, and audience engagement to support more effective content promotion.',
     features: [
-      'Build anonymous brand identities',
-      'Create content without personal exposure',
-      'Monetize your faceless brand'
+      'Digital marketing strategies',
+      'Online visibility',
+      'Audience engagement'
     ],
   },
   {
     icon: <Sparkles className="w-7 h-7 text-white" />,
-    title: 'Creator Economy',
-    description: 'Develop the skills to create consistently, build partnerships, and earn as a content creator.',
+    title: 'Grow Your Online Presence',
+    description: 'Explore ways to understand your audience, evaluate content performance, and identify opportunities to develop your brand across digital platforms.',
     features: [
-      'Build branded partnerships',
-      'Choose content that serves your audience',
-      'Explore creator income opportunities'
+      'Understand your audience',
+      'Evaluate content performance',
+      'Develop your brand'
     ],
   },
 ];
@@ -57,18 +57,18 @@ export const Features: React.FC = () => {
           {/* Left Column: Heading & CTAs (Intro Column) */}
           <div className="lg:col-span-4 space-y-6 text-center lg:text-left">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#00B67A] bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full inline-block">
-              WHY LEARN WITH US
+              YOUR CONTENT GROWTH JOURNEY
             </span>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              Learn Skills for Your <br className="hidden sm:inline" />
+              Build Your Content. Reach Your Audience. <br className="hidden sm:inline" />
               <span className="text-[#00B67A]">
-                Creator Journey
+                Grow Your Brand.
               </span>
             </h2>
 
             <p className="text-slate-600 text-base leading-relaxed">
-              Explore practical video lessons for YouTube growth, faceless marketing, social commerce, and the creator economy.
+              Explore how AI marketing concepts, content strategies, and digital marketing techniques can support your online growth. Develop your understanding of content planning, audience engagement, and marketing performance to build a stronger digital presence and adapt to the evolving online landscape.
             </p>
 
             <div className="pt-2">
@@ -77,7 +77,7 @@ export const Features: React.FC = () => {
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-bold text-sm shadow-[0_12px_24px_-4px_rgba(0,182,122,0.4)] active:scale-95 transition-all duration-200 group"
               >
                 <Zap className="w-4 h-4 text-emerald-100 fill-emerald-100" />
-                <span>Explore Library</span>
+                <span>Explore Learning Library</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

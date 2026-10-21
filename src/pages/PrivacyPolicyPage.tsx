@@ -117,12 +117,12 @@ export const PrivacyPolicyPage: React.FC = () => {
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
             
             {/* Controller Box */}
-            <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 text-xs sm:text-sm text-slate-800 space-y-1.5">
-              <span className="font-black text-[#00B67A] uppercase tracking-wider block text-xs flex items-center gap-1.5">
+            <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 space-y-3">
+              <h2 className="font-bold text-slate-900 text-lg sm:text-xl flex items-center gap-2.5">
                 <Building2 className="w-4 h-4" />
                 Data Controller Information
-              </span>
-              <p>
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-[15px] leading-relaxed">
                 The data controller responsible for the processing of your personal data on ContentAIHub.net is <strong>{COMPANY.name}</strong>, registered company number <strong>{COMPANY.companyNumber}</strong>, located at <strong>{COMPANY.addressLines.join(', ')}</strong>. Contact: <strong>{COMPANY.email}</strong>.
               </p>
             </div>
@@ -137,8 +137,10 @@ export const PrivacyPolicyPage: React.FC = () => {
                     </span>
                     <span>{section.title}</span>
                   </h2>
-                  <div className="text-slate-600 text-sm sm:text-[15px] leading-relaxed whitespace-pre-line space-y-2">
-                    {section.content}
+                  <div className="space-y-3 text-slate-600 text-sm sm:text-[15px] leading-relaxed">
+                    {section.content.split('\n\n').map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
                   </div>
                 </section>
               ))}

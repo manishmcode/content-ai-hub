@@ -293,7 +293,7 @@ export const MyAccountPage: React.FC = () => {
                       <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
                         {(dashboard?.payments ?? []).map((payment) => (
                         <tr key={payment.payment_id} className="hover:bg-slate-50/70 transition-colors">
-                          <td className="py-4 px-4 font-mono text-[11px] text-slate-600">
+                          <td className="py-4 px-4 text-[11px] text-slate-600">
                             <div className="flex items-center gap-1.5">
                               <span className="truncate max-w-[170px] sm:max-w-[220px]">
                                 {payment.payment_id}
@@ -334,7 +334,7 @@ export const MyAccountPage: React.FC = () => {
                         )}
                         {!dashboard && (
                           <tr>
-                            <td className="py-4 px-4 font-mono text-[11px] text-slate-600">INV-2026-9481</td>
+                            <td className="py-4 px-4 text-[11px] text-slate-600">INV-2026-9481</td>
                             <td className="py-4 px-4 text-slate-500">Oct 16, 2026</td>
                             <td className="py-4 px-4">
                               <span className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#00B67A] text-[10px] font-black uppercase">
@@ -530,7 +530,7 @@ export const MyAccountPage: React.FC = () => {
                         required
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] font-mono"
+                        className="w-full px-4 py-3 rounded-2xl bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A]"
                       />
                     </div>
 

@@ -164,7 +164,7 @@ export const CheckoutPage: React.FC = () => {
             </Link>
 
             <div>
-              <span className="text-[11px] font-black uppercase tracking-wider text-[#00B67A] font-mono block">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#00B67A] block">
                 ONE STEP CLOSER
               </span>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight mt-1">
@@ -187,7 +187,7 @@ export const CheckoutPage: React.FC = () => {
               <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-4">
                 <div className="bg-[#0B1322] text-white rounded-[28px] p-7 sm:p-8 shadow-2xl border border-slate-800 space-y-6">
                   
-                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 font-mono block">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 block">
                     YOUR MEMBERSHIP
                   </span>
 
@@ -300,7 +300,7 @@ export const CheckoutPage: React.FC = () => {
                         value={form.password}
                         onChange={updateField('password')}
                         placeholder="Choose a secure password"
-                        className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition font-medium font-mono"
+                        className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition font-medium"
                       />
                     </div>
 
@@ -396,7 +396,7 @@ export const CheckoutPage: React.FC = () => {
                         value={form.iban}
                         onChange={updateField('iban')}
                         placeholder="Enter your IBAN"
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition font-mono uppercase"
+                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A] focus:ring-1 focus:ring-[#00B67A] transition uppercase"
                       />
                     </div>
 

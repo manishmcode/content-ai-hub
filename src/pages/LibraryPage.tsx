@@ -48,7 +48,6 @@ const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
 export const LibraryPage: React.FC = () => {
   const { token, apiFetch } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'live'>('library');
-  const [categorySearch, setCategorySearch] = useState('');
   const [moduleSearch, setModuleSearch] = useState('');
   const [categories, setCategories] = useState<LibraryCategory[]>(FALLBACK_CATEGORIES);
   const [classes, setClasses] = useState<LiveClass[]>([]);
@@ -91,7 +90,6 @@ export const LibraryPage: React.FC = () => {
     return () => controller.abort();
   }, [token, apiFetch]);
 
-  const filteredCategories = useMemo(() => categories.filter((category) => category.title.toLowerCase().includes(categorySearch.toLowerCase())), [categories, categorySearch]);
   const selectedCategory = categories.find((category) => category.title === selectedCategoryTitle) || categories[0];
   const filteredModules = useMemo(() => selectedCategory?.cards.filter((card) => card.title.toLowerCase().includes(moduleSearch.toLowerCase())) || [], [selectedCategory, moduleSearch]);
   const now = Date.now();
@@ -173,7 +171,7 @@ export const LibraryPage: React.FC = () => {
 
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-transparent text-slate-900 pt-36 sm:pt-40 md:pt-44 pb-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="min-h-screen bg-transparent text-slate-900 pt-36 sm:pt-40 md:pt-44 pb-32 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-7xl mx-auto space-y-8 relative z-10">
           {/* Main Top Banner Card - Dark Sculptural Aesthetic */}
           <div className="rounded-[32px] bg-gradient-to-br from-slate-950 via-[#09101D] to-[#041D14] border border-slate-800 p-8 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 text-white">
@@ -243,25 +241,15 @@ export const LibraryPage: React.FC = () => {
           {!loading && activeTab === 'library' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Categories List */}
-              <div className="lg:col-span-4 rounded-3xl bg-white border border-slate-200/90 p-6 shadow-sm space-y-4">
+              <aside className="lg:col-span-4 self-start h-fit lg:sticky lg:top-24 rounded-3xl bg-white border border-slate-200/90 p-6 shadow-sm space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">Categories</span>
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">Courses</span>
                   <span className="text-xs font-bold bg-emerald-50 text-[#00B67A] px-2.5 py-0.5 rounded-full border border-emerald-200">
                     {categories.length} Tracks
                   </span>
                 </div>
-                <div className="relative">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Filter courses..."
-                    value={categorySearch}
-                    onChange={(e) => setCategorySearch(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#00B67A]"
-                  />
-                </div>
                 <div className="space-y-2 max-h-[620px] overflow-y-auto pr-1">
-                  {filteredCategories.map((category) => (
+                  {categories.map((category) => (
                     <button
                       key={category.title}
                       type="button"
@@ -284,7 +272,7 @@ export const LibraryPage: React.FC = () => {
                     </button>
                   ))}
                 </div>
-              </div>
+              </aside>
 
               {/* Right Modules Grid */}
               <div className="lg:col-span-8 rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-8 shadow-sm space-y-6">
@@ -304,7 +292,7 @@ export const LibraryPage: React.FC = () => {
                       </p>
                     </div>
 
-                    <div className="relative max-w-md">
+                    <div className="relative w-full">
                       <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <input
                         type="text"

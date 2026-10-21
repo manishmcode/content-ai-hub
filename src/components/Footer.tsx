@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import { COMPANY } from '../config/company';
 import { MastercardIcon, SepaIcon, VisaIcon } from './common/PaymentIcons';
 
@@ -30,28 +30,19 @@ export const Footer: React.FC = () => {
               <div className="lg:col-span-8 text-center lg:text-left space-y-4">
                 <span className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-[#00D084]">
                   <Sparkles className="w-3.5 h-3.5 text-[#00D084]" />
-                  <span>ContentAIHub Library</span>
+                  <span>YOUR NEXT STAGE OF GROWTH STARTS HERE</span>
                 </span>
 
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.12]">
-                  Learn Skills for Your <br className="hidden sm:inline" />
-                  Creator Business
+                  Turn Your Content and Marketing Goals into Action
                 </h2>
 
                 <p className="text-white/90 text-sm sm:text-base max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                  Explore practical lessons in YouTube and video marketing, faceless marketing, TikTok Shop, the creator economy, and niche strategy.
+                  Build your knowledge of video marketing, social media, e-commerce, creator strategies, and audience research. Explore the available learning opportunities and take the next step towards developing your digital skills and online presence.
                 </p>
 
                 {/* Trust Badges */}
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-1 text-xs text-white/90 font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#00D084]" />
-                    <span>Practical video lessons</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#00D084]" />
-                    <span>Live classes for members</span>
-                  </div>
                 </div>
               </div>
 
@@ -61,7 +52,7 @@ export const Footer: React.FC = () => {
                   to="/library/"
                   className="inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full bg-white text-slate-950 font-black text-sm hover:bg-emerald-50 hover:text-emerald-950 hover:shadow-2xl active:scale-95 transition-all duration-300 shadow-xl group"
                 >
-                  <span>Explore Library</span>
+                  <span>Explore Courses</span>
                   <ArrowRight className="w-4 h-4 text-emerald-700 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -91,7 +82,7 @@ export const Footer: React.FC = () => {
             </Link>
 
             <p className="text-[14px] leading-relaxed text-slate-400 font-medium max-w-[310px] mb-8">
-              ContentAIHub.net offers video courses and live classes on AI productivity, remote work, freelancing, and online business.
+              Content AI Hub brings together learning opportunities in digital marketing, content creation, social media, e-commerce, and creator growth. Explore available courses and scheduled live classes to develop your knowledge, strengthen your content strategy, and support your online growth.
             </p>
 
             {/* Accepted Payment Methods */}

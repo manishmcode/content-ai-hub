@@ -14,6 +14,15 @@ interface CoursesProps {
   onSelectCourse?: (course: Course) => void;
 }
 
+const homepageCourses = [
+  { title: 'YouTube & Video Marketing', description: 'Learn how to grow your YouTube channel, build a recognisable brand, and attract more viewers. Explore strategies for increasing subscribers, improving search rankings, driving channel traffic, and using video content to promote your business.' },
+  { title: 'Faceless Marketing', description: 'Learn how to develop an online brand without appearing on camera. Explore anonymous brand identity, content creation, social media visibility, SEO, and email marketing. Discover monetisation approaches and performance tracking techniques to support your online growth.' },
+  { title: 'TikTok Shop & E-commerce', description: 'Learn how to set up and grow a TikTok Shop, identify products with sales potential, and create content that attracts customers. Explore TikTok’s algorithm, live selling, influencer and affiliate marketing, and performance analytics. Discover ways to improve customer experience, optimise sales, and build a long-term e-commerce brand.' },
+  { title: 'Social Media Marketing', description: 'Learn how to build and grow an Instagram business presence through engaging content and effective marketing strategies. Explore Instagram’s algorithm, organic follower growth, paid advertising, influencer marketing, Stories, and Reels. Discover how to measure campaign performance and improve your social media strategy.' },
+  { title: 'Creator Economy', description: 'Learn how to develop your content creation skills, build an audience, and explore ways to earn as a creator. Discover tips for choosing content topics, creating consistently, building branded partnerships, and learning from successful creators. Explore social media advertising, influencer marketing, and affiliate marketing.' },
+  { title: 'Niche & Audience Strategy', description: 'Learn how to choose a niche that aligns with your interests, audience needs, and business goals. Explore e-commerce and blogging niches, keyword research, and market opportunities. Discover ways to evaluate a niche, find relevant keyword tools, and assess its potential for long-term growth.' },
+];
+
 export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
   const [activeModalCourse, setActiveModalCourse] = useState<Course | null>(null);
 
@@ -32,37 +41,38 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200/60 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#00B67A]" />
-            <span>COMPREHENSIVE CURRICULUM</span>
+            <span>EXPLORE OUR COURSES</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-            Learn AI &amp; Tech Through <br className="hidden sm:inline" />
+            Learn the Skills Behind Content and <br className="hidden sm:inline" />
             <span className="text-[#00B67A]">
-              Courses &amp; Live Guidance
+              Marketing Growth
             </span>
           </h2>
 
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-            Six comprehensive video upgrade masterclasses engineered for the creator economy. From YouTube retention and viral Reels to automated TikTok Shop commerce and anonymous faceless channels.
+            Discover courses covering video marketing, faceless content, social commerce, Instagram marketing, creator monetisation, and niche research. Build your understanding of content strategy, audience engagement, and online growth through focused learning.
           </p>
 
         </div>
 
         {/* Course Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
-            {filteredCourses.map((course) => {
+            {homepageCourses.map((course, index) => {
+              const sourceCourse = filteredCourses[index];
               return (
                 <div
-                  key={course.id}
+                  key={course.title}
                   className="rounded-[1.8rem] transition-all duration-300 flex flex-col justify-between bg-white border border-slate-200 shadow-[0_12px_30px_rgba(15,23,42,0.07)] group overflow-hidden"
                 >
                   {/* Gradient video-card header */}
-                  <div className={`h-[160px] p-5 bg-gradient-to-br ${course.gradientBadge} text-white relative overflow-hidden`}>
+                  <div className={`h-[160px] p-5 bg-gradient-to-br ${sourceCourse.gradientBadge} text-white relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/5" />
                     <div className="relative h-full flex flex-col">
                       <div className="flex items-center gap-2">
                         <span className="max-w-[42%] px-3 py-1 rounded-full bg-white/20 border border-white/35 text-[10px] font-black uppercase tracking-wide backdrop-blur-sm truncate">
-                          {course.category}
+                          Course {index + 1}
                         </span>
                       </div>
 
@@ -75,22 +85,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                   <div className="flex flex-col flex-1">
                     {/* Content Section */}
                     <div className="p-6 pb-4">
-                      <div className="text-xs font-bold text-emerald-600 mb-2.5 flex items-center gap-1.5">
-                        <span className="size-1.5 rounded-full bg-emerald-500" />
-                        <span className="line-clamp-1">{course.tagline}</span>
-                      </div>
-
-                      <p className="text-sm font-medium text-slate-600 leading-relaxed mb-4">{course.shortDescription}</p>
-
-                      {/* Key Outcomes */}
-                      <div className="space-y-2.5 mb-4">
-                        {course.keyOutcomes.slice(0, 3).map((outcome, idx) => (
-                          <div key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                            <span className="line-clamp-1">{outcome}</span>
-                          </div>
-                        ))}
-                      </div>
+                      <p className="text-sm font-medium text-slate-600 leading-relaxed">{course.description}</p>
 
                     </div>
                   </div>
@@ -106,7 +101,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
             to="/library/"
             className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-emerald-500/25 active:scale-95 transition-all"
           >
-            <span>Explore Courses</span>
+            <span>Explore All Courses</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
