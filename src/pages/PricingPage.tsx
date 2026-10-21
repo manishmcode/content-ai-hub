@@ -155,16 +155,11 @@ export const PricingPage: React.FC = () => {
                   >
                     <div className="space-y-6">
                       
-                      {/* Card Header: Title & Subtitle */}
+                      {/* Card Header */}
                       <div className="text-center space-y-1">
                         <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                           {plan.name}
                         </h3>
-                        {plan.description && (
-                          <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
-                            {plan.description}
-                          </p>
-                        )}
                       </div>
 
                       {/* Price Section */}
