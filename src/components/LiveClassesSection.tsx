@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import { 
   Calendar,
   Users, 
@@ -12,6 +13,11 @@ import {
 } from 'lucide-react';
 
 export const LiveClassesSection: React.FC = () => {
+  const { hasActivePlan } = useAuth();
+  // A membership is only considered usable once the dashboard confirms an
+  // active subscription. Until then, send visitors to choose a plan.
+  const liveModulePath = hasActivePlan ? '/library/' : '/pricing/';
+
   const pillars = [
     {
       id: 1,
@@ -103,10 +109,14 @@ export const LiveClassesSection: React.FC = () => {
 
               {/* Bottom Feature Tag & Indicator */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#00B67A]">
+                <Link
+                  to={liveModulePath}
+                  className="flex items-center gap-1.5 text-xs font-bold text-[#00B67A] hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded"
+                  aria-label={`Open ${pillar.title} live module`}
+                >
                   <span>Live Module</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
+                </Link>
               </div>
             </div>
           ))}
@@ -145,7 +155,7 @@ export const LiveClassesSection: React.FC = () => {
             {/* CTA Action */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto justify-end">
               <Link
-                to="/library/"
+                to={liveModulePath}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-black text-xs sm:text-sm tracking-wider uppercase shadow-lg shadow-emerald-500/30 active:scale-95 transition-all duration-200 group whitespace-nowrap"
               >
                 <span>Explore Courses</span>
