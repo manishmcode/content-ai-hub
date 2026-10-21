@@ -41,8 +41,9 @@ for (const [pagePath, page] of Object.entries(metadata)) {
 }
 for (const pagePath of Object.keys(structuredData.pages)) {
   const html = fs.readFileSync(path.join(buildDir, pagePath.slice(1), 'index.html'), 'utf8');
-  assert.ok(html.includes('"@type":"WebPage"'), `page schema missing: ${pagePath}`);
-  assert.ok(html.includes('"publisher":{"@type":"Organization"'), `nested organization missing: ${pagePath}`);
+  assert.ok(html.includes(`"@type":"${structuredData.pages[pagePath]['@type']}"`), `page schema missing: ${pagePath}`);
+  assert.ok(html.includes('"@id":"https://contentaihub.net/#website"'), `website schema missing: ${pagePath}`);
+  assert.ok(html.includes('"@id":"https://contentaihub.net/#learning-membership"'), `learning membership schema missing: ${pagePath}`);
   assert.equal((html.match(/type="application\/ld\+json"/g) || []).length, 1, `expected one schema item: ${pagePath}`);
   assert.equal((html.match(/data-content-aihub-schema="true"/g) || []).length, 1, `expected one reusable schema node: ${pagePath}`);
 }

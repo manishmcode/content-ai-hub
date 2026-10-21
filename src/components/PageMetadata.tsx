@@ -53,7 +53,18 @@ export const PageMetadata = () => {
 
   useEffect(() => {
     const pageSchema = structuredData.pages[path as keyof typeof structuredData.pages];
-    const schema = pageSchema && { ...pageSchema, publisher: structuredData.organization };
+    const schema = pageSchema && (() => {
+      const { '@context': context, ...pageNode } = pageSchema;
+      return {
+        '@context': context,
+        '@graph': [
+          structuredData.organization,
+          structuredData.website,
+          structuredData.learningMembership,
+          pageNode
+        ]
+      };
+    })();
     let element = document.head.querySelector<HTMLScriptElement>('script[data-content-aihub-schema]');
     if (!schema) {
       element?.remove();

@@ -133,9 +133,9 @@ export const LiveClassesSection: React.FC = () => {
                   Keep Learning. Keep Creating. Keep Growing.
                   </span>
                 </div>
-                <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
                   Keep Learning. Keep Creating. Keep Growing.
-                </h4>
+                </h2>
                 <p className="text-xs text-slate-400 mt-1">
                   Explore available courses and live classes to strengthen your marketing knowledge, develop your content skills, and discover new opportunities for online growth.
                 </p>

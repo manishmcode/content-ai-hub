@@ -13,7 +13,17 @@ const imageUrl = `${site.origin}/logo.webp`;
 const jsonLdTag = schema => `<script type="application/ld+json" data-content-aihub-schema="true">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>`;
 const pageSchema = pagePath => {
   const page = structuredData.pages[pagePath];
-  return page && { ...page, publisher: structuredData.organization };
+  if (!page) return null;
+  const { '@context': context, ...pageNode } = page;
+  return {
+    '@context': context,
+    '@graph': [
+      structuredData.organization,
+      structuredData.website,
+      structuredData.learningMembership,
+      pageNode
+    ]
+  };
 };
 const headingHtml = pagePath => {
   const outline = headings[pagePath];
