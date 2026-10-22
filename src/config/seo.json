@@ -28,6 +28,11 @@
     "imageAlt": "Log in to Content AI Hub",
     "robots": "noindex, follow"
   },
+  "/library/": {
+    "title": "Library | Content AI Hub",
+    "description": "Access your Content AI Hub learning library, including AI marketing courses, training modules, and live-class resources.",
+    "imageAlt": "Content AI Hub learning library"
+  },
   "/terms-conditions/": {
     "title": "Terms & Conditions | Content AI Hub",
     "description": "Read the Terms and Conditions for Content AI Hub. Learn about your rights, responsibilities, and the rules governing use of our website and services.",
