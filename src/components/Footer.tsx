@@ -3,9 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { COMPANY } from '../config/company';
 import { MastercardIcon, SepaIcon, VisaIcon } from './common/PaymentIcons';
+import { useAuth } from '../auth/AuthContext';
 
 export const Footer: React.FC = () => {
   const { pathname } = useLocation();
+  const { hasActivePlan } = useAuth();
   const isHome = pathname === '/';
 
   return (
@@ -121,11 +123,13 @@ export const Footer: React.FC = () => {
                   Library
                 </Link>
               </li>
-              <li>
-                <Link to="/pricing/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
-                  Pricing
-                </Link>
-              </li>
+              {!hasActivePlan && (
+                <li>
+                  <Link to="/pricing/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
+                    Pricing
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="/unsubscribe/" className="text-[13px] font-bold text-slate-400 hover:text-emerald-400 transition-colors">
                   Unsubscribe
