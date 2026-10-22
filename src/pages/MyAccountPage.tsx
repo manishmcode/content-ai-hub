@@ -392,7 +392,7 @@ export const MyAccountPage: React.FC = () => {
                         <span>Total</span>
                       </div>
                       <div className="p-3.5 flex justify-between font-medium">
-                        <span className="text-slate-900 font-semibold">{primarySubscription?.plan_name || 'Pro Growth Accelerator'}</span>
+                        <span className="text-slate-900 font-semibold">{primarySubscription?.plan_name || 'Pro Growth Accelerator'}{primarySubscription?.billing_frequency === 'MONTHLY' ? ' - Rebills every month' : ''}</span>
                         <span className="font-bold text-slate-900">{primarySubscription ? formatAmount(primarySubscription.price, primarySubscription.currency) : '$59.00'}</span>
                       </div>
                       <div className="p-3.5 flex justify-between font-medium">
