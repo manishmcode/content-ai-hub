@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import { 
   Calendar,
   Users, 
@@ -7,29 +8,33 @@ import {
   ArrowRight, 
   Radio,
   UserCheck,
-  GraduationCap,
-  CheckCircle2
+  GraduationCap
 } from 'lucide-react';
 
 export const LiveClassesSection: React.FC = () => {
+  const { hasActivePlan } = useAuth();
+  // A membership is only considered usable once the dashboard confirms an
+  // active subscription. Until then, send visitors to choose a plan.
+  const liveModulePath = hasActivePlan ? '/library/' : '/pricing/';
+
   const pillars = [
     {
       id: 1,
-      badge: 'SCHEDULED SESSIONS',
+      badge: 'SCHEDULED ONLINE CLASSES',
       badgeIcon: <Calendar className="w-3.5 h-3.5 text-emerald-600" />,
       mainIcon: <Calendar className="w-7 h-7 text-white stroke-[2.2]" />,
       gradient: 'from-[#00B67A] to-teal-400 shadow-emerald-500/35',
-      title: 'Scheduled Online Teaching',
-      description: 'Join structured online classes scheduled directly through your account. Follow practical demonstrations and guided workflows led by experienced instructors.',
+      title: 'Scheduled Online Classes',
+      description: 'Join scheduled sessions and follow structured lessons on the subjects offered. Check your account for available classes, timings, and session details.',
     },
     {
       id: 2,
-      badge: 'LIVE INTERACTION',
+      badge: 'GUIDED LEARNING',
       badgeIcon: <Radio className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />,
       mainIcon: <Users className="w-7 h-7 text-white stroke-[2.2]" />,
       gradient: 'from-[#00B67A] to-teal-400 shadow-emerald-500/35',
-      title: 'Direct Instructor Interaction',
-      description: 'Engage directly with your instructor during every session. Ask questions in real time, receive tailored guidance, and apply AI tools with clarity and confidence.',
+      title: 'Guided Learning and Instructor Support',
+      description: 'Build your understanding through guided explanations and instructor support where available. Use the learning opportunities provided to clarify concepts and explore topics in greater depth.',
     },
     {
       id: 3,
@@ -37,8 +42,8 @@ export const LiveClassesSection: React.FC = () => {
       badgeIcon: <UserCheck className="w-3.5 h-3.5 text-emerald-600" />,
       mainIcon: <Laptop className="w-7 h-7 text-white stroke-[2.2]" />,
       gradient: 'from-[#00B67A] to-teal-400 shadow-emerald-500/35',
-      title: 'Available Through Your Account',
-      description: 'All upcoming classes and scheduled sessions appear inside your private member area with instant 1-click access and complete on-demand video replays.',
+      title: 'Course and Session Access',
+      description: 'Find your available learning materials and session information through your account. Review the access details for your enrolled courses and scheduled classes.',
     },
   ];
 
@@ -54,18 +59,18 @@ export const LiveClassesSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] text-xs font-extrabold uppercase tracking-widest mb-4 border border-emerald-200/60 shadow-xs">
             <GraduationCap className="w-3.5 h-3.5 text-[#00B67A]" />
-            <span>INSTRUCTOR-LED LEARNING</span>
+            <span>LEARN, CONNECT, AND DEVELOP YOUR SKILLS</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-            Join Scheduled <br className="hidden sm:inline" />
+            Take Your Learning Further with <br className="hidden sm:inline" />
             <span className="text-[#00B67A]">
-              Live AI Classes
+              Live Classes
             </span>
           </h2>
 
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-            Learn directly from an instructor through scheduled online classes. Follow practical demonstrations, ask questions during the session and receive guidance that helps you apply AI with confidence.
+            Complement your online learning with scheduled live classes. Explore available sessions, follow guided lessons, and strengthen your understanding of the topics covered in your learning programme.
           </p>
         </div>
 
@@ -103,10 +108,14 @@ export const LiveClassesSection: React.FC = () => {
 
               {/* Bottom Feature Tag & Indicator */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#00B67A]">
+                <Link
+                  to={liveModulePath}
+                  className="flex items-center gap-1.5 text-xs font-bold text-[#00B67A] hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded"
+                  aria-label={`Open ${pillar.title} live module`}
+                >
                   <span>Live Module</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
+                </Link>
               </div>
             </div>
           ))}
@@ -127,17 +136,11 @@ export const LiveClassesSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00D084]" />
-                  <span className="text-xs text-slate-400 font-semibold">
-                    Courses &amp; Live Classes
-                  </span>
-                </div>
-                <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight">
-                  Learn through courses and scheduled live classes
-                </h4>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight">
+                  Keep Learning. Keep Creating. Keep Growing.
+                </h2>
                 <p className="text-xs text-slate-400 mt-1">
-                  Access practical video lessons, upcoming classes, and available class recordings from your member portal.
+                  Explore available courses and live classes to strengthen your marketing knowledge, develop your content skills, and discover new opportunities for online growth.
                 </p>
               </div>
             </div>
@@ -145,10 +148,10 @@ export const LiveClassesSection: React.FC = () => {
             {/* CTA Action */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto justify-end">
               <Link
-                to="/library/"
+                to={liveModulePath}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#00B67A] hover:bg-[#00A36D] text-white font-black text-xs sm:text-sm tracking-wider uppercase shadow-lg shadow-emerald-500/30 active:scale-95 transition-all duration-200 group whitespace-nowrap"
               >
-                <span>Explore Library</span>
+                <span>Explore Courses</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

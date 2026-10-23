@@ -1,0 +1,54 @@
+{
+  "/": {
+    "title": "AI Marketing & Content Growth Courses | Content AI Hub",
+    "description": "Explore AI marketing, content creation, video marketing, social media, e-commerce, and creator growth courses with Content AI Hub. Join live classes online.",
+    "imageAlt": "Content AI Hub AI and technology courses with live classes"
+  },
+  "/pricing/": {
+    "title": "AI Course Pricing & Live Classes | Content AI Hub",
+    "description": "Explore simple monthly pricing for AI courses, viral prompt vaults, and weekly live instructor sessions. No long-term lock-in. Cancel anytime.",
+    "imageAlt": "Content AI Hub course pricing and live learning memberships"
+  },
+  "/unsubscribe/": {
+    "title": "Unsubscribe | Content AI Hub",
+    "description": "Cancel your Content AI Hub subscription by entering your verification details to stop recurring renewals.",
+    "ogDescription": "Manage your Content AI Hub subscription and submit your verification details to stop recurring renewals.",
+    "imageAlt": "Content AI Hub subscription management"
+  },
+  "/signup/": {
+    "title": "Create Your Account | Content AI Hub",
+    "description": "Create your Content AI Hub account to access AI courses, prompt vaults, and educational resources. Sign up to start learning today.",
+    "ogDescription": "Create your Content AI Hub account to access AI courses, prompt vaults, and educational resources. Start learning today.",
+    "imageAlt": "Create an account with Content AI Hub",
+    "robots": "noindex, follow"
+  },
+  "/login/": {
+    "title": "Log In | Content AI Hub",
+    "description": "Log in to your Content AI Hub account.",
+    "imageAlt": "Log in to Content AI Hub",
+    "robots": "noindex, follow"
+  },
+  "/library/": {
+    "title": "Library | Content AI Hub",
+    "description": "Access your Content AI Hub learning library, including AI marketing courses, training modules, and live-class resources.",
+    "imageAlt": "Content AI Hub learning library"
+  },
+  "/terms-conditions/": {
+    "title": "Terms & Conditions | Content AI Hub",
+    "description": "Read the Terms and Conditions for Content AI Hub. Learn about your rights, responsibilities, and the rules governing use of our website and services.",
+    "ogDescription": "Read the Terms and Conditions for Content AI Hub, covering website use, memberships, payments, cancellations, refunds, and user responsibilities.",
+    "imageAlt": "Content AI Hub terms and conditions"
+  },
+  "/privacy-policy/": {
+    "title": "Privacy Policy | Content AI Hub",
+    "description": "Review the Privacy Policy for Content AI Hub to understand how we collect, use, and protect your personal information when you use our website and services.",
+    "ogDescription": "Review the Content AI Hub Privacy Policy to learn how personal information is collected, used, shared, and protected.",
+    "imageAlt": "Content AI Hub privacy policy"
+  },
+  "/imprint/": {
+    "title": "Imprint & Legal Disclosure | Content AI Hub",
+    "description": "Find legal imprint details for Content AI Hub, including company information, contact details, and website ownership transparency.",
+    "ogDescription": "Find official company information, registered address, contact details, and website ownership information for Content AI Hub.",
+    "imageAlt": "Content AI Hub company and legal information"
+  }
+}

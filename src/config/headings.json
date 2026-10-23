@@ -1,0 +1,25 @@
+{
+  "/": {
+    "h1": ["Learn, Create, and Grow in the Digital World"],
+    "h2": ["Learn the Skills Behind Content and Marketing Growth", "Build Your Content. Reach Your Audience. Grow Your Brand.", "Take Your Learning Further with Live Classes", "Keep Learning. Keep Creating. Keep Growing.", "Start Your Learning Journey in Three Simple Steps", "Turn Your Content and Marketing Goals into Action"],
+    "h3": ["YouTube & Video Marketing", "Faceless Marketing", "TikTok Shop & E-commerce", "Social Media Marketing", "Creator Economy", "Niche & Audience Strategy", "Create Better Content", "Strengthen Your Marketing Approach", "Grow Your Online Presence", "Scheduled Online Classes", "Guided Learning and Instructor Support", "Course and Session Access", "Choose Your Course", "Learn at Your Own Pace", "Apply What You Learn"]
+  },
+  "/pricing/": {
+    "h1": ["Invest in Practical Skills. Scale Your Revenue."],
+    "h2": ["Basic", "Premium", "Classic"]
+  },
+  "/unsubscribe/": { "h1": ["Unsubscribe"] },
+  "/signup/": { "h1": ["Create Account"] },
+  "/terms-conditions/": {
+    "h1": ["Terms & Conditions"],
+    "h2": ["Service", "User Agreement", "Your License", "Support Services", "Fees and Payment", "Cancellation", "Refund Policy", "Right to Terminate", "Your Responsibilities", "Suspension / Discontinuation", "Dispute Resolution", "Governing Law", "Copyright", "Links to Other Websites", "Trademarks", "Force Majeure", "Disclaimer of Warranties", "Age Restriction", "General Provisions"]
+  },
+  "/privacy-policy/": {
+    "h1": ["Privacy Policy"],
+    "h2": ["Consent to Privacy Policy", "Information Collection", "Information Use", "Information Sharing and Disclosure", "Changing or Deleting Your Information", "Use of Cookies", "Behavioral Advertising", "Changes and Updates", "Contact"]
+  },
+  "/imprint/": {
+    "h1": ["Imprint & Legal Disclosure"],
+    "h2": ["Company Information", "Registered Address", "Registration", "Contact", "Responsible for Website Content"]
+  }
+}

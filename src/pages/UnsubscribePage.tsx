@@ -67,7 +67,7 @@ export const UnsubscribePage: React.FC = () => {
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Cancel Subscription
+                  Unsubscribe
                 </h1>
 
                 <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
@@ -157,7 +157,7 @@ export const UnsubscribePage: React.FC = () => {
                       placeholder="12345"
                       value={ibanDigits}
                       onChange={(e) => setIbanDigits(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:bg-white focus:outline-none focus:border-[#00B67A] focus:ring-2 focus:ring-[#00B67A]/20 transition-all font-mono"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:bg-white focus:outline-none focus:border-[#00B67A] focus:ring-2 focus:ring-[#00B67A]/20 transition-all"
                     />
                   </div>
 

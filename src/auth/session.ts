@@ -3,6 +3,7 @@ export const clearSession = () => {
   sessionStorage.clear();
   const secure = window.location.protocol === 'https:' ? '; Secure' : '';
   document.cookie = `bgp_auth_token=; Path=/; SameSite=Lax${secure}; Max-Age=0`;
+  document.cookie = `contentaihub_access=; Path=/; SameSite=Lax${secure}; Max-Age=0`;
 };
 
 export const fetchWithSession = async (

@@ -3,9 +3,10 @@ export const COMPANY = {
   directorName: 'Rajasingham Krishan',
   companyNumber: '16275971',
   addressLines: [
-    '11 Station Road',
+    'The Old Free School',
+    'George Street',
     'Watford, Hertfordshire',
-    'WD17 1AP',
+    'WD18\u00A00BX',
     'United Kingdom',
   ],
   email: 'support@contentaihub.net',

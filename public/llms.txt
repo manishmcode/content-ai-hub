@@ -1,0 +1,18 @@
+
+# Content AI Hub
+
+> Content AI Hub is an online learning platform focused on AI and technology skills, creator education, video marketing, social media marketing, and practical digital learning. Members can access educational courses, prompt vaults, and scheduled live instructor sessions through flexible monthly membership plans.
+
+## Public pages
+
+- [Home](https://contentaihub.net/): Overview of Content AI Hub, including AI and technology courses, creator education, video marketing, and live instructor-led learning
+- [Pricing](https://contentaihub.net/pricing/): Monthly membership plans, course access, prompt vaults, weekly live instructor sessions, and subscription cancellation options
+- [Terms & Conditions](https://contentaihub.net/terms-conditions/): Terms and conditions governing the use of Content AI Hub's website, educational content, memberships, payments, cancellations, and refunds
+- [Privacy Policy](https://contentaihub.net/privacy-policy/): Privacy policy explaining how Content AI Hub collects, uses, shares, and protects personal information
+- [Imprint](https://contentaihub.net/imprint/): Legal, company, contact, registration, and website ownership information for Content AI Hub, operated by VAQUITA MEDIA LTD
+- [Unsubscribe](https://contentaihub.net/unsubscribe/): Subscription cancellation page for users who want to stop recurring renewals for their Content AI Hub membership
+
+
+
+
+
