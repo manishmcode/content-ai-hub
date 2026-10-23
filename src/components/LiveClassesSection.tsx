@@ -138,9 +138,7 @@ export const LiveClassesSection: React.FC = () => {
 
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00D084]" />
                   <span className="text-xs text-slate-400 font-semibold">
-                  Keep Learning. Keep Creating. Keep Growing.
                   </span>
                 </div>
                 <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
