@@ -169,11 +169,11 @@ export const ImprintPage: React.FC = () => {
 
       
 
-            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm sm:text-[15px] text-slate-500">
               <span>© {new Date().getFullYear()} ContentAIHub.net — All Rights Reserved.</span>
               <Link to="/terms-conditions/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
                 <span>View Terms of Service</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </section>
 
