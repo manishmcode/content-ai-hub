@@ -169,7 +169,6 @@ export const TermsPage: React.FC = () => {
             </p>
             
             <div className="space-y-3 text-slate-600 text-sm sm:text-[15px] leading-relaxed">
-              <p>These Terms apply to all visitors, users, and others who access or use the Service. By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</p>
               <p>For support or legal notices, contact support@contentaihub.net.</p>
             </div>
 

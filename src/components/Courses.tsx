@@ -28,8 +28,8 @@ const courseDescriptionUpdates: Record<string, string> = {
   'Faceless Marketing': 'Learn how to develop an online brand\nwithout appearing on camera. Explore\nanonymous brand identity, content creation,\nsocial media visibility, SEO, and email marketing.\nDiscover monetisation and performance tracking\ntechniques to support your online growth.',
   'TikTok Shop & E-commerce': 'Learn to set up and grow a TikTok Shop, identify promising products, create engaging content, understand TikTok’s algorithm, explore live selling and affiliate marketing, track performance, improve customer experiences, optimise sales, and build a sustainable e-commerce brand.',
   'Social Media Marketing': 'Learn to grow your Instagram business\nthrough engaging content and its algorithm,\nincrease followers organically through paid ads,\ninfluencer marketing, Stories, and Reels,\nmeasure campaign performance and improve\nyour social media marketing strategy.',
-  'Creator Economy': 'Develop content creation skills, build an audience,\nexplore creator monetisation and choose topics,\npublish consistently and build brand partnerships,\nlearn from creators and social media advertising,\nuse influencer collaborations and affiliate marketing\nto support your creator journey.',
-  'Niche & Audience Strategy': 'Learn to choose a niche based on your interests,\naudience needs, and business goals. Explore\ne-commerce and blogging niches, conduct\nkeyword research, and assess market opportunities,\nuse keyword tools to identify opportunities,\nand evaluate long-term growth potential.',
+  'Creator Economy': 'Develop content creation skills, build an audience,\nexplore creator monetisation and choose topics,\npublish consistently and build brand partnerships,\nlearn from creators and social media advertising,\nuse influencer and affiliate marketing\nto support your creator journey.',
+  'Niche & Audience Strategy': 'Learn to choose a niche based on your interests,\naudience needs, and business goals. Explore\ne-commerce and blogging niches, conduct\nkeyword research and market assessment,\nuse keyword tools to identify opportunities,\nand evaluate long-term growth potential.',
 };
 
 const courseBadgeLabels: Record<string, string> = {
@@ -55,14 +55,14 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Distinctive Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+        <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200/60 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#00B67A]" />
             <span>EXPLORE OUR COURSES</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-[1.12]">
-            Learn the Skills Behind Content and <br className="hidden sm:inline" />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
+            <span className="lg:whitespace-nowrap">Learn the Skills Behind Content and</span><br className="hidden lg:block" />
             <span className="text-[#00B67A]">
               Marketing Growth
             </span>

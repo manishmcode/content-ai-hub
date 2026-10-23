@@ -48,10 +48,10 @@ export const PathTimeline: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#00B67A] bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full inline-block">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#00B67A] bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full inline-block">
             HOW IT WORKS
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mt-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12] mt-3">
             Start Your Learning Journey in <span className="text-[#00B67A]">Three Simple Steps</span>
           </h2>
           <p className="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
@@ -92,7 +92,7 @@ export const PathTimeline: React.FC = () => {
                     <h3 className="text-xl font-black text-slate-900 transition-colors group-hover:text-slate-700">
                       {step.title}
                     </h3>
-                    <p className="text-xs sm:text-sm font-semibold text-slate-500">
+                    <p className="text-sm font-semibold text-slate-500">
                       {step.subtitle}
                     </p>
                     <p className="text-sm text-slate-600 max-w-xs mx-auto leading-relaxed pt-1">
