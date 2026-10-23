@@ -361,63 +361,73 @@ export const MyAccountPage: React.FC = () => {
                     <p className="text-xs text-slate-500">Plan details, renewal schedule, and billing information.</p>
                   </div>
 
-                  {/* Status Box */}
-                  <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs overflow-hidden bg-slate-50/50">
-                    <div className="p-4 flex items-center justify-between bg-slate-100/60">
-                      <span className="text-slate-600 font-bold uppercase tracking-wider text-[11px]">Membership Status</span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#00B67A] font-black uppercase text-[10px] border border-emerald-200">
-                        {primarySubscription?.status || 'Active Member'}
-                      </span>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                      <span className="text-slate-500 font-medium">Start Date</span>
-                      <span className="font-semibold text-slate-900">{primarySubscription ? formatDate(primarySubscription.starts_at) : 'Oct 16, 2026'}</span>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                      <span className="text-slate-500 font-medium">End / Renewal Date</span>
-                      <span className="font-semibold text-slate-900">{primarySubscription ? formatDate(primarySubscription.ends_at) : 'Nov 16, 2026'}</span>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                      <span className="text-slate-500 font-medium">Payment Channel</span>
-                      <span className="font-bold text-slate-900">{primarySubscription?.payment_status || 'Card • Paid'}</span>
-                    </div>
-                  </div>
+                  {isDashboardLoading ? (
+                    <p className="text-sm text-slate-500">Loading subscription details...</p>
+                  ) : !dashboard ? (
+                    <p className="text-sm text-slate-500">Unable to load subscription details. Please refresh to try again.</p>
+                  ) : !primarySubscription ? (
+                    <p className="text-sm text-slate-500">No active subscription.</p>
+                  ) : (
+                    <>
+                      {/* Status Box */}
+                      <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs overflow-hidden bg-slate-50/50">
+                        <div className="p-4 flex items-center justify-between bg-slate-100/60">
+                          <span className="text-slate-600 font-bold uppercase tracking-wider text-[11px]">Membership Status</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#00B67A] font-black uppercase text-[10px] border border-emerald-200">
+                            {primarySubscription.status || 'Not available'}
+                          </span>
+                        </div>
+                        <div className="p-4 flex items-center justify-between">
+                          <span className="text-slate-500 font-medium">Start Date</span>
+                          <span className="font-semibold text-slate-900">{primarySubscription.starts_at ? formatDate(primarySubscription.starts_at) : 'Not available'}</span>
+                        </div>
+                        <div className="p-4 flex items-center justify-between">
+                          <span className="text-slate-500 font-medium">End / Renewal Date</span>
+                          <span className="font-semibold text-slate-900">{primarySubscription.ends_at ? formatDate(primarySubscription.ends_at) : 'Not available'}</span>
+                        </div>
+                        <div className="p-4 flex items-center justify-between">
+                          <span className="text-slate-500 font-medium">Payment Channel</span>
+                          <span className="font-bold text-slate-900">{primarySubscription.payment_status || 'Not available'}</span>
+                        </div>
+                      </div>
 
-                  {/* Subscription totals */}
-                  <div className="space-y-3">
-                    <h3 className="text-base font-black text-slate-900">Subscription Totals</h3>
-                    <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs overflow-hidden bg-slate-50/50">
-                      <div className="p-3.5 bg-slate-100/60 text-slate-600 font-bold uppercase flex justify-between tracking-wider text-[10px]">
-                        <span>Product</span>
-                        <span>Total</span>
+                      {/* Subscription totals */}
+                      <div className="space-y-3">
+                        <h3 className="text-base font-black text-slate-900">Subscription Totals</h3>
+                        <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs overflow-hidden bg-slate-50/50">
+                          <div className="p-3.5 bg-slate-100/60 text-slate-600 font-bold uppercase flex justify-between tracking-wider text-[10px]">
+                            <span>Product</span>
+                            <span>Total</span>
+                          </div>
+                          <div className="p-3.5 flex justify-between font-medium">
+                            <span className="text-slate-900 font-semibold">{primarySubscription.plan_name || 'Not available'}{primarySubscription.billing_frequency === 'MONTHLY' ? ' - Rebills every month' : ''}</span>
+                            <span className="font-bold text-slate-900">{formatAmount(primarySubscription.price, primarySubscription.currency)}</span>
+                          </div>
+                          <div className="p-3.5 flex justify-between font-medium">
+                            <span className="text-slate-500">SubTotal:</span>
+                            <span className="font-bold text-slate-900">{formatAmount(primarySubscription.price, primarySubscription.currency)}</span>
+                          </div>
+                          <div className="p-3.5 flex justify-between font-black text-slate-900 text-sm bg-emerald-50/60">
+                            <span>Total Billed:</span>
+                            <span className="text-[#00B67A]">{formatAmount(primarySubscription.price, primarySubscription.currency)}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="p-3.5 flex justify-between font-medium">
-                        <span className="text-slate-900 font-semibold">{primarySubscription?.plan_name || 'Pro Growth Accelerator'}{primarySubscription?.billing_frequency === 'MONTHLY' ? ' - Rebills every month' : ''}</span>
-                        <span className="font-bold text-slate-900">{primarySubscription ? formatAmount(primarySubscription.price, primarySubscription.currency) : '$59.00'}</span>
-                      </div>
-                      <div className="p-3.5 flex justify-between font-medium">
-                        <span className="text-slate-500">SubTotal:</span>
-                        <span className="font-bold text-slate-900">{primarySubscription ? formatAmount(primarySubscription.price, primarySubscription.currency) : '$59.00'}</span>
-                      </div>
-                      <div className="p-3.5 flex justify-between font-black text-slate-900 text-sm bg-emerald-50/60">
-                        <span>Total Billed:</span>
-                        <span className="text-[#00B67A]">{primarySubscription ? formatAmount(primarySubscription.price, primarySubscription.currency) : '$59.00'}</span>
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Billing address */}
-                  <div className="space-y-3">
-                    <h3 className="text-base font-black text-slate-900">Billing Address</h3>
-                    <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs overflow-hidden bg-slate-50/50">
-                      <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Address</span><span className="text-slate-700">{dashboard?.address || '123 Creator Way'}</span></div>
-                      <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Country</span><span className="text-slate-700">{dashboard?.country || 'United States'}</span></div>
-                      <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">City</span><span className="text-slate-700">{dashboard?.city || 'San Francisco'}</span></div>
-                      <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Postcode / ZIP</span><span className="text-slate-700">{dashboard?.postal_code || '94103'}</span></div>
-                      <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Phone</span><span className="text-slate-700">{dashboard?.phone || '+1 (555) 000-0000'}</span></div>
-                      <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Email</span><span className="font-bold text-slate-900">{dashboard?.email || email || 'alex@contentaihub.net'}</span></div>
-                    </div>
-                  </div>
+                      {/* Billing address */}
+                      <div className="space-y-3">
+                        <h3 className="text-base font-black text-slate-900">Billing Address</h3>
+                        <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 text-xs overflow-hidden bg-slate-50/50">
+                          <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Address</span><span className="text-slate-700">{dashboard.address || 'Not provided'}</span></div>
+                          <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Country</span><span className="text-slate-700">{dashboard.country || 'Not provided'}</span></div>
+                          <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">City</span><span className="text-slate-700">{dashboard.city || 'Not provided'}</span></div>
+                          <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Postcode / ZIP</span><span className="text-slate-700">{dashboard.postal_code || 'Not provided'}</span></div>
+                          <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Phone</span><span className="text-slate-700">{dashboard.phone || 'Not provided'}</span></div>
+                          <div className="p-3.5 flex justify-between"><span className="text-slate-500 font-medium">Email</span><span className="font-bold text-slate-900">{dashboard.email || email || 'Not provided'}</span></div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 
