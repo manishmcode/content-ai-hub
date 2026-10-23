@@ -166,7 +166,7 @@ export const TermsPage: React.FC = () => {
           {/* Legal Content Card */}
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
             <p className="text-sm font-semibold text-slate-500">
-              Last updated: October 18, 2026
+              Last updated: October 2026
             </p>
             
             {/* Entity Notice */}
