@@ -143,7 +143,7 @@ export const PrivacyPolicyPage: React.FC = () => {
             </div>
 
             {/* Footer Navigation & Rights Notice */}
-            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm sm:text-[15px] text-slate-500">
               <span>To exercise any of your privacy rights, email: <a href={`mailto:${COMPANY.email}`} className="font-bold text-slate-800 hover:text-[#00B67A]">{COMPANY.email}</a></span>
               <Link to="/terms-conditions/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
                 <span>View Terms &amp; Conditions</span>

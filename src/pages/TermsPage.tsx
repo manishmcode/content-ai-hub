@@ -123,10 +123,6 @@ export const TermsPage: React.FC = () => {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900">
               Terms &amp; Conditions
             </h1>
-            <p className="text-slate-500 text-sm sm:text-base">
-              Please read these Terms and Conditions carefully before using our website and services operated by VAQUITA MEDIA LTD, located at The Old Free School, George Street, Watford, Hertfordshire, WD18 0BX, United Kingdom.
-            </p>
-
             {/* Quick Navigation Between Legal Pages */}
             <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
               <Link
@@ -169,7 +165,7 @@ export const TermsPage: React.FC = () => {
             </p>
             
             <div className="space-y-3 text-slate-600 text-sm sm:text-[15px] leading-relaxed">
-              <p>For support or legal notices, contact support@contentaihub.net.</p>
+              <p><strong className="font-bold text-slate-700">Please read these Terms and Conditions carefully before using our website and services operated by</strong>{' '}VAQUITA MEDIA LTD, The Old Free School, George Street, Watford, Hertfordshire, WD18 0BX, United Kingdom. Contact: support@contentaihub.net.</p>
             </div>
 
             {/* Terms Sections */}
@@ -190,7 +186,7 @@ export const TermsPage: React.FC = () => {
             </div>
 
             {/* Footer Notice */}
-            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm sm:text-[15px] text-slate-500">
               <span>Questions regarding our Terms? Contact: <a href="mailto:support@contentaihub.net" className="font-bold text-slate-800 hover:text-[#00B67A]">support@contentaihub.net</a></span>
               <Link to="/privacy-policy/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
                 <span>View Privacy Policy</span>
