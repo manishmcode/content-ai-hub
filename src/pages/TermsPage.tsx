@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
-import { FileText, ArrowRight, Building2 } from 'lucide-react';
-import { COMPANY } from '../config/company';
+import { FileText, ArrowRight } from 'lucide-react';
 
 interface TermsSection {
   title: string;
@@ -28,7 +27,7 @@ const TERMS_SECTIONS: TermsSection[] = [
   {
     title: '4. Support Services',
     content:
-      `Support is provided primarily via email and our dedicated support portal. Email ${COMPANY.email} to contact ${COMPANY.name}. We strive to respond to all inquiries within 24-48 business hours.`,
+      'Support is provided primarily via email and our dedicated support portal. You can contact VAQUITA MEDIA LTD at support@contentaihub.net. We strive to respond to all inquiries within 24-48 business hours.',
   },
   {
     title: '5. Fees and Payment',
@@ -43,7 +42,7 @@ const TERMS_SECTIONS: TermsSection[] = [
   {
     title: '7. Refund Policy',
     content:
-      `All courses and educational content offered through this website are delivered digitally and access is typically granted immediately upon purchase. By completing a purchase, you acknowledge that immediate access affects your eligibility for a refund.\n\nYou may request a refund within 14 days of your initial purchase, provided that you have not substantially accessed or completed the course materials. Requests are assessed on a case-by-case basis and are not automatically guaranteed.\n\nRefund requests must be submitted in writing to ${COMPANY.email}, including your order number and the reason for the request. We aim to respond to all refund requests within 5 business days.`,
+      'All courses and educational content offered through this website are delivered digitally and access is typically granted immediately upon purchase. By completing a purchase, you acknowledge that immediate access affects your eligibility for a refund as described below.\n\nYou may request a refund within 14 days of your initial purchase, provided that you have not substantially accessed or completed the course materials. Requests are assessed on a case-by-case basis and are not automatically guaranteed.\n\nRefund requests must be submitted in writing to support@contentaihub.net, including your order number and the reason for the request. We aim to respond to all refund requests within 5 business days.\n\nWe may decline a refund request where a substantial portion of the course has been accessed or downloaded, where the request is made outside the eligible period, where the purchase was subject to a promotional or discounted rate explicitly marked as non-refundable, or where there is evidence of misuse, content sharing, or a violation of these Terms.\n\nApproved refunds will be issued to the original payment method within a reasonable timeframe, subject to the processing times of the relevant payment provider. Upon approval, access to the course materials will be revoked.\n\nRecurring subscription charges may be cancelled at any time to prevent future billing; cancellation does not itself entitle you to a refund of charges already incurred, except as set out above.',
   },
   {
     title: '8. Right to Terminate',
@@ -53,27 +52,27 @@ const TERMS_SECTIONS: TermsSection[] = [
   {
     title: '9. Your Responsibilities',
     content:
-      'You are responsible for all activities that occur under your account. You agree not to share your account credentials with third parties, use the Service for any illegal or unauthorized purpose, attempt to hack, destabilize, or adapt the Service, or transmit any worms, viruses, or destructive code.',
+      'You are responsible for all activities that occur under your account. You agree not to:\n\nShare your account credentials with third parties\nUse the Service for any illegal or unauthorized purpose\nAttempt to hack, destabilize, or adapt the Service\nTransmit any worms, viruses, or destructive code',
   },
   {
-    title: '10. Suspension / Discontinuation',
+    title: '10. Suspension/Discontinuation',
     content:
       'We reserve the right at any time to modify or discontinue, temporarily or permanently, the Service or any part thereof with or without notice.',
   },
   {
     title: '11. Dispute Resolution',
     content:
-      `If you have a complaint or dispute regarding a purchase, charge, or your use of the services, you agree to first contact us at ${COMPANY.email} so that we may attempt to resolve the matter directly. We aim to acknowledge complaints within 24 hours and to reach a resolution within 5 business days.`,
+      'If you have a complaint or dispute regarding a purchase, charge, or your use of the services, you agree to first contact us at support@contentaihub.net so that we may attempt to resolve the matter directly. We aim to acknowledge complaints within 24 hours and to reach a resolution within 5 business days.\n\nWe encourage you to raise any billing concern with us directly before contacting your card issuer or payment provider, as doing so allows us to resolve the matter more quickly than a formal chargeback process.\n\nIf a dispute cannot be resolved directly between you and the Company within a reasonable timeframe, either party may refer the matter to an independent mediation or alternative dispute resolution service before pursuing formal legal proceedings.',
   },
   {
     title: '12. Governing Law',
     content:
-      'These Terms, and any dispute or claim arising out of or in connection with them or the services provided through this website, shall be governed by and construed in accordance with the laws of United Kingdom, without regard to its conflict of law provisions.',
+      'These Terms, and any dispute or claim arising out of or in connection with them or the services provided through this website, shall be governed by and construed in accordance with the laws of United Kingdom, without regard to its conflict of law provisions. The courts of United Kingdom shall have exclusive jurisdiction to settle any such dispute, save as otherwise provided in the Dispute Resolution clause above.',
   },
   {
     title: '13. Copyright',
     content:
-      'All content, features, and functionality are and will remain the exclusive property of ContentAIHub.net and its licensors. Our trademarks and trade dress may not be used in connection with any product or service without our prior written consent.',
+      'All content, features, and functionality are and will remain the exclusive property of the Academy and its licensors. Our trademarks and trade dress may not be used in connection with any product or service without our prior written consent.',
   },
   {
     title: '14. Links to Other Websites',
@@ -83,27 +82,27 @@ const TERMS_SECTIONS: TermsSection[] = [
   {
     title: '15. Trademarks',
     content:
-      `The company name, logo, and related names, product names, service names, designs, and slogans are trademarks of ${COMPANY.name}, ContentAIHub.net, or its affiliates or licensors.`,
+      'The company name, the company logo, and all related names, logos, product and service names, designs, and slogans are trademarks of the Company or its affiliates or licensors.',
   },
   {
     title: '16. Force Majeure',
     content:
-      'We shall not be liable for any failure or delay in performance under these Terms resulting from acts beyond our reasonable control, including war, terrorism, riots, embargoes, fire, floods, accidents, strikes, or shortages of transportation, fuel, energy, labor, or materials.',
+      'We shall not be liable for any failure or delay in performance under these Terms resulting from acts beyond our reasonable control, including, without limitation, acts of God, war, terrorism, riots, embargoes, acts of civil or military authorities, fire, floods, accidents, strikes, or shortages of transportation facilities, fuel, energy, labor or materials.',
   },
   {
     title: '17. Disclaimer of Warranties',
     content:
-      'Your use of the Service is at your sole risk. The Service is provided on an AS IS and AS AVAILABLE basis. The Service is provided without warranties of any kind, whether express or implied.',
+      'Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied.',
   },
   {
     title: '18. Age Restriction',
     content:
-      'The Service is intended only for access and use by individuals at least eighteen (18) years old. By accessing or using the Service, you warrant and represent that you are at least eighteen (18) years of age.',
+      'The Service is intended only for access and use by individuals at least eighteen (18) years old. By accessing or using any of the Company, you warrant and represent that you are at least eighteen (18) years of age.',
   },
   {
     title: '19. General Provisions',
     content:
-      'These Terms shall be governed and construed in accordance with the laws of United Kingdom, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.',
+      'These Terms shall be governed and construed in accordance With the Laws of United Kingdom, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.',
   },
 ];
 
@@ -125,7 +124,7 @@ export const TermsPage: React.FC = () => {
               Terms &amp; Conditions
             </h1>
             <p className="text-slate-500 text-sm sm:text-base">
-              Please read these Terms and Conditions carefully before using our website and services operated by {COMPANY.name}.
+              Please read these Terms and Conditions carefully before using our website and services operated by VAQUITA MEDIA LTD, located at The Old Free School, George Street, Watford, Hertfordshire, WD18 0BX, United Kingdom.
             </p>
 
             {/* Quick Navigation Between Legal Pages */}
@@ -166,18 +165,12 @@ export const TermsPage: React.FC = () => {
           {/* Legal Content Card */}
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
             <p className="text-sm font-semibold text-slate-500">
-              Last updated: October 2026
+              Last updated: October, 2026
             </p>
             
-            {/* Entity Notice */}
-            <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 text-xs sm:text-sm text-slate-800 space-y-1.5">
-              <span className="font-black text-[#00B67A] uppercase tracking-wider block text-xs flex items-center gap-1.5">
-                <Building2 className="w-4 h-4" />
-                Operating Entity Details
-              </span>
-              <p>
-                <strong>ContentAIHub.net</strong> is operated by <strong>{COMPANY.name}</strong>, <strong>{COMPANY.addressLines.join(', ')}</strong>.
-              </p>
+            <div className="space-y-3 text-slate-600 text-sm sm:text-[15px] leading-relaxed">
+              <p>These Terms apply to all visitors, users, and others who access or use the Service. By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</p>
+              <p>For support or legal notices, contact support@contentaihub.net.</p>
             </div>
 
             {/* Terms Sections */}
@@ -199,7 +192,7 @@ export const TermsPage: React.FC = () => {
 
             {/* Footer Notice */}
             <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-              <span>Questions regarding our Terms? Contact: <a href={`mailto:${COMPANY.email}`} className="font-bold text-slate-800 hover:text-[#00B67A]">{COMPANY.email}</a></span>
+              <span>Questions regarding our Terms? Contact: <a href="mailto:support@contentaihub.net" className="font-bold text-slate-800 hover:text-[#00B67A]">support@contentaihub.net</a></span>
               <Link to="/privacy-policy/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
                 <span>View Privacy Policy</span>
                 <ArrowRight className="w-3.5 h-3.5" />
