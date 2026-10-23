@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Sparkles, Languages, ChevronDown } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
@@ -7,10 +7,38 @@ interface NavbarProps {
   onNavigate?: (sectionId: string) => void;
 }
 
+const getGoogleTranslateTarget = () => {
+  const cookie = document.cookie.split('; ').find((item) => item.startsWith('googtrans='));
+  if (!cookie) return 'en';
+
+  try {
+    const value = decodeURIComponent(cookie.slice('googtrans='.length));
+    return value.split('/').filter(Boolean).pop() || 'en';
+  } catch {
+    return 'en';
+  }
+};
+
+const expireGoogleTranslateCookies = () => {
+  const expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+  document.cookie = `googtrans=; ${expires}`;
+
+  const hostname = window.location.hostname;
+  if (!hostname) return;
+
+  document.cookie = `googtrans=; ${expires}; domain=${hostname}`;
+  const domainParts = hostname.split('.');
+  if (domainParts.length > 2) {
+    const rootDomain = domainParts.slice(-2).join('.');
+    document.cookie = `googtrans=; ${expires}; domain=${rootDomain}`;
+    document.cookie = `googtrans=; ${expires}; domain=www.${rootDomain}`;
+  }
+};
+
 export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [languageCode, setLanguageCode] = useState('EN');
+  const [languageCode, setLanguageCode] = useState(() => getGoogleTranslateTarget().toUpperCase());
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, hasActivePlan, user } = useAuth();
@@ -23,6 +51,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
     { label: 'Deutsch', shortCode: 'DE', gtCode: 'de' },
     { label: 'Svenska', shortCode: 'SV', gtCode: 'sv' },
   ];
+  const selectedLanguage = languages.find((language) => language.shortCode === languageCode) ?? languages[0];
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!(event.target as Element).closest('[data-language-menu]')) setIsLanguageOpen(false);
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    setLanguageCode(getGoogleTranslateTarget().toUpperCase());
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   const navLinks = isAdmin
     ? [
@@ -58,10 +97,42 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   const handleLangChange = (language: typeof languages[number]) => {
     setLanguageCode(language.shortCode);
     setIsLanguageOpen(false);
-    const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
-    if (!select) return;
-    select.value = language.gtCode;
-    select.dispatchEvent(new Event('change'));
+    document.documentElement.lang = language.gtCode;
+
+    if (language.gtCode === 'en') {
+      expireGoogleTranslateCookies();
+      let attempts = 0;
+      const resetToEnglish = () => {
+        const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+        if (select) {
+          select.value = 'en';
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          return;
+        }
+
+        attempts += 1;
+        if (attempts < 10) window.setTimeout(resetToEnglish, 300);
+      };
+
+      resetToEnglish();
+      return;
+    }
+
+    document.cookie = `googtrans=/en/${language.gtCode}; path=/`;
+    let attempts = 0;
+    const applyLanguage = () => {
+      const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+      if (select) {
+        select.value = language.gtCode;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < 10) window.setTimeout(applyLanguage, 300);
+    };
+
+    applyLanguage();
   };
 
   return (
@@ -107,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
           {/* Desktop Auth CTA */}
           <div className="hidden sm:flex items-center gap-3">
-            <div className="relative">
+            <div data-language-menu className="relative notranslate" translate="no">
               <button
                 type="button"
                 onClick={() => setIsLanguageOpen((open) => !open)}
@@ -117,7 +188,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 aria-label="Choose language"
               >
                 <Languages className="w-3.5 h-3.5 text-[#00D084]" />
-                <span>{languageCode}</span>
+                <span>{selectedLanguage.shortCode} - {selectedLanguage.label}</span>
                 <ChevronDown className="w-3 h-3 text-slate-400" />
               </button>
               {isLanguageOpen && (
@@ -129,7 +200,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                       onClick={() => handleLangChange(language)}
                       className="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold transition-colors hover:bg-emerald-500/20 hover:text-emerald-300"
                     >
-                      {language.label}
+                      {language.shortCode} - {language.label}
                     </button>
                   ))}
                 </div>
@@ -184,7 +255,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             </button>
           ))}
           <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
-            <div className="relative">
+            <div data-language-menu className="relative notranslate" translate="no">
               <button
                 type="button"
                 onClick={() => setIsLanguageOpen((open) => !open)}
@@ -192,7 +263,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                 aria-expanded={isLanguageOpen}
               >
                 <Languages className="w-4 h-4 text-[#00D084]" />
-                <span>Language: {languageCode}</span>
+                <span>Language: {selectedLanguage.shortCode} - {selectedLanguage.label}</span>
               </button>
               {isLanguageOpen && (
                 <div className="mt-1 rounded-xl p-1.5 shadow-lg border border-white/10 bg-[#0F172A] text-slate-200">
@@ -203,7 +274,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
                       onClick={() => handleLangChange(language)}
                       className="w-full rounded-lg px-3 py-2 text-left text-xs font-semibold hover:bg-emerald-500/20 hover:text-emerald-300"
                     >
-                      {language.label}
+                      {language.shortCode} - {language.label}
                     </button>
                   ))}
                 </div>

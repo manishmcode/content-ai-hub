@@ -125,12 +125,12 @@ export const LibraryPage: React.FC = () => {
           <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 text-[#00B67A] flex items-center justify-center">
             <Radio className="w-4 h-4" />
           </div>
-          <span className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
-            isPast ? 'text-slate-600 bg-slate-100 border-slate-200' : 'text-emerald-800 bg-emerald-50 border-emerald-200'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-slate-400' : 'bg-[#00B67A] animate-pulse'}`} />
-            {isPast ? 'Recorded Session' : 'Live Class'}
-          </span>
+          {!isPast && (
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border text-emerald-800 bg-emerald-50 border-emerald-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00B67A] animate-pulse" />
+              Live Class
+            </span>
+          )}
         </div>
         <h3 className="text-base font-black text-slate-900">{liveClass.name}</h3>
         <div className="space-y-1.5 text-xs text-slate-600 pt-1">
