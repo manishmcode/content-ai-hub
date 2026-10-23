@@ -8,8 +8,7 @@ import {
   ArrowRight, 
   Radio,
   UserCheck,
-  GraduationCap,
-  CheckCircle2
+  GraduationCap
 } from 'lucide-react';
 
 export const LiveClassesSection: React.FC = () => {
@@ -137,11 +136,7 @@ export const LiveClassesSection: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs text-slate-400 font-semibold">
-                  </span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight">
                   Keep Learning. Keep Creating. Keep Growing.
                 </h2>
                 <p className="text-xs text-slate-400 mt-1">

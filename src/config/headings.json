@@ -8,7 +8,7 @@
     "h1": ["Invest in Practical Skills. Scale Your Revenue."],
     "h2": ["Basic", "Premium", "Classic"]
   },
-  "/unsubscribe/": { "h1": ["Cancel Subscription"] },
+  "/unsubscribe/": { "h1": ["Unsubscribe"] },
   "/signup/": { "h1": ["Create Account"] },
   "/terms-conditions/": {
     "h1": ["Terms & Conditions"],

@@ -139,7 +139,7 @@
       "@type": "WebPage",
       "@id": "https://contentaihub.net/unsubscribe/#webpage",
       "url": "https://contentaihub.net/unsubscribe/",
-      "name": "Cancel Subscription | Content AI Hub",
+      "name": "Unsubscribe | Content AI Hub",
       "description": "Cancel your Content AI Hub subscription by entering your verification details to stop recurring renewals.",
       "isPartOf": { "@id": "https://contentaihub.net/#website" },
       "about": { "@id": "https://contentaihub.net/#learning-membership" },

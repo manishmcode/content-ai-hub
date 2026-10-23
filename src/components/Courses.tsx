@@ -23,9 +23,16 @@ const homepageCourses = [
   { title: 'Niche & Audience Strategy', description: 'Learn how to choose a niche that aligns with your interests, audience needs, and business goals. Explore e-commerce and blogging niches, keyword research, and market opportunities. Discover ways to evaluate a niche, find relevant keyword tools, and assess its potential for long-term growth.' },
 ];
 
+const courseDescriptionUpdates: Record<string, string> = {
+  'YouTube & Video Marketing': 'Learn how to grow your YouTube channel, build a recognisable brand, attract viewers, increase subscribers, improve search rankings, drive traffic, and use video content effectively to promote your business and strengthen your online presence.',
+  'TikTok Shop & E-commerce': 'Learn to set up and grow a TikTok Shop, identify promising products, create engaging content, understand TikTok’s algorithm, explore live selling and affiliate marketing, track performance, improve customer experiences, optimise sales, and build a sustainable e-commerce brand.',
+  'Social Media Marketing': 'Learn to grow your Instagram business presence through engaging content, understand its algorithm, increase followers organically, explore paid advertising and influencer marketing, use Stories and Reels effectively, measure campaign performance, and improve your overall social media marketing strategy.',
+  'Creator Economy': 'Develop content creation skills, build an audience, explore creator monetisation, choose relevant topics, publish consistently, establish brand partnerships, learn from successful creators, and understand social media advertising, influencer collaborations, and affiliate marketing to support your creator journey.',
+  'Niche & Audience Strategy': 'Learn to choose a suitable niche based on your interests, audience needs, and business goals. Explore e-commerce and blogging niches, conduct keyword research, evaluate market opportunities, use keyword tools, and assess long-term growth potential.',
+};
+
 export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
   const [activeModalCourse, setActiveModalCourse] = useState<Course | null>(null);
-
   const filteredCourses = COURSES_DATA;
 
   return (
@@ -44,7 +51,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
             <span>EXPLORE OUR COURSES</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-[1.12]">
             Learn the Skills Behind Content and <br className="hidden sm:inline" />
             <span className="text-[#00B67A]">
               Marketing Growth
@@ -66,7 +73,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                   key={course.title}
                   className="rounded-[1.8rem] transition-all duration-300 flex flex-col justify-between bg-white border border-slate-200 shadow-[0_12px_30px_rgba(15,23,42,0.07)] group overflow-hidden"
                 >
-                  {/* Gradient video-card header */}
+                  {/* Gradient course-card header */}
                   <div className={`h-[160px] p-5 bg-gradient-to-br ${sourceCourse.gradientBadge} text-white relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/5" />
                     <div className="relative h-full flex flex-col">
@@ -85,7 +92,9 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                   <div className="flex flex-col flex-1">
                     {/* Content Section */}
                     <div className="p-6 pb-4">
-                      <p className="text-sm font-medium text-slate-600 leading-relaxed">{course.description}</p>
+                      <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                        {courseDescriptionUpdates[course.title] ?? course.description}
+                      </p>
 
                     </div>
                   </div>

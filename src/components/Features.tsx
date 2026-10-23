@@ -43,7 +43,7 @@ const featureCards: FeatureCardData[] = [
 ];
 
 export const Features: React.FC = () => {
-  const [activeCard, setActiveCard] = useState<number>(1); // Middle card highlighted by default
+  const [activeCard, setActiveCard] = useState<number | null>(null);
 
   return (
     <section id="features" className="py-24 md:py-32 bg-white relative overflow-hidden border-b border-slate-100">
@@ -60,8 +60,9 @@ export const Features: React.FC = () => {
               YOUR CONTENT GROWTH JOURNEY
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              Build Your Content. Reach Your Audience. <br className="hidden sm:inline" />
+            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-slate-900 tracking-tight leading-[1.12]">
+              Build Your Content.<br />
+              Reach Your Audience.<br />
               <span className="text-[#00B67A]">
                 Grow Your Brand.
               </span>
@@ -87,26 +88,14 @@ export const Features: React.FC = () => {
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {featureCards.map((card, idx) => {
-                const isMiddle = idx === 1;
                 const isSelected = activeCard === idx;
 
                 return (
                   <div
                     key={card.title}
                     onClick={() => setActiveCard(idx)}
-                    className={`relative rounded-3xl p-7 transition-all duration-300 cursor-pointer flex flex-col justify-between ${
-                      isMiddle
-                        ? 'bg-gradient-to-b from-white to-emerald-50/40 backdrop-blur-md border-2 border-[#00B67A] shadow-[0_25px_60px_rgba(0,182,122,0.15)] hover:-translate-y-2 ring-2 ring-emerald-400/40 relative z-10'
-                        : 'bg-white border border-slate-200/80 shadow-[0_20px_50px_rgba(15,23,42,0.06)] hover:-translate-y-1.5 hover:border-emerald-200'
-                    } ${isSelected && !isMiddle ? 'ring-2 ring-emerald-500/50' : ''}`}
+                    className={`relative rounded-3xl p-7 transition-all duration-300 cursor-pointer flex flex-col justify-between bg-white border border-slate-200/80 shadow-[0_20px_50px_rgba(15,23,42,0.06)] hover:-translate-y-2 hover:border-[#00B67A] hover:bg-gradient-to-b hover:from-white hover:to-emerald-50/40 hover:shadow-[0_25px_60px_rgba(0,182,122,0.15)] hover:ring-2 hover:ring-emerald-400/40 ${isSelected ? 'border-[#00B67A] ring-2 ring-emerald-500/50' : ''}`}
                   >
-                    {/* Middle Card Accent Glow Badge */}
-                    {isMiddle && (
-                      <div className="hidden">
-                     
-                      </div>
-                    )}
-
                     <div>
                       {/* Top Icon Badge */}
                       <div className="flex items-center justify-between mb-6">
@@ -115,9 +104,6 @@ export const Features: React.FC = () => {
                         >
                           {card.icon}
                         </div>
-                        {isMiddle && (
-                          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
-                        )}
                       </div>
 
                       {/* Card Title */}

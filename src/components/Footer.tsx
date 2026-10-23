@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
             </Link>
 
             <p className="text-[14px] leading-relaxed text-slate-400 font-medium max-w-[310px] mb-8">
-              Content AI Hub brings together learning opportunities in digital marketing, content creation, social media, e-commerce, and creator growth. Explore available courses and scheduled live classes to develop your knowledge, strengthen your content strategy, and support your online growth.
+              Content AI Hub offers courses and scheduled live classes in YouTube and video marketing, faceless marketing, TikTok Shop, e-commerce, social media marketing, and creator strategy to help learners build practical digital skills.
             </p>
 
             {/* Accepted Payment Methods */}

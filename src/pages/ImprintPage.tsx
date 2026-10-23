@@ -73,78 +73,85 @@ export const ImprintPage: React.FC = () => {
           {/* Imprint Card */}
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-8 text-slate-600 text-sm sm:text-base leading-relaxed">
             
-            {/* Company Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 border-b border-slate-100 font-semibold">
-              <div className="space-y-3">
+            {/* Clearly separated legal-information cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 space-y-5 shadow-sm">
                 <h2 className={sectionHeadingClass}>
                   <Building2 className="w-5 h-5 text-[#00B67A]" />
-                  Company Information
+                  Company details
                 </h2>
-                <div className="space-y-2">
-                  <p className={fieldLabelClass}>Company Name</p>
-                  <p className={fieldValueClass}>{COMPANY.name}</p>
-                  <p className={fieldValueClass}>Operating entity for ContentAIHub.net</p>
-                  <div className="pt-2">
-                    <p className={fieldLabelClass}>Represented by / Director</p>
-                    <p className={fieldValueClass}>{COMPANY.directorName}</p>
+                <dl className="space-y-4">
+                  <div>
+                    <dt className={fieldLabelClass}>Legal company name</dt>
+                    <dd className={`${fieldValueClass} mt-1`}>{COMPANY.name}</dd>
                   </div>
-                </div>
-              </div>
+                  <div>
+                    <dt className={fieldLabelClass}>Website operated</dt>
+                    <dd className={`${fieldValueClass} mt-1`}>ContentAIHub.net</dd>
+                  </div>
+                  <div>
+                    <dt className={fieldLabelClass}>Director</dt>
+                    <dd className={`${fieldValueClass} mt-1`}>{COMPANY.directorName}</dd>
+                  </div>
+                </dl>
+              </section>
 
-              <div className="space-y-3">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 space-y-5 shadow-sm">
                 <h2 className={sectionHeadingClass}>
                   <MapPin className="w-5 h-5 text-[#00B67A]" />
-                  Registered Address
+                  Registered address
                 </h2>
-                <div className="space-y-2">
-                  <p className={fieldLabelClass}>Official Headquarters</p>
-                  {COMPANY.addressLines.map((line) => (
-                    <p key={line} className={fieldValueClass}>{line}</p>
-                  ))}
+                <div>
+                  <p className={fieldLabelClass}>Registered office</p>
+                  <address className={`${fieldValueClass} mt-2 not-italic space-y-1`}>
+                    {COMPANY.addressLines.map((line) => <div key={line}>{line}</div>)}
+                  </address>
                 </div>
-              </div>
-            </div>
+              </section>
 
-            {/* Registration & Contact */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 border-b border-slate-100 font-semibold">
-              <div className="space-y-3">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 space-y-5 shadow-sm">
                 <h2 className={sectionHeadingClass}>
                   <FileText className="w-5 h-5 text-[#00B67A]" />
-                  Registration
+                  Company registration
                 </h2>
-                <div>
-                  <span className={`${fieldLabelClass} block`}>Company Registration Number</span>
-                  <span className={`${fieldValueClass} block`}>{COMPANY.companyNumber}</span>
-                  <p className={`${fieldValueClass} mt-1`}>Incorporated &amp; registered under the laws of the United Kingdom</p>
-                </div>
-              </div>
+                <dl className="space-y-4">
+                  <div>
+                    <dt className={fieldLabelClass}>Registration number</dt>
+                    <dd className={`${fieldValueClass} mt-1`}>{COMPANY.companyNumber}</dd>
+                  </div>
+                  <div>
+                    <dt className={fieldLabelClass}>Country of registration</dt>
+                    <dd className={`${fieldValueClass} mt-1`}>United Kingdom</dd>
+                  </div>
+                </dl>
+              </section>
 
-              <div className="space-y-3">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 space-y-5 shadow-sm">
                 <h2 className={sectionHeadingClass}>
                   <Mail className="w-5 h-5 text-[#00B67A]" />
-                  Contact
+                  Contact details
                 </h2>
-                <div>
-                  <span className={`${fieldLabelClass} block`}>Official Inquiries &amp; Support</span>
-                  <a href={`mailto:${COMPANY.email}`} className="text-sm sm:text-[15px] font-semibold text-[#00B67A] hover:underline">
-                    {COMPANY.email}
-                  </a>
-                  <p className={`${supportingTextClass} mt-1`}>Website: <a href={COMPANY.website} className="hover:underline text-slate-700">{COMPANY.website}</a></p>
-                </div>
-              </div>
+                <dl className="space-y-4">
+                  <div>
+                    <dt className={fieldLabelClass}>Email for enquiries and support</dt>
+                    <dd className="mt-1"><a href={`mailto:${COMPANY.email}`} className="text-sm sm:text-[15px] font-semibold text-[#00B67A] hover:underline">{COMPANY.email}</a></dd>
+                  </div>
+                  <div>
+                    <dt className={fieldLabelClass}>Website</dt>
+                    <dd className={`${supportingTextClass} mt-1`}><a href={COMPANY.website} className="font-semibold text-slate-700 hover:underline">{COMPANY.website}</a></dd>
+                  </div>
+                </dl>
+              </section>
             </div>
 
-            {/* Responsible for Website Content */}
-            <div className="space-y-3 pb-8 border-b border-slate-100">
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 space-y-3">
               <h2 className={sectionHeadingClass}>
                 <ShieldCheck className="w-5 h-5 text-[#00B67A]" />
-                Responsible for Website Content
+                Responsible for website content
               </h2>
               <p className={fieldValueClass}>{COMPANY.name}</p>
-              <p className={fieldValueClass}>
-                {COMPANY.addressLines.join(', ')}
-              </p>
-            </div>
+              <p className={supportingTextClass}>{COMPANY.addressLines.join(', ')}</p>
+            </section>
 
             {/* Disclaimer */}
             <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-6 sm:p-8 space-y-4">

@@ -95,7 +95,7 @@ export const PathTimeline: React.FC = () => {
                     <p className="text-xs sm:text-sm font-semibold text-slate-500">
                       {step.subtitle}
                     </p>
-                    <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed pt-1 hidden sm:block">
+                    <p className="text-sm text-slate-600 max-w-xs mx-auto leading-relaxed pt-1">
                       {step.description}
                     </p>
                   </div>

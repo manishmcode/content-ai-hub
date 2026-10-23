@@ -165,6 +165,9 @@ export const TermsPage: React.FC = () => {
 
           {/* Legal Content Card */}
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-sm font-semibold text-slate-500">
+              Last updated: October 18, 2026
+            </p>
             
             {/* Entity Notice */}
             <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 text-xs sm:text-sm text-slate-800 space-y-1.5">
@@ -173,7 +176,7 @@ export const TermsPage: React.FC = () => {
                 Operating Entity Details
               </span>
               <p>
-                This website (<strong>ContentAIHub.net</strong>) and its educational curriculum, digital memberships, and masterclasses are operated by <strong>{COMPANY.name}</strong>, registered in the United Kingdom under Company No. <strong>{COMPANY.companyNumber}</strong>, located at <strong>{COMPANY.addressLines.join(', ')}</strong>.
+                <strong>ContentAIHub.net</strong> is operated by <strong>{COMPANY.name}</strong>, <strong>{COMPANY.addressLines.join(', ')}</strong>.
               </p>
             </div>
 

@@ -115,6 +115,9 @@ export const PrivacyPolicyPage: React.FC = () => {
 
           {/* Privacy Content Card */}
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-sm font-semibold text-slate-500">
+              Last updated: October 18, 2026
+            </p>
             
             {/* Controller Box */}
             <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 space-y-3">
@@ -123,7 +126,7 @@ export const PrivacyPolicyPage: React.FC = () => {
                 Data Controller Information
               </h2>
               <p className="text-slate-600 text-sm sm:text-[15px] leading-relaxed">
-                The data controller responsible for the processing of your personal data on ContentAIHub.net is <strong>{COMPANY.name}</strong>, registered company number <strong>{COMPANY.companyNumber}</strong>, located at <strong>{COMPANY.addressLines.join(', ')}</strong>. Contact: <strong>{COMPANY.email}</strong>.
+                <strong>ContentAIHub.net</strong> is operated by <strong>{COMPANY.name}</strong>, <strong>{COMPANY.addressLines.join(', ')}</strong>. Contact: <strong>{COMPANY.email}</strong>.
               </p>
             </div>
 

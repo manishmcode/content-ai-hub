@@ -67,7 +67,7 @@ export const UnsubscribePage: React.FC = () => {
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Cancel Subscription
+                  Unsubscribe
                 </h1>
 
                 <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">

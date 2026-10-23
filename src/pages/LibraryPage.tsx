@@ -245,7 +245,7 @@ export const LibraryPage: React.FC = () => {
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <span className="text-xs font-black uppercase tracking-wider text-slate-900">Courses</span>
                   <span className="text-xs font-bold bg-emerald-50 text-[#00B67A] px-2.5 py-0.5 rounded-full border border-emerald-200">
-                    {categories.length} Tracks
+                    {categories.length} Courses
                   </span>
                 </div>
                 <div className="space-y-2 max-h-[620px] overflow-y-auto pr-1">
@@ -357,7 +357,7 @@ export const LibraryPage: React.FC = () => {
               <div className="flex items-center justify-between border-b border-slate-100 pb-6">
                 <div>
                   <span className="text-[11px] font-black uppercase tracking-wider text-[#00B67A]">
-                    Live Classes &amp; Archives
+                    Your Schedule
                   </span>
                   <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">Live Classes</h2>
                 </div>
@@ -374,7 +374,7 @@ export const LibraryPage: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black uppercase tracking-wider text-slate-900">
-                    Live and Upcoming Broadcasts
+                    Live and Upcoming Classes
                   </span>
                   <span className="text-xs font-bold text-emerald-600">{upcomingClasses.length} Sessions</span>
                 </div>
@@ -384,28 +384,21 @@ export const LibraryPage: React.FC = () => {
                   </div>
                 ) : (
                   <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-xs text-slate-500 font-medium">
-                    No live interactive sessions are currently scheduled.
+                    No active or upcoming live classes for your plan.
                   </div>
                 )}
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">
-                    Recorded Studio Replays
-                  </span>
-                  <span className="text-xs font-bold text-slate-500">{pastClasses.length} Replays</span>
-                </div>
-                {pastClasses.length ? (
+              {pastClasses.length > 0 && (
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-slate-900">
+                    Past Classes
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {pastClasses.map((liveClass) => renderClassCard(liveClass, true))}
                   </div>
-                ) : (
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-xs text-slate-500 font-medium">
-                    No past session recordings are archived.
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
               </>}
             </div>
           )}

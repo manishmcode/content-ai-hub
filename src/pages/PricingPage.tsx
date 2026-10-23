@@ -99,7 +99,7 @@ export const PricingPage: React.FC = () => {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] border border-emerald-200/80 text-xs font-bold uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-[#00B67A] animate-pulse" />
-              <span>MEMBERSHIP / 2026</span>
+              <span>Pricing Plans</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.1]">
@@ -110,7 +110,7 @@ export const PricingPage: React.FC = () => {
             </h1>
 
             <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
-              Simple monthly pricing with zero long-term lock-in. Instant access to courses, viral prompt vaults, and weekly live instructor sessions. Cancel anytime with one click.
+              Simple monthly pricing with zero long-term lock-in. Instant access to courses and monthly live instructor sessions. Cancel anytime with one click.
             </p>
           </div>
 
