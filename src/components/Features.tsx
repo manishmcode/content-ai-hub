@@ -56,11 +56,11 @@ export const Features: React.FC = () => {
           
           {/* Left Column: Heading & CTAs (Intro Column) */}
           <div className="lg:col-span-4 space-y-6 text-center lg:text-left">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#00B67A] bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full inline-block">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#00B67A] bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full inline-block">
               YOUR CONTENT GROWTH JOURNEY
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-slate-900 tracking-tight leading-[1.12]">
+            <h2 className="text-3xl sm:text-4xl lg:text-[36px] font-black text-slate-900 tracking-tight leading-[1.12]">
               Build Your Content.<br />
               Reach Your Audience.<br />
               <span className="text-[#00B67A]">
@@ -68,7 +68,7 @@ export const Features: React.FC = () => {
               </span>
             </h2>
 
-            <p className="text-slate-600 text-base leading-relaxed">
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
               Explore how AI marketing concepts, content strategies, and digital marketing techniques can support your online growth. Develop your understanding of content planning, audience engagement, and marketing performance to build a stronger digital presence and adapt to the evolving online landscape.
             </p>
 
@@ -112,7 +112,7 @@ export const Features: React.FC = () => {
                       </h3>
 
                       {/* Card Description */}
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                      <p className="text-sm text-slate-600 leading-relaxed mb-6">
                         {card.description}
                       </p>
                     </div>

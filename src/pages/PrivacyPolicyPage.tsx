@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
-import { Shield, ArrowRight, Building2 } from 'lucide-react';
+import { Shield, ArrowRight } from 'lucide-react';
 import { COMPANY } from '../config/company';
 
 interface PrivacySection {
@@ -16,19 +16,19 @@ const PRIVACY_SECTIONS: PrivacySection[] = [
       'By accessing and using our Site and Services, you acknowledge that you have read and agree to this Privacy Policy.',
   },
   {
-    title: '2. Information Collection',
+    title: '2. Information Collection and Personally Identifiable Information',
     content:
-      'We collect registration data, including email address, password, first name, last name, phone number, and payment details.\n\nWe collect usage data, including information about your browser, network, or device.\n\nWe collect marketing data related to communication and other interaction campaigns.\n\nLegal bases include contract performance, legitimate interests, and compliance with legal obligations such as accounting and tax requirements.\n\nYou may request access to, correction of, or deletion of your data, restrict processing, or object to processing, especially marketing. We will honor such requests unless an overriding legal obligation applies.',
+      'We collect the following personal data:\n\nRegistration data: email address, password, first name, last name, phone number, and payment details.\n\nUsage data: information about your browser, network, or device.\n\nMarketing data: details related to communication and other interaction campaigns.\n\nLegal bases\nContract performance (access to services)\nLegitimate interests (fraud prevention, network improvements)\nCompliance with legal obligations (e.g., accounting, tax)\n\nYour rights\nYou may request accessing, correcting, or deleting your data, restrict processing, or object to processing (especially marketing). We will honor such requests unless an overriding legal obligation applies.\n\nWe ensure processing to GDPR compliant data processors, such as hosting providers and payment processors. We may also be legally required to disclose information to authorities (e.g., police authorities).',
   },
   {
     title: '3. Information Use',
     content:
-      'We use information for processing payment transactions, customizing services, ads, and recommendations, contacting you and responding to requests, conducting research and improving services, preventing fraud, and ensuring security.',
+      'Processing payment transactions\n\nCustomizing services, ads, and recommendations\n\nContacting you and responding to requests\n\nConducting research and improving services\n\nPreventing fraud and ensuring security',
   },
   {
     title: '4. Information Sharing and Disclosure',
     content:
-      'We will not disclose your personally identifiable information except when required by law, to our service providers, in connection with corporate transactions, or with your explicit consent or at your direction.\n\nWe may share aggregate, anonymous information with partners, advertisers, or content distributors.',
+      'We will not disclose your personally identifiable information except:\n\nWhen required by law\n\nTo our service providers (e.g., hosting, payment processing)\n\nIn connection with corporate transactions (e.g., merger, sale)\n\nWith your explicit consent or at your direction\n\nWe may share aggregate, anonymous information with partners, advertisers, or content distributors.',
   },
   {
     title: '5. Changing or Deleting Your Information',
@@ -36,12 +36,12 @@ const PRIVACY_SECTIONS: PrivacySection[] = [
       'You may review, update, correct, or delete your personal information by contacting us. We may retain your data for legally required recordkeeping purposes.',
   },
   {
-    title: '6. Use of Cookies',
+    title: '6. Use of Cookies and Similar Technologies',
     content:
-      'The merchant uses cookies, web beacons, device fingerprinting, and similar technologies for functionality, analytics, personalization, and advertising.\n\nTypes of cookies used include strictly necessary cookies, performance cookies, functional cookies, and targeting or advertising cookies.',
+      'The merchant uses cookies, web beacons, device fingerprinting, and similar technologies for functionality, analytics, personalization, and advertising.\n\nTypes of cookies used include:\nStrictly necessary cookies\nPerformance cookies\nFunctional cookies\nTargeting/advertising cookies\n\nCookies help improve navigation, remember preferences, and display relevant ads. You can manage cookies in your browser settings. Blocking cookies may affect site functionality.\n\nWe may use Google Analytics and Facebook Pixel for tracking and marketing.',
   },
   {
-    title: '7. Behavioral Advertising',
+    title: '7. Behavioral Advertising and Online Privacy',
     content:
       'We may use cookies and online identifiers for behavioral advertising. We follow industry standards like Network Advertising Initiative.\n\nYou can manage cookies via browser settings, but some site functions may not work if cookies are disabled.',
   },
@@ -53,7 +53,7 @@ const PRIVACY_SECTIONS: PrivacySection[] = [
   {
     title: '9. Contact',
     content:
-      `Questions, comments, and requests regarding this Privacy Policy are welcomed and should be addressed to ${COMPANY.name}, ${COMPANY.addressLines.join(', ')}, or by email at ${COMPANY.email}.`,
+      'Questions, comments, and requests regarding this Privacy Policy are welcomed and should be addressed to VAQUITA MEDIA LTD, The Old Free School, George Street, Watford, Hertfordshire, WD18 0BX, United Kingdom, or by email at support@contentaihub.net.',
   },
 ];
 
@@ -116,19 +116,12 @@ export const PrivacyPolicyPage: React.FC = () => {
           {/* Privacy Content Card */}
           <div className="rounded-[32px] bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl shadow-slate-200/50 space-y-10 text-slate-600 text-sm sm:text-base leading-relaxed">
             <p className="text-sm font-semibold text-slate-500">
-              Last updated: October 18, 2026
+              Last updated: October, 2026
             </p>
             
-            {/* Controller Box */}
-            <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/80 p-6 space-y-3">
-              <h2 className="font-bold text-slate-900 text-lg sm:text-xl flex items-center gap-2.5">
-                <Building2 className="w-4 h-4" />
-                Data Controller Information
-              </h2>
-              <p className="text-slate-600 text-sm sm:text-[15px] leading-relaxed">
-                <strong>ContentAIHub.net</strong> is operated by <strong>{COMPANY.name}</strong>, <strong>{COMPANY.addressLines.join(', ')}</strong>. Contact: <strong>{COMPANY.email}</strong>.
-              </p>
-            </div>
+            <p className="text-slate-600 text-sm sm:text-[15px] leading-relaxed">
+              <strong>Controller details:</strong> ContentAIHub.net is operated by VAQUITA MEDIA LTD, The Old Free School, George Street, Watford, Hertfordshire, WD18 0BX, United Kingdom. Contact: support@contentaihub.net.
+            </p>
 
             {/* Privacy Sections */}
             <div className="space-y-8 divide-y divide-slate-100">
@@ -142,7 +135,7 @@ export const PrivacyPolicyPage: React.FC = () => {
                   </h2>
                   <div className="space-y-3 text-slate-600 text-sm sm:text-[15px] leading-relaxed">
                     {section.content.split('\n\n').map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
+                      <p key={paragraph} className="whitespace-pre-line">{paragraph}</p>
                     ))}
                   </div>
                 </section>
@@ -150,7 +143,7 @@ export const PrivacyPolicyPage: React.FC = () => {
             </div>
 
             {/* Footer Navigation & Rights Notice */}
-            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <section className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm sm:text-[15px] text-slate-500">
               <span>To exercise any of your privacy rights, email: <a href={`mailto:${COMPANY.email}`} className="font-bold text-slate-800 hover:text-[#00B67A]">{COMPANY.email}</a></span>
               <Link to="/terms-conditions/" className="inline-flex items-center gap-1 font-bold text-[#00B67A] hover:underline">
                 <span>View Terms &amp; Conditions</span>

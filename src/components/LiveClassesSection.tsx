@@ -57,7 +57,7 @@ export const LiveClassesSection: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] text-xs font-extrabold uppercase tracking-widest mb-4 border border-emerald-200/60 shadow-xs">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200/60 shadow-xs">
             <GraduationCap className="w-3.5 h-3.5 text-[#00B67A]" />
             <span>LEARN, CONNECT, AND DEVELOP YOUR SKILLS</span>
           </div>
@@ -101,7 +101,7 @@ export const LiveClassesSection: React.FC = () => {
                 </h3>
 
                 {/* Feature Description */}
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                <p className="text-sm text-slate-600 leading-relaxed mb-6">
                   {pillar.description}
                 </p>
               </div>

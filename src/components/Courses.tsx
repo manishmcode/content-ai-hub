@@ -24,11 +24,21 @@ const homepageCourses = [
 ];
 
 const courseDescriptionUpdates: Record<string, string> = {
-  'YouTube & Video Marketing': 'Learn how to grow your YouTube channel, build a recognisable brand, attract viewers, increase subscribers, improve search rankings, drive traffic, and use video content effectively to promote your business and strengthen your online presence.',
+  'YouTube & Video Marketing': 'Learn how to grow your YouTube channel,\nbuild a recognisable brand and attract viewers,\nincrease subscribers and search rankings,\ndrive traffic with effective video content,\npromote your business and strengthen\nyour online presence and brand visibility.',
+  'Faceless Marketing': 'Learn how to develop an online brand\nwithout appearing on camera. Explore\nanonymous brand identity, content creation,\nsocial media visibility, SEO, and email marketing.\nDiscover monetisation and performance tracking\ntechniques to support your online growth.',
   'TikTok Shop & E-commerce': 'Learn to set up and grow a TikTok Shop, identify promising products, create engaging content, understand TikTok’s algorithm, explore live selling and affiliate marketing, track performance, improve customer experiences, optimise sales, and build a sustainable e-commerce brand.',
-  'Social Media Marketing': 'Learn to grow your Instagram business presence through engaging content, understand its algorithm, increase followers organically, explore paid advertising and influencer marketing, use Stories and Reels effectively, measure campaign performance, and improve your overall social media marketing strategy.',
-  'Creator Economy': 'Develop content creation skills, build an audience, explore creator monetisation, choose relevant topics, publish consistently, establish brand partnerships, learn from successful creators, and understand social media advertising, influencer collaborations, and affiliate marketing to support your creator journey.',
-  'Niche & Audience Strategy': 'Learn to choose a suitable niche based on your interests, audience needs, and business goals. Explore e-commerce and blogging niches, conduct keyword research, evaluate market opportunities, use keyword tools, and assess long-term growth potential.',
+  'Social Media Marketing': 'Learn to grow your Instagram business\nthrough engaging content and its algorithm,\nincrease followers organically through paid ads,\ninfluencer marketing, Stories, and Reels,\nmeasure campaign performance and improve\nyour social media marketing strategy.',
+  'Creator Economy': 'Develop content creation skills, build an audience,\nexplore creator monetisation and choose topics,\npublish consistently and build brand partnerships,\nlearn from creators and social media advertising,\nuse influencer and affiliate marketing\nto support your creator journey.',
+  'Niche & Audience Strategy': 'Learn to choose a niche based on your interests,\naudience needs, and business goals. Explore\ne-commerce and blogging niches, conduct\nkeyword research and market assessment,\nuse keyword tools to identify opportunities,\nand evaluate long-term growth potential.',
+};
+
+const courseBadgeLabels: Record<string, string> = {
+  'YouTube & Video Marketing': 'Video Growth',
+  'Faceless Marketing': 'Faceless Branding',
+  'TikTok Shop & E-commerce': 'Social Commerce',
+  'Social Media Marketing': 'Instagram Growth',
+  'Creator Economy': 'Creator Path',
+  'Niche & Audience Strategy': 'Audience Strategy',
 };
 
 export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
@@ -45,14 +55,14 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Distinctive Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+        <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#00B67A] text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200/60 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#00B67A]" />
             <span>EXPLORE OUR COURSES</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-[1.12]">
-            Learn the Skills Behind Content and <br className="hidden sm:inline" />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
+            <span className="lg:whitespace-nowrap">Learn the Skills Behind Content and</span><br className="hidden lg:block" />
             <span className="text-[#00B67A]">
               Marketing Growth
             </span>
@@ -79,7 +89,7 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                     <div className="relative h-full flex flex-col">
                       <div className="flex items-center gap-2">
                         <span className="max-w-[42%] px-3 py-1 rounded-full bg-white/20 border border-white/35 text-[10px] font-black uppercase tracking-wide backdrop-blur-sm truncate">
-                          Course {index + 1}
+                          {courseBadgeLabels[course.title]}
                         </span>
                       </div>
 
@@ -89,10 +99,10 @@ export const Courses: React.FC<CoursesProps> = ({ onSelectCourse }) => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col flex-1">
+                  <div className="flex min-h-[200px] flex-col flex-1">
                     {/* Content Section */}
                     <div className="p-6 pb-4">
-                      <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                      <p className="whitespace-pre-line text-sm font-medium text-slate-600 leading-relaxed">
                         {courseDescriptionUpdates[course.title] ?? course.description}
                       </p>
 
