@@ -45,13 +45,15 @@ const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
   })),
 }));
 
+const ALL_COURSES_TITLE = 'All Courses';
+
 export const LibraryPage: React.FC = () => {
   const { token, apiFetch } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'live'>('library');
   const [moduleSearch, setModuleSearch] = useState('');
   const [categories, setCategories] = useState<LibraryCategory[]>(FALLBACK_CATEGORIES);
   const [classes, setClasses] = useState<LiveClass[]>([]);
-  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(FALLBACK_CATEGORIES[0]?.title || '');
+  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(ALL_COURSES_TITLE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeVideo, setActiveVideo] = useState<{ card: LibraryCard; category: string } | null>(null);
@@ -71,7 +73,7 @@ export const LibraryPage: React.FC = () => {
           const libraryPayload: ApiResponse<LibraryCategory[]> = await libraryResponse.json();
           if (libraryPayload.success && Array.isArray(libraryPayload.data) && libraryPayload.data.length > 0) {
             setCategories(libraryPayload.data);
-            setSelectedCategoryTitle(libraryPayload.data[0]?.title || '');
+            setSelectedCategoryTitle(ALL_COURSES_TITLE);
           }
         }
         if (classesResponse && classesResponse.ok) {
@@ -90,7 +92,12 @@ export const LibraryPage: React.FC = () => {
     return () => controller.abort();
   }, [token, apiFetch]);
 
-  const selectedCategory = categories.find((category) => category.title === selectedCategoryTitle) || categories[0];
+  const allCoursesCategory = useMemo<LibraryCategory>(() => ({
+    title: ALL_COURSES_TITLE,
+    cards: categories.flatMap((category) => category.cards),
+  }), [categories]);
+  const displayCategories = useMemo(() => [allCoursesCategory, ...categories], [allCoursesCategory, categories]);
+  const selectedCategory = displayCategories.find((category) => category.title === selectedCategoryTitle) || allCoursesCategory;
   const filteredModules = useMemo(() => selectedCategory?.cards.filter((card) => card.title.toLowerCase().includes(moduleSearch.toLowerCase())) || [], [selectedCategory, moduleSearch]);
   const now = Date.now();
   const upcomingClasses = classes.filter((liveClass) => new Date(liveClass.end_date).getTime() >= now);
@@ -249,7 +256,7 @@ export const LibraryPage: React.FC = () => {
                   </span>
                 </div>
                 <div className="space-y-2 max-h-[620px] overflow-y-auto pr-1">
-                  {categories.map((category) => (
+                  {displayCategories.map((category) => (
                     <button
                       key={category.title}
                       type="button"
@@ -264,11 +271,13 @@ export const LibraryPage: React.FC = () => {
                       }`}
                     >
                       <span className="truncate pr-2">{category.title}</span>
-                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-black shrink-0 ${
-                        selectedCategory?.title === category.title ? 'bg-white/20 text-white' : 'bg-slate-200/60 text-slate-600'
-                      }`}>
-                        {category.cards.length}
-                      </span>
+                      {category.title !== ALL_COURSES_TITLE && (
+                        <span className={`px-2 py-0.5 rounded-full text-[11px] font-black shrink-0 ${
+                          selectedCategory?.title === category.title ? 'bg-white/20 text-white' : 'bg-slate-200/60 text-slate-600'
+                        }`}>
+                          {category.cards.length}
+                        </span>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -283,9 +292,11 @@ export const LibraryPage: React.FC = () => {
                         <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                           {selectedCategory.title}
                         </h2>
-                        <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#00B67A] text-xs font-bold">
-                          {selectedCategory.cards.length} modules
-                        </span>
+                        {selectedCategory.title !== ALL_COURSES_TITLE && (
+                          <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#00B67A] text-xs font-bold">
+                            {selectedCategory.cards.length} modules
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-slate-500">
                         Select any module to stream high-definition framework lessons and access prompt templates.
