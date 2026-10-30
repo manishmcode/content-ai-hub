@@ -327,7 +327,13 @@ export const LibraryPage: React.FC = () => {
                             aria-label={`Open ${card.title} in a new tab`}
                           >
                             {card.image && (
-                              <img src={assetUrl(card.image)} alt={card.title} className="absolute inset-0 w-full h-full object-cover" />
+                              <img
+                                src={assetUrl(card.image)}
+                                alt={card.title}
+                                loading="lazy"
+                                decoding="async"
+                                className="absolute inset-0 w-full h-full object-cover"
+                              />
                             )}
                           </button>
 
