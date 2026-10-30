@@ -3,7 +3,6 @@ import { BookOpen, Calendar, CheckCircle2, Clock, ExternalLink, GraduationCap, P
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { useAuth } from '../auth/AuthContext';
 import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
-import { COURSES_DATA } from '../data/coursesData';
 
 interface LibraryCard { title: string; image: string; link: string; type: string; plan_ids: number[]; }
 interface LibraryCategory { title: string; cards: LibraryCard[]; }
@@ -33,25 +32,13 @@ const formatLocalGmtOffset = (date: string) => {
   }
 };
 
-// Fallback categories mapped from rich COURSES_DATA
-const FALLBACK_CATEGORIES: LibraryCategory[] = COURSES_DATA.map((course) => ({
-  title: course.title,
-  cards: course.modules.map((mod) => ({
-    title: `${mod.number}. ${mod.title}`,
-    image: '',
-    link: '#',
-    type: 'Video Masterclass',
-    plan_ids: [1, 2, 3],
-  })),
-}));
-
 const ALL_COURSES_TITLE = 'All Courses';
 
 export const LibraryPage: React.FC = () => {
   const { token, apiFetch } = useAuth();
   const [activeTab, setActiveTab] = useState<'library' | 'live'>('library');
   const [moduleSearch, setModuleSearch] = useState('');
-  const [categories, setCategories] = useState<LibraryCategory[]>(FALLBACK_CATEGORIES);
+  const [categories, setCategories] = useState<LibraryCategory[]>([]);
   const [classes, setClasses] = useState<LiveClass[]>([]);
   const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(ALL_COURSES_TITLE);
   const [loading, setLoading] = useState(false);
@@ -71,7 +58,7 @@ export const LibraryPage: React.FC = () => {
         ]);
         if (libraryResponse && libraryResponse.ok) {
           const libraryPayload: ApiResponse<LibraryCategory[]> = await libraryResponse.json();
-          if (libraryPayload.success && Array.isArray(libraryPayload.data) && libraryPayload.data.length > 0) {
+          if (libraryPayload.success && Array.isArray(libraryPayload.data)) {
             setCategories(libraryPayload.data);
             setSelectedCategoryTitle(ALL_COURSES_TITLE);
           }
@@ -246,6 +233,11 @@ export const LibraryPage: React.FC = () => {
           )}
 
           {!loading && activeTab === 'library' && (
+            categories.length === 0 ? (
+              <div className="rounded-3xl bg-white border border-slate-200/90 p-10 text-center text-sm font-medium text-slate-500 shadow-sm">
+                No data available.
+              </div>
+            ) : (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Categories List */}
               <aside className="lg:col-span-4 self-start h-fit lg:sticky lg:top-24 rounded-3xl bg-white border border-slate-200/90 p-6 shadow-sm space-y-4">
@@ -323,7 +315,7 @@ export const LibraryPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => openLibraryVideo(card)}
-                            className="relative h-28 w-full text-left bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-950 overflow-hidden cursor-pointer"
+                            className="relative aspect-video w-full text-left bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-950 overflow-hidden cursor-pointer"
                             aria-label={`Open ${card.title} in a new tab`}
                           >
                             {card.image && (
@@ -367,6 +359,7 @@ export const LibraryPage: React.FC = () => {
                 )}
               </div>
             </div>
+            )
           )}
 
           {!loading && activeTab === 'live' && (
